@@ -10,19 +10,20 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author Alfredo Mariño
  */
 public class propiedades extends Properties {
     
-    public String idiomaDefault = "/idiomas/espanol.properties";
+    public String idiomaDefault = "espanol.properties";
     
     //PROPERTIES FILE
-    public String idiomaEspanol = "/idiomas/espanol.properties";
+    public String idiomaEspanol = "espanol.properties";
     public String idiomaIngles = "ingles.properties";
     public String configuracionDB = "configuracionDB.properties";
-    public String configuracionEmail = "";
+    public String configuracionEmail = "configuracionEmail.properties";
     
     //LOS OBJETOS QUE INSTANCIAN ESTA CLASE SIN INDICAR QUE PROPERTIES FILE USARÁN, TOMAN POR DEFECTO espanol.properties
     public  propiedades(){
