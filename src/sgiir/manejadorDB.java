@@ -6,10 +6,14 @@
 package sgiir;
 
 import com.mysql.jdbc.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sgiir.propiedades.propiedades;
 
 /**
@@ -26,16 +30,17 @@ public class manejadorDB {
     public String Password = ConfiguracionDB.getProperty("pass");
     
     
-    public static Connection con;
+    public static Connection Conexion;
    
     
     
     private manejadorDB() {
-                con = null;
+        
+        Conexion = null;
         try {
             Class.forName(Driver);
-            con = (Connection) DriverManager.getConnection(Url, User, Password);
-            if(con != null){
+            Conexion = (Connection) DriverManager.getConnection(Url, User, Password);
+            if(Conexion != null){
                 System.out.println("Conexion establecida");
             }
         } catch (ClassNotFoundException ex) {
@@ -45,6 +50,56 @@ public class manejadorDB {
         }
         
     }
+    
+     public void insertData(String table_name, String ID, String name, String lastname, String age, String gender) {
+        try {
+            String Query = "INSERT INTO " + table_name + " VALUES("
+                    + "\"" + ID + "\", "
+                    + "\"" + name + "\", "
+                    + "\"" + lastname + "\", "
+                    + "\"" + age + "\", "
+                    + "\"" + gender + "\")";
+            Statement st = Conexion.createStatement();
+            st.executeUpdate(Query);
+            JOptionPane.showMessageDialog(null, "Datos almacenados de forma exitosa");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en el almacenamiento de datos");
+        }
+    }
+     
+     public void metaDatos(){
+        try {
+            DatabaseMetaData metaDatos = Conexion.getMetaData();
+            
+           
+            ResultSet rs = metaDatos.getTables(null, null, "%", null);
+            while (rs.next()) {
+                // El contenido de cada columna del ResultSet se puede ver
+                // en la API, en el metodo getTables() de DataBaseMetaData.
+                // La columna 1 es TABLE_CAT
+                // y la 3 es TABLE_NAME
+                String catalogo = rs.getString(1);
+                String tabla = rs.getString(3);
+                System.out.println("TABLA=" + catalogo + "." + tabla);
+                
+                ResultSet rs2 = metaDatos.getColumns(catalogo, null, tabla, null);
+                 while (rs2.next()) {
+                    // El contenido de cada columna del ResultSet se puede ver en
+                    // la API de java, en el metodo getColumns() de DataBaseMetaData
+                    // La 4 corresponde al TABLE_NAME
+                    // y la 6 al TYPE_NAME
+                    String nombreColumna = rs2.getString(4);
+                    String tipoColumna = rs2.getString(6);
+                    System.out.println(" COLUMNA, nombre=" + nombreColumna
+                       + " tipo = " + tipoColumna);
+                 }
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
     
     
     public static manejadorDB getInstance() {

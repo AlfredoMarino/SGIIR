@@ -14,7 +14,7 @@ import sgiir.propiedades.propiedades;
  */
 public class login extends javax.swing.JFrame {
     
-    private propiedades msgFile = new propiedades(1);
+    private propiedades msgFile = new propiedades();
     manejadorDB DataBase = manejadorDB.getInstance();
     
     /**
@@ -97,7 +97,7 @@ public class login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         if((fldUsuario.getText() != "")){
-            System.out.println(msgFile.getProperty("msg0001"));
+            DataBase.metaDatos();
         }else{
             System.out.println(msgFile.getProperty("msg0001"));
         }
