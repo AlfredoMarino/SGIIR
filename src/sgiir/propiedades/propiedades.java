@@ -16,35 +16,40 @@ import java.util.logging.Logger;
  */
 public class propiedades extends Properties {
     
-    public String idioma = "Español";
+    public String idiomaDefault = "espanol.properties";
+    
+    //PROPERTIES FILE
     public String idiomaEspanol = "espanol.properties";
     public String idiomaIngles = "ingles.properties";
     public String configuracionDB = "configuracionDB.properties";
     public String configuracionEmail = "";
     
-    
-    public void setIdioma(String lenguaje){
-        idioma = lenguaje;
+    //LOS OBJETOS QUE INSTANCIAN ESTA CLASE SIN INDICAR QUE PROPERTIES FILE USARÁN, TOMAN POR DEFECTO espanol.properties
+    public  propiedades(){
+        getProperties(idiomaDefault);
     }
     
-    public void cargaIdioma(){
-        switch(idioma){
-            
-            case "Español": 
-                
+    public  propiedades(int IdFile){
+        
+        switch(IdFile){
+            case 1: 
                 getProperties(idiomaEspanol);
-                
             break;
                 
-            case "Ingles":
+            case 2:
+                getProperties(idiomaIngles);               
+            break;
+            
+            case 3:               
+                getProperties(configuracionDB);               
+            break;
                 
-                getProperties(idiomaIngles);
-                
+            case 4:              
+                getProperties(configuracionEmail);               
             break;
         }
-       
     }
-
+    
     private void getProperties(String idioma) {
       
         try {
