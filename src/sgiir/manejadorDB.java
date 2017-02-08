@@ -31,11 +31,13 @@ public class manejadorDB {
     
     
     public static Connection Conexion;
-   
+    public ResultSet ResultSetDB;
+    public Statement StatementDB;
     
     
     private manejadorDB() {
         
+        //ESTABLECE CONEXION CON LA BASE DE DATOS
         Conexion = null;
         try {
             Class.forName(Driver);
@@ -48,17 +50,29 @@ public class manejadorDB {
         } catch (SQLException ex) {
             Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        /////////////////////////////////////////////////
+    }
+    
+    //EJECUTA UPDATE, INSERT, DELETE, CREATE TABLE, DROP TABLE, ETC.
+    public boolean executeUpdate(String Query){
+        try {
+            StatementDB = Conexion.createStatement();
+            StatementDB.executeUpdate(Query);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
         
     }
     
-     public void insertData(String table_name, String ID, String name, String lastname, String age, String gender) {
+     public void insertData(String table_name, String user, String pass, String codPersona, String nivel) {
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
-                    + "\"" + ID + "\", "
-                    + "\"" + name + "\", "
-                    + "\"" + lastname + "\", "
-                    + "\"" + age + "\", "
-                    + "\"" + gender + "\")";
+                    + "\"" + user + "\", "
+                    + "\"" + pass + "\", "
+                    + "\"" + codPersona + "\", "
+                    + "\"" + nivel + "\")";
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
             JOptionPane.showMessageDialog(null, "Datos almacenados de forma exitosa");
@@ -67,7 +81,8 @@ public class manejadorDB {
         }
     }
      
-     public void metaDatos(){
+
+    public void metaDatos(){
         try {
             DatabaseMetaData metaDatos = Conexion.getMetaData();
             
