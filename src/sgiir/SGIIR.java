@@ -24,10 +24,6 @@ public class SGIIR {
         login vistaLogin = new login();
         vistaLogin.show();
         
-        String textoSinEncriptar="alfredo"; 
-        String textoEncriptadoConMD5=DigestUtils.md5Hex(textoSinEncriptar); 
-        System.out.println("Texto Encriptado con MD5 : "+textoEncriptadoConMD5);
-
     }
     
 }

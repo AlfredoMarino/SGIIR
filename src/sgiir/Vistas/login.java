@@ -5,6 +5,7 @@
  */
 package sgiir.Vistas;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import sgiir.manejadorDB;
 import sgiir.propiedades.propiedades;
 
@@ -16,6 +17,7 @@ public class login extends javax.swing.JFrame {
     
     private propiedades msgFile = new propiedades();
     manejadorDB DataBase = manejadorDB.getInstance();
+    private String Query = "";
     
     /**
      * Creates new form login
@@ -35,7 +37,7 @@ public class login extends javax.swing.JFrame {
     private void initComponents() {
 
         fldUsuario = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        fldContraseña = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
 
@@ -70,7 +72,7 @@ public class login extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(138, 138, 138)
@@ -84,7 +86,7 @@ public class login extends javax.swing.JFrame {
                 .addGap(96, 96, 96)
                 .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
@@ -98,11 +100,21 @@ public class login extends javax.swing.JFrame {
         
         if((fldUsuario.getText() != "")){
             DataBase.metaDatos();
+            //DataBase.insertData("autenticacion", "AAMV", "", "2", "2");
+            Query = "Update autenticacion set PassAutenticacion = '" + Encrypt(fldContraseña.getText())
+                    +"' where UserAutenticacion = '" + fldUsuario.getText() + "'";
+            //Query = "Update autenticacion set PassAutenticacion = 'hola' where UserAutenticacion = 'AAMV'";
+            DataBase.executeUpdate(Query);
         }else{
             System.out.println(msgFile.getProperty("msg0001"));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private static String Encrypt(String texto){
+      
+        return DigestUtils.md5Hex(texto); 
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -139,9 +151,9 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField fldContraseña;
     private javax.swing.JTextField fldUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
     // End of variables declaration//GEN-END:variables
 }
