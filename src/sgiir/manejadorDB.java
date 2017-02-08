@@ -19,6 +19,7 @@ import sgiir.propiedades.propiedades;
 public class manejadorDB {
     
     private propiedades ConfiguracionDB = new propiedades(3);
+    
     public String Driver = ConfiguracionDB.getProperty("driver");
     public String Url = ConfiguracionDB.getProperty("url");
     public String User = ConfiguracionDB.getProperty("user");

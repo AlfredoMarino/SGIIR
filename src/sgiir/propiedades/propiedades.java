@@ -16,10 +16,10 @@ import java.util.logging.Logger;
  */
 public class propiedades extends Properties {
     
-    public String idiomaDefault = "espanol.properties";
+    public String idiomaDefault = "/idiomas/espanol.properties";
     
     //PROPERTIES FILE
-    public String idiomaEspanol = "espanol.properties";
+    public String idiomaEspanol = "/idiomas/espanol.properties";
     public String idiomaIngles = "ingles.properties";
     public String configuracionDB = "configuracionDB.properties";
     public String configuracionEmail = "";

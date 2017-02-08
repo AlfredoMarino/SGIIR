@@ -6,6 +6,7 @@
 package sgiir;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import sgiir.Vistas.login;
 
 /**
  *
@@ -20,7 +21,8 @@ public class SGIIR {
         // TODO code application logic here
         manejadorDB DataBase = manejadorDB.getInstance();
         
-        
+        login vistaLogin = new login();
+        vistaLogin.show();
         
         String textoSinEncriptar="alfredo"; 
         String textoEncriptadoConMD5=DigestUtils.md5Hex(textoSinEncriptar); 
