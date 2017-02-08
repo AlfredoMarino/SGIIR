@@ -45,6 +45,7 @@ public class manejadorDB {
             if(Conexion != null){
                 System.out.println("Conexion establecida");
             }
+            StatementDB = Conexion.createStatement();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -56,14 +57,26 @@ public class manejadorDB {
     //EJECUTA UPDATE, INSERT, DELETE, CREATE TABLE, DROP TABLE, ETC.
     public boolean executeUpdate(String Query){
         try {
-            StatementDB = Conexion.createStatement();
             StatementDB.executeUpdate(Query);
             return true;
+            
         } catch (SQLException ex) {
+            
             Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
+    }
+    
+    //EJECUTA SELECT
+    public ResultSet executeQuery(String Query){
+        try {
+            ResultSetDB = StatementDB.executeQuery(Query);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ResultSetDB;
     }
     
      public void insertData(String table_name, String user, String pass, String codPersona, String nivel) {
