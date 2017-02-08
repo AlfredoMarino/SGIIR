@@ -5,6 +5,8 @@
  */
 package sgiir;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 /**
  *
  * @author Alfredo Mariño
@@ -16,6 +18,11 @@ public class SGIIR {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        String textoSinEncriptar="alfredo"; 
+        String textoEncriptadoConMD5=DigestUtils.md5Hex(textoSinEncriptar); 
+        System.out.println("Texto Encriptado con MD5 : "+textoEncriptadoConMD5);
+
     }
     
 }
