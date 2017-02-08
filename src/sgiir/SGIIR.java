@@ -18,6 +18,9 @@ public class SGIIR {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        manejadorDB DataBase = manejadorDB.getInstance();
+        
+        
         
         String textoSinEncriptar="alfredo"; 
         String textoEncriptadoConMD5=DigestUtils.md5Hex(textoSinEncriptar); 
