@@ -46,8 +46,8 @@ public class login extends javax.swing.JFrame {
 
         fldUsuario = new javax.swing.JTextField();
         fldContraseña = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new statusBar();
+        btnIngresar = new javax.swing.JButton();
+        StatusBar = new statusBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -78,14 +78,14 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText(msgFile.getProperty("lbl0001"));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresar.setText(msgFile.getProperty("lbl0001"));
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnIngresarActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("StatusBar");
+        StatusBar.setText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,9 +100,9 @@ public class login extends javax.swing.JFrame {
                             .addComponent(fldUsuario)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(141, 141, 141)
-                        .addComponent(jButton1)))
+                        .addComponent(btnIngresar)))
                 .addContainerGap(87, Short.MAX_VALUE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,9 +112,9 @@ public class login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnIngresar)
                 .addGap(19, 19, 19)
-                .addComponent(jLabel1))
+                .addComponent(StatusBar))
         );
 
         pack();
@@ -124,7 +124,7 @@ public class login extends javax.swing.JFrame {
         User = fldUsuario.getText().toUpperCase();
         PassEncrypt = Encrypt(fldContraseña.getText().toUpperCase());
         
-        if(User != ""){
+        if(!"".equals(User)){
             try {
               
                 Query = "Select * from autenticacion where PassAutenticacion = '" + PassEncrypt
@@ -135,27 +135,26 @@ public class login extends javax.swing.JFrame {
                 //comprueba que existe un registro
                 if(rs.absolute(1)){
                     
-                    System.out.println("funca");
+                    StatusBar.setText(rs.getString("userAutenticacion"));
                     
                 }else{
                     
-                    System.out.println("no funca");
+                    StatusBar.setText(msgFile.getProperty("msg0001"));
                     
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
-            
         }else{
             System.out.println(msgFile.getProperty("msg0001"));
+            StatusBar.setText(msgFile.getProperty("msg0001"));
         }
     }
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         valida();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
     }//GEN-LAST:event_formKeyPressed
@@ -223,10 +222,10 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel StatusBar;
+    private javax.swing.JButton btnIngresar;
     private javax.swing.JPasswordField fldContraseña;
     private javax.swing.JTextField fldUsuario;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
 
