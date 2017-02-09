@@ -26,7 +26,7 @@ public class SGIIR {
         manejadorDB DataBase = manejadorDB.getInstance();
 
         //Estilo de ventanas
-            //UIManager.setLookAndFeel(new WindowsLookAndFeel());
+            UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
         login vistaLogin = new login();
         vistaLogin.setVisible(true);
