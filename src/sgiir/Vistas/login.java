@@ -31,7 +31,10 @@ public class login extends javax.swing.JFrame {
     public String SystemPass = "";
     public String SystemPass = "";
     */
+    
+    //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance();
+    
     /**
      * Creates new form login
      */
@@ -99,7 +102,6 @@ public class login extends javax.swing.JFrame {
         });
 
         StatusBar.setText("");
-        StatusBar.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         StatusBar.setPreferredSize(new java.awt.Dimension(64, 14));
 
         lblUsuario.setText(msgFile.getProperty("lbl0002"));
@@ -162,9 +164,11 @@ public class login extends javax.swing.JFrame {
                 //comprueba que existe un registro
                 if(rs.absolute(1)){
                     
-                    
-                    menu VistaMenu = new menu(rs.getInt("CodigoPersona"), rs.getByte("nivelAutenticacion"));
+                    //oculta esta pantalla
                     this.setVisible(false);
+                    
+                    //envia parametros y muestra Menu
+                    menu VistaMenu = new menu(rs.getInt("CodigoPersona"), rs.getByte("nivelAutenticacion"));
                     VistaMenu.setVisible(true);
                     
                 }else{

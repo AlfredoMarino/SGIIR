@@ -28,8 +28,8 @@ public class SGIIR {
         //Estilo de ventanas
             UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        login vistaLogin = new login();
-        vistaLogin.setVisible(true);
+        login VistaLogin = new login();
+        VistaLogin.setVisible(true);
         
     }
     

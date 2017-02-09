@@ -24,6 +24,7 @@ public class propiedades extends Properties {
     public String idiomaIngles = "ingles.properties";
     public String configuracionDB = "configuracionDB.properties";
     public String configuracionEmail = "configuracionEmail.properties";
+    public String consulta = "consulta.properties";
     
     //LOS OBJETOS QUE INSTANCIAN ESTA CLASE SIN INDICAR QUE PROPERTIES FILE USARÁN, TOMAN POR DEFECTO espanol.properties
     public  propiedades(){
@@ -47,6 +48,10 @@ public class propiedades extends Properties {
                 
             case 4:              
                 getProperties(configuracionEmail);               
+            break;
+            
+            case 5:              
+                getProperties(consulta);               
             break;
         }
     }
