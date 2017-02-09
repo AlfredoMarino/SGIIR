@@ -5,7 +5,6 @@
  */
 package sgiir;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import sgiir.Vistas.login;
 
 /**

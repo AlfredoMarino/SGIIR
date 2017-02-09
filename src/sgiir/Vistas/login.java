@@ -5,6 +5,11 @@
  */
 package sgiir.Vistas;
 
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 import sgiir.manejadorDB;
 import sgiir.propiedades.propiedades;
@@ -16,9 +21,12 @@ import sgiir.propiedades.propiedades;
 public class login extends javax.swing.JFrame {
     
     private propiedades msgFile = new propiedades();
-    manejadorDB DataBase = manejadorDB.getInstance();
     private String Query = "";
+    private ResultSet rs;
+    private String PassEncrypt = "";
+    private String User = "";
     
+    manejadorDB DataBase = manejadorDB.getInstance();
     /**
      * Creates new form login
      */
@@ -42,10 +50,35 @@ public class login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         fldUsuario.setToolTipText("");
+        fldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fldUsuarioKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fldUsuarioKeyReleased(evt);
+            }
+        });
 
-        jButton1.setText("jButton1");
+        fldContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fldContraseñaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fldContraseñaKeyReleased(evt);
+            }
+        });
+
+        jButton1.setText(msgFile.getProperty("lbl0001"));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -67,49 +100,97 @@ public class login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(79, 79, 79)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(fldContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(fldUsuario)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(138, 138, 138)
+                        .addGap(141, 141, 141)
                         .addComponent(jButton1)))
-                .addContainerGap(173, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(96, 96, 96)
+                .addContainerGap(111, Short.MAX_VALUE)
                 .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void valida(){
+        User = fldUsuario.getText().toUpperCase();
+        PassEncrypt = Encrypt(fldContraseña.getText().toUpperCase());
         
-        if((fldUsuario.getText() != "")){
-            DataBase.metaDatos();
-            //DataBase.insertData("autenticacion", "AAMV", "", "2", "2");
-            Query = "Update autenticacion set PassAutenticacion = '" + Encrypt(fldContraseña.getText())
-                    +"' where UserAutenticacion = '" + fldUsuario.getText() + "'";
-            //Query = "Update autenticacion set PassAutenticacion = 'hola' where UserAutenticacion = 'AAMV'";
-            DataBase.executeUpdate(Query);
+        if(User != ""){
+            try {
+              
+                Query = "Select * from autenticacion where PassAutenticacion = '" + PassEncrypt
+                        + "' and UserAutenticacion = '" + User + "'";
+                
+                rs = DataBase.executeQuery(Query);
+                
+                //comprueba que existe un registro
+                if(rs.absolute(1)){
+                    
+                    System.out.println("funca");
+                    
+                }else{
+                    
+                    System.out.println("no funca");
+                    
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
         }else{
             System.out.println(msgFile.getProperty("msg0001"));
         }
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        valida();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+    }//GEN-LAST:event_formKeyReleased
+
+    private void fldContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fldContraseñaKeyPressed
+    }//GEN-LAST:event_fldContraseñaKeyPressed
+
+    private void fldUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fldUsuarioKeyPressed
+    }//GEN-LAST:event_fldUsuarioKeyPressed
+
+    private void fldUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fldUsuarioKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            valida();
+        }
+    }//GEN-LAST:event_fldUsuarioKeyReleased
+
+    private void fldContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fldContraseñaKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            valida();
+        }
+    }//GEN-LAST:event_fldContraseñaKeyReleased
+    
+    //Encripta texto como la contraseña
     private static String Encrypt(String texto){
       
         return DigestUtils.md5Hex(texto); 
@@ -157,3 +238,12 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
+
+                /*
+                //DataBase.metaDatos();
+                //DataBase.insertData("autenticacion", "AAMV", "", "2", "2");
+                Query = "Update autenticacion set PassAutenticacion = '" + Encrypt(fldContraseña.getText())
+                +"' where UserAutenticacion = '" + fldUsuario.getText() + "'";
+                //Query = "Update autenticacion set PassAutenticacion = 'hola' where UserAutenticacion = 'AAMV'";
+                DataBase.executeUpdate(Query);
+                */

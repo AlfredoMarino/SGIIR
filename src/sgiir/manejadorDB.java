@@ -76,9 +76,10 @@ public class manejadorDB {
         } catch (SQLException ex) {
             Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return ResultSetDB;
     }
-    
+
      public void insertData(String table_name, String user, String pass, String codPersona, String nivel) {
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
