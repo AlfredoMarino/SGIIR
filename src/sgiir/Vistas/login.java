@@ -48,8 +48,14 @@ public class login extends javax.swing.JFrame {
         fldContraseña = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
         StatusBar = new statusBar();
+        lblUsuario = new javax.swing.JLabel();
+        lblContraseña = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login SGIIR");
+        setLocation(new java.awt.Point(500, 250));
+        setPreferredSize(new java.awt.Dimension(322, 243));
+        setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -87,34 +93,46 @@ public class login extends javax.swing.JFrame {
 
         StatusBar.setText("");
 
+        lblUsuario.setText(msgFile.getProperty("lbl0002"));
+
+        lblContraseña.setText(msgFile.getProperty("lbl0003"));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
+                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fldContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(fldUsuario)))
+                            .addComponent(lblContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(fldContraseña)
+                            .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
+                        .addGap(120, 120, 120)
                         .addComponent(btnIngresar)))
-                .addContainerGap(87, Short.MAX_VALUE))
-            .addComponent(StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(111, Short.MAX_VALUE)
-                .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(104, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUsuario))
                 .addGap(18, 18, 18)
-                .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblContraseña))
                 .addGap(18, 18, 18)
                 .addComponent(btnIngresar)
-                .addGap(19, 19, 19)
-                .addComponent(StatusBar))
+                .addGap(18, 18, 18)
+                .addComponent(StatusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -138,16 +156,14 @@ public class login extends javax.swing.JFrame {
                     StatusBar.setText(rs.getString("userAutenticacion"));
                     
                 }else{
-                    
-                    StatusBar.setText(msgFile.getProperty("msg0001"));
-                    
+                    StatusBar.setText(msgFile.getProperty("msg0001"));   
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }else{
-            System.out.println(msgFile.getProperty("msg0001"));
+
             StatusBar.setText(msgFile.getProperty("msg0001"));
         }
     }
@@ -226,6 +242,8 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton btnIngresar;
     private javax.swing.JPasswordField fldContraseña;
     private javax.swing.JTextField fldUsuario;
+    private javax.swing.JLabel lblContraseña;
+    private javax.swing.JLabel lblUsuario;
     // End of variables declaration//GEN-END:variables
 }
 
