@@ -21,16 +21,12 @@ public class SGIIR {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
         // TODO code application logic here
         manejadorDB DataBase = manejadorDB.getInstance();
 
         //Estilo de ventanas
-        try {
-            UIManager.setLookAndFeel(new WindowsLookAndFeel());
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(SGIIR.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            //UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
         login vistaLogin = new login();
         vistaLogin.setVisible(true);

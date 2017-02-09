@@ -26,6 +26,11 @@ public class login extends javax.swing.JFrame {
     private String PassEncrypt = "";
     private String User = "";
     
+    /*
+    public String SystemUser = "";
+    public String SystemPass = "";
+    public String SystemPass = "";
+    */
     manejadorDB DataBase = manejadorDB.getInstance();
     /**
      * Creates new form login
@@ -65,6 +70,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        fldUsuario.setText("master");
         fldUsuario.setToolTipText("");
         fldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -75,6 +81,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        fldContraseña.setText("master");
         fldContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 fldContraseñaKeyPressed(evt);
@@ -92,6 +99,8 @@ public class login extends javax.swing.JFrame {
         });
 
         StatusBar.setText("");
+        StatusBar.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        StatusBar.setPreferredSize(new java.awt.Dimension(64, 14));
 
         lblUsuario.setText(msgFile.getProperty("lbl0002"));
 
@@ -101,7 +110,6 @@ public class login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -117,6 +125,7 @@ public class login extends javax.swing.JFrame {
                         .addGap(120, 120, 120)
                         .addComponent(btnIngresar)))
                 .addContainerGap(76, Short.MAX_VALUE))
+            .addComponent(StatusBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +162,10 @@ public class login extends javax.swing.JFrame {
                 //comprueba que existe un registro
                 if(rs.absolute(1)){
                     
-                    StatusBar.setText(rs.getString("userAutenticacion"));
+                    
+                    menu VistaMenu = new menu(rs.getInt("CodigoPersona"), rs.getByte("nivelAutenticacion"));
+                    this.setVisible(false);
+                    VistaMenu.setVisible(true);
                     
                 }else{
                     StatusBar.setText(msgFile.getProperty("msg0001"));   

@@ -17,6 +17,7 @@ public class statusBar extends JLabel {
         /** Creates a new instance of StatusBar */
     public statusBar() {
         super();
+        //super.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         super.setPreferredSize(new Dimension(100, 16));
         setMsg("Ready");
     }
