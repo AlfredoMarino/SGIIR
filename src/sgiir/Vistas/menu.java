@@ -57,7 +57,7 @@ public class menu extends javax.swing.JFrame {
                 Query = qryFile.getProperty("qry0001");
                                
                 rs = DataBase.executeQuery(Query);
-                
+                rs.absolute(1);
                 StatusBar.setText(rs.getString("DescripcionTarea"));
                
             break;
