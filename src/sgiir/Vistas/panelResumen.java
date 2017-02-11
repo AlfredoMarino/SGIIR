@@ -9,12 +9,12 @@ package sgiir.Vistas;
  *
  * @author Alfredo Mariño
  */
-public class resumen extends javax.swing.JPanel {
+public class panelResumen extends javax.swing.JPanel {
 
     /**
      * Creates new form resumen
      */
-    public resumen() {
+    public panelResumen() {
         initComponents();
     }
 
@@ -26,6 +26,12 @@ public class resumen extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRDB?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
+        cargoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Cargo c");
+        cargoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : cargoQuery.getResultList();
+        institucionQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Institucion i");
+        institucionList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : institucionQuery.getResultList();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -41,5 +47,10 @@ public class resumen extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.util.List<sgiir.Vistas.Cargo> cargoList;
+    private javax.persistence.Query cargoQuery;
+    private javax.persistence.EntityManager entityManager;
+    private java.util.List<sgiir.Entidades.Institucion> institucionList;
+    private javax.persistence.Query institucionQuery;
     // End of variables declaration//GEN-END:variables
 }

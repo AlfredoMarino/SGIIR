@@ -33,9 +33,11 @@ public class menu extends javax.swing.JFrame {
     //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance(); 
     //PANELES
-    //public panelInstitucion VistaInstitucion = new panelInstitucion();
-    public resumen VistaResumen = new resumen();
+    public panelInstitucion VistaInstitucion = new panelInstitucion();
+    public panelResumen VistaResumen = new panelResumen();
     public panelArea VistaArea = new panelArea();
+    public panelCargo VistaCargo = new panelCargo();
+    
     CardLayout controladorPaneles;
     
     
@@ -120,6 +122,7 @@ public class menu extends javax.swing.JFrame {
         mnuConfiguracion = new javax.swing.JMenu();
         mitArea = new javax.swing.JMenuItem();
         mitInstitucion = new javax.swing.JMenuItem();
+        mitCargo = new javax.swing.JMenuItem();
         mnuAcerca = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -214,6 +217,14 @@ public class menu extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mitInstitucion);
 
+        mitCargo.setText("jMenuItem3");
+        mitCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitCargoActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(mitCargo);
+
         menuBar.add(mnuConfiguracion);
 
         mnuAcerca.setText("Acerca de");
@@ -245,6 +256,10 @@ public class menu extends javax.swing.JFrame {
     private void mnuInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuInicioMouseClicked
         controladorPaneles.show(pnlDetails, "RESUMEN");
     }//GEN-LAST:event_mnuInicioMouseClicked
+
+    private void mitCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitCargoActionPerformed
+        controladorPaneles.show(pnlDetails, "CARGO");
+    }//GEN-LAST:event_mitCargoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,8 +299,9 @@ public class menu extends javax.swing.JFrame {
     private void controlPanel(){
         
         pnlDetails.add(VistaResumen, "RESUMEN");
-        //pnlDetails.add(VistaInstitucion, "INSTITUCION");
+        pnlDetails.add(VistaInstitucion, "INSTITUCION");
         pnlDetails.add(VistaArea, "AREA");
+        pnlDetails.add(VistaCargo, "CARGO");
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }
@@ -298,6 +314,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
+    private javax.swing.JMenuItem mitCargo;
     private javax.swing.JMenuItem mitInstitucion;
     private javax.swing.JMenu mnuAcerca;
     private javax.swing.JMenu mnuConfiguracion;
