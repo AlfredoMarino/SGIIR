@@ -33,9 +33,9 @@ public class menu extends javax.swing.JFrame {
     //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance(); 
     //PANELES
-    //public crudTarea VistaTarea = new crudTarea();
+    public panelInstitucion VistaInstitucion = new panelInstitucion();
     public resumen VistaResumen = new resumen();
-    //public NewMasterDetailForm tareaTemplate = new NewMasterDetailForm();
+    public panelArea VistaArea = new panelArea();
     CardLayout controladorPaneles;
     
     
@@ -110,15 +110,17 @@ public class menu extends javax.swing.JFrame {
         pnlDetails = new javax.swing.JPanel();
         pnlFoot = new javax.swing.JPanel();
         StatusBar = new statusBar();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu6 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        menuBar = new javax.swing.JMenuBar();
+        mnuInicio = new javax.swing.JMenu();
+        mnuTarea = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        mnuConfiguracion = new javax.swing.JMenu();
+        mitArea = new javax.swing.JMenuItem();
+        mitInstitucion = new javax.swing.JMenuItem();
+        mnuAcerca = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(msgFile.getProperty("lbl0000"));
@@ -160,10 +162,20 @@ public class menu extends javax.swing.JFrame {
 
         getContentPane().add(pnlFoot, java.awt.BorderLayout.SOUTH);
 
-        jMenu6.setText("Inicio");
-        jMenuBar1.add(jMenu6);
+        mnuInicio.setText("Inicio");
+        mnuInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuInicioMouseClicked(evt);
+            }
+        });
+        mnuInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuInicioActionPerformed(evt);
+            }
+        });
+        menuBar.add(mnuInicio);
 
-        jMenu1.setText("Tareas");
+        mnuTarea.setText("Tareas");
 
         jMenuItem1.setText("jMenuItem1");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -171,26 +183,43 @@ public class menu extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        mnuTarea.add(jMenuItem1);
 
         jMenuItem2.setText("jMenuItem2");
-        jMenu1.add(jMenuItem2);
+        mnuTarea.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu1);
+        menuBar.add(mnuTarea);
 
         jMenu2.setText("Reportes");
-        jMenuBar1.add(jMenu2);
+        menuBar.add(jMenu2);
 
         jMenu3.setText("Personas");
-        jMenuBar1.add(jMenu3);
+        menuBar.add(jMenu3);
 
-        jMenu4.setText("Configuración");
-        jMenuBar1.add(jMenu4);
+        mnuConfiguracion.setText(msgFile.getProperty("lbl0007"));
 
-        jMenu5.setText("Acerca de");
-        jMenuBar1.add(jMenu5);
+        mitArea.setText(msgFile.getProperty("lbl0013"));
+        mitArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitAreaActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(mitArea);
 
-        setJMenuBar(jMenuBar1);
+        mitInstitucion.setText(msgFile.getProperty("lbl0014"));
+        mitInstitucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitInstitucionActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(mitInstitucion);
+
+        menuBar.add(mnuConfiguracion);
+
+        mnuAcerca.setText("Acerca de");
+        menuBar.add(mnuAcerca);
+
+        setJMenuBar(menuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -198,8 +227,24 @@ public class menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
  
         //controladorPaneles.show(pnlDetails, "TAREA");
-        controladorPaneles.show(pnlDetails, "TAREAT");
+        controladorPaneles.show(pnlDetails, "TAREA");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void mitAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAreaActionPerformed
+        controladorPaneles.show(pnlDetails, "AREA");
+    }//GEN-LAST:event_mitAreaActionPerformed
+
+    private void mitInstitucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitInstitucionActionPerformed
+       controladorPaneles.show(pnlDetails, "INSTITUCION");
+    }//GEN-LAST:event_mitInstitucionActionPerformed
+
+    private void mnuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInicioActionPerformed
+      
+    }//GEN-LAST:event_mnuInicioActionPerformed
+
+    private void mnuInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuInicioMouseClicked
+        controladorPaneles.show(pnlDetails, "RESUMEN");
+    }//GEN-LAST:event_mnuInicioMouseClicked
 
     /**
      * @param args the command line arguments
@@ -239,23 +284,25 @@ public class menu extends javax.swing.JFrame {
     private void controlPanel(){
         
         pnlDetails.add(VistaResumen, "RESUMEN");
-        //pnlDetails.add(VistaTarea, "TAREA");
-        //pnlDetails.add(tareaTemplate, "TAREAT");
+        pnlDetails.add(VistaInstitucion, "INSTITUCION");
+        pnlDetails.add(VistaArea, "AREA");
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel StatusBar;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mitArea;
+    private javax.swing.JMenuItem mitInstitucion;
+    private javax.swing.JMenu mnuAcerca;
+    private javax.swing.JMenu mnuConfiguracion;
+    private javax.swing.JMenu mnuInicio;
+    private javax.swing.JMenu mnuTarea;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlFoot;
     private javax.swing.JPanel pnlHead;
