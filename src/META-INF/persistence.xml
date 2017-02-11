@@ -4,6 +4,9 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>sgiir.Entidades.Area</class>
     <class>sgiir.Entidades.Institucion</class>
+    <class>sgiir.Vistas.Autenticacion</class>
+    <class>sgiir.Vistas.Persona</class>
+    <class>sgiir.Vistas.Cargo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/SGIIRDB?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="SGIIRUSER"/>
