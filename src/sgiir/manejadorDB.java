@@ -23,6 +23,7 @@ import sgiir.propiedades.propiedades;
 public class manejadorDB {
     
     private propiedades ConfiguracionDB = new propiedades(3);
+    private propiedades msgFile = new propiedades();
     
     public String Driver = ConfiguracionDB.getProperty("driver");
     public String Url = ConfiguracionDB.getProperty("url");
@@ -34,6 +35,8 @@ public class manejadorDB {
     public ResultSet ResultSetDB;
     public Statement StatementDB;
     
+    public String status = "";
+    
     
     private manejadorDB() {
         
@@ -43,14 +46,16 @@ public class manejadorDB {
             Class.forName(Driver);
             Conexion = (Connection) DriverManager.getConnection(Url, User, Password);
             if(Conexion != null){
-                System.out.println("Conexion establecida");
+                StatementDB = Conexion.createStatement();
+            }else{
+                status = msgFile.getProperty("msg0002");
             }
-            StatementDB = Conexion.createStatement();
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(manejadorDB.class.getName()).log(Level.SEVERE, null, ex);
+            status = msgFile.getProperty("msg0002");
         }
+        /////////////////////////////////////////////////
+        
         /////////////////////////////////////////////////
     }
     

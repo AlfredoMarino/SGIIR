@@ -6,8 +6,6 @@
 package sgiir;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sgiir.Vistas.login;
@@ -20,13 +18,14 @@ public class SGIIR {
 
     /**
      * @param args the command line arguments
+     * @throws javax.swing.UnsupportedLookAndFeelException
      */
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         // TODO code application logic here
         manejadorDB DataBase = manejadorDB.getInstance();
 
         //Estilo de ventanas
-            UIManager.setLookAndFeel(new WindowsLookAndFeel());
+        UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
         login VistaLogin = new login();
         VistaLogin.setVisible(true);

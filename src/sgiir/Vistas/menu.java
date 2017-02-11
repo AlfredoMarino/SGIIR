@@ -33,8 +33,9 @@ public class menu extends javax.swing.JFrame {
     //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance(); 
     //PANELES
-    public crudTarea VistaTarea = new crudTarea();
+    //public crudTarea VistaTarea = new crudTarea();
     public resumen VistaResumen = new resumen();
+    //public NewMasterDetailForm tareaTemplate = new NewMasterDetailForm();
     CardLayout controladorPaneles;
     
     
@@ -73,8 +74,8 @@ public class menu extends javax.swing.JFrame {
                                
                 rs = DataBase.executeQuery(Query);
                 rs.absolute(1);
-                StatusBar.setText(rs.getString("DescripcionTarea"));
-               
+                //StatusBar.setText(rs.getString("DescripcionTarea"));
+                
             break;
             
             //CAU
@@ -196,8 +197,8 @@ public class menu extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
  
-        controladorPaneles.show(pnlDetails, "TAREA"); 
-
+        //controladorPaneles.show(pnlDetails, "TAREA");
+        controladorPaneles.show(pnlDetails, "TAREAT");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -238,7 +239,8 @@ public class menu extends javax.swing.JFrame {
     private void controlPanel(){
         
         pnlDetails.add(VistaResumen, "RESUMEN");
-        pnlDetails.add(VistaTarea, "TAREA");
+        //pnlDetails.add(VistaTarea, "TAREA");
+        //pnlDetails.add(tareaTemplate, "TAREAT");
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }

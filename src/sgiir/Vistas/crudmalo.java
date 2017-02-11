@@ -16,7 +16,7 @@ import sgiir.statusBar;
  *
  * @author Alfredo Mariño
  */
-public class crudTarea extends javax.swing.JPanel {
+public class crudmalo extends javax.swing.JPanel {
     //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance(); 
     
@@ -28,7 +28,7 @@ public class crudTarea extends javax.swing.JPanel {
     /**
      * Creates new form crudTarea
      */
-    public crudTarea() {
+    public crudmalo() {
         initComponents();
         
         bgrTipoTarea.add(rbtIncidencia);
@@ -37,7 +37,7 @@ public class crudTarea extends javax.swing.JPanel {
         
     }
     
-    public crudTarea(int TypeCrud) {
+    public crudmalo(int TypeCrud) {
         initComponents();
         
         bgrTipoTarea.add(rbtIncidencia);
@@ -78,7 +78,7 @@ public class crudTarea extends javax.swing.JPanel {
             fldDescripcionTarea.setText(rs.getString("DescripcionTarea"));
             
         } catch (SQLException ex) {
-            Logger.getLogger(crudTarea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(crudmalo.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         

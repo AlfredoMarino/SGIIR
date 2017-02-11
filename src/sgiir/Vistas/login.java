@@ -41,7 +41,12 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
-
+        
+        if(!"".equals(DataBase.status)){
+            StatusBar.setText(DataBase.status);
+            btnIngresar.setEnabled(false);
+        }
+        
     }
 
     /**
