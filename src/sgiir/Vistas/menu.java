@@ -33,7 +33,7 @@ public class menu extends javax.swing.JFrame {
     //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance(); 
     //PANELES
-    public panelInstitucion VistaInstitucion = new panelInstitucion();
+    //public panelInstitucion VistaInstitucion = new panelInstitucion();
     public resumen VistaResumen = new resumen();
     public panelArea VistaArea = new panelArea();
     CardLayout controladorPaneles;
@@ -284,7 +284,7 @@ public class menu extends javax.swing.JFrame {
     private void controlPanel(){
         
         pnlDetails.add(VistaResumen, "RESUMEN");
-        pnlDetails.add(VistaInstitucion, "INSTITUCION");
+        //pnlDetails.add(VistaInstitucion, "INSTITUCION");
         pnlDetails.add(VistaArea, "AREA");
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
