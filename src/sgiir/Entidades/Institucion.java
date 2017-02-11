@@ -8,7 +8,9 @@ package sgiir.Entidades;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
+import sgiir.Naturaleza;
 
 /**
  *
@@ -31,6 +36,9 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Institucion.findByNombreInstitucion", query = "SELECT i FROM Institucion i WHERE i.nombreInstitucion = :nombreInstitucion"),
     @NamedQuery(name = "Institucion.findByCliente", query = "SELECT i FROM Institucion i WHERE i.cliente = :cliente")})
 public class Institucion implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoInstitucion")
+    private Collection<Naturaleza> naturalezaCollection;
 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -122,6 +130,15 @@ public class Institucion implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
+    }
+
+    @XmlTransient
+    public Collection<Naturaleza> getNaturalezaCollection() {
+        return naturalezaCollection;
+    }
+
+    public void setNaturalezaCollection(Collection<Naturaleza> naturalezaCollection) {
+        this.naturalezaCollection = naturalezaCollection;
     }
     
 }
