@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import sgiir.Entidades.Institucion;
 
+
 /**
  *
  * @author Alfredo Mariño
@@ -40,8 +41,10 @@ public class panelCargo extends JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Cargo c");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
-        query1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Institucion i");
-        list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : query1.getResultList();
+        institucionQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Institucion i");
+        institucionList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(institucionQuery.getResultList());
+        institucion1 = new sgiir.Entidades.Institucion();
+        cargo1 = new sgiir.Entidades.Cargo();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         codigoCargoLabel = new javax.swing.JLabel();
@@ -50,24 +53,23 @@ public class panelCargo extends JPanel {
         informeCargoLabel = new javax.swing.JLabel();
         codigoCargoField = new javax.swing.JTextField();
         descripcionCargoField = new javax.swing.JTextField();
+        codigoInstitucionField = new javax.swing.JTextField();
         informeCargoField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descripcionCargo}"));
-        columnBinding.setColumnName("Descripcion Cargo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion.nombreInstitucion}"));
-        columnBinding.setColumnName("Institucion");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ObjectProperty.create(), masterTable, org.jdesktop.beansbinding.BeanProperty.create("elements"));
+        bindingGroup.addBinding(binding);
+        binding.bind();binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ObjectProperty.create(), masterTable, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
         masterScrollPane.setViewportView(masterTable);
 
         codigoCargoLabel.setText("Codigo Cargo:");
@@ -78,19 +80,25 @@ public class panelCargo extends JPanel {
 
         informeCargoLabel.setText("Informe Cargo:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoCargo}"), codigoCargoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ELProperty.create("${codigoCargo}"), codigoCargoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoCargoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.descripcionCargo}"), descripcionCargoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ELProperty.create("${codigoCargo}"), descripcionCargoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), descripcionCargoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.informeCargo}"), informeCargoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion.codigoInstitucion}"), codigoInstitucionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoInstitucionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ELProperty.create("${informeCargo}"), informeCargoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), informeCargoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
@@ -112,41 +120,58 @@ public class panelCargo extends JPanel {
 
         deleteButton.addActionListener(formListener);
 
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, jComboBox1, "{NombreInstitucion}");
+        jRadioButton1.setText("jRadioButton1");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoInstitucion.codigoInstitucion}"), jRadioButton1, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, institucionList, jComboBox2);
         bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cargo1, org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion}"), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        jComboBox2.addItemListener(formListener);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(refreshButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(codigoCargoLabel)
+                            .addComponent(descripcionCargoLabel)
+                            .addComponent(codigoInstitucionLabel)
+                            .addComponent(informeCargoLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(codigoCargoField)
+                            .addComponent(descripcionCargoField)
+                            .addComponent(codigoInstitucionField)
+                            .addComponent(informeCargoField)))
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoCargoLabel)
-                                    .addComponent(descripcionCargoLabel)
-                                    .addComponent(codigoInstitucionLabel)
-                                    .addComponent(informeCargoLabel))
+                                .addGap(163, 163, 163)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(newButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoCargoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(descripcionCargoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(informeCargoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))))
+                                .addComponent(deleteButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(refreshButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saveButton))
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 13, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -156,8 +181,14 @@ public class panelCargo extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoCargoLabel)
                     .addComponent(codigoCargoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -168,7 +199,7 @@ public class panelCargo extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoInstitucionLabel)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(codigoInstitucionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(informeCargoLabel)
@@ -187,7 +218,7 @@ public class panelCargo extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -201,6 +232,15 @@ public class panelCargo extends JPanel {
             }
             else if (evt.getSource() == deleteButton) {
                 panelCargo.this.deleteButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButton1) {
+                panelCargo.this.asdf(evt);
+            }
+        }
+
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            if (evt.getSource() == jComboBox2) {
+                panelCargo.this.jComboBox2ItemStateChanged(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -240,6 +280,7 @@ public class panelCargo extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
+            
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
@@ -254,10 +295,20 @@ public class panelCargo extends JPanel {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void asdf(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asdf
+        // TODO add your handling code here:
+    }//GEN-LAST:event_asdf
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private sgiir.Entidades.Cargo cargo1;
     private javax.swing.JTextField codigoCargoField;
     private javax.swing.JLabel codigoCargoLabel;
+    private javax.swing.JTextField codigoInstitucionField;
     private javax.swing.JLabel codigoInstitucionLabel;
     private javax.swing.JButton deleteButton;
     private javax.swing.JTextField descripcionCargoField;
@@ -265,14 +316,17 @@ public class panelCargo extends JPanel {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JTextField informeCargoField;
     private javax.swing.JLabel informeCargoLabel;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private sgiir.Entidades.Institucion institucion1;
+    private java.util.List<Institucion> institucionList;
+    private javax.persistence.Query institucionQuery;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JRadioButton jRadioButton1;
     private java.util.List<sgiir.Entidades.Cargo> list;
-    private java.util.List<Institucion> list1;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;
     private javax.persistence.Query query;
-    private javax.persistence.Query query1;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

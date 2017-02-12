@@ -36,7 +36,7 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="query1">
+    <Component class="javax.persistence.Query" name="institucionQuery">
       <Properties>
         <Property name="query" type="java.lang.String" value="SELECT i FROM Institucion i"/>
         <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
@@ -44,15 +44,20 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="java.util.List" name="list1">
+    <Component class="java.util.List" name="institucionList">
       <Properties>
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
-          <ComponentRef name="query1"/>
+          <ComponentRef name="institucionQuery"/>
         </Property>
+        <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Institucion&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="sgiir.Entidades.Institucion" name="institucion1">
+    </Component>
+    <Component class="sgiir.Entidades.Cargo" name="cargo1">
     </Component>
   </NonVisualComponents>
   <AuxValues>
@@ -71,39 +76,44 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="newButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="deleteButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="refreshButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="saveButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="codigoCargoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="descripcionCargoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="codigoInstitucionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="informeCargoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="codigoCargoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                                  <Component id="descripcionCargoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                                  <Component id="informeCargoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <Component id="masterScrollPane" pref="380" max="32767" attributes="0"/>
+                          <Component id="codigoCargoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="descripcionCargoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="codigoInstitucionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="informeCargoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="codigoCargoField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="descripcionCargoField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="codigoInstitucionField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="informeCargoField" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="masterScrollPane" pref="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
+                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="newButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="deleteButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="refreshButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="saveButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jComboBox2" alignment="0" min="-2" pref="429" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="13" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -113,9 +123,16 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="130" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="masterScrollPane" min="-2" pref="128" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="codigoCargoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="codigoCargoField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -128,14 +145,14 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="codigoInstitucionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codigoInstitucionField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="informeCargoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="informeCargoField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="1"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -158,33 +175,16 @@
         <Component class="javax.swing.JTable" name="masterTable">
           <Properties>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-              </TableColumnModel>
+              <TableColumnModel selectionModel="0"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
-              <Subbinding sourcePath="${descripcionCargo}">
-                <BindingParameter name="NAME" value="Descripcion Cargo"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codigoInstitucion.nombreInstitucion}">
-                <BindingParameter name="NAME" value="Institucion"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
+            <BindingProperty name="elements" source="cargo1" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true"/>
+            <BindingProperty name="selectedElement" source="cargo1" target="masterTable" targetPath="selectedElement" updateStrategy="0" immediately="false">
+              <BindingParameter name="IGNORE_ADJUSTING" value="N"/>
             </BindingProperty>
           </BindingProperties>
           <AuxValues>
@@ -216,7 +216,8 @@
     </Component>
     <Component class="javax.swing.JTextField" name="codigoCargoField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoCargo}" target="codigoCargoField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="cargo1" sourcePath="${codigoCargo}" target="codigoCargoField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
         <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoCargoField" targetPath="enabled" updateStrategy="1" immediately="false"/>
@@ -224,15 +225,26 @@
     </Component>
     <Component class="javax.swing.JTextField" name="descripcionCargoField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.descripcionCargo}" target="descripcionCargoField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="cargo1" sourcePath="${codigoCargo}" target="descripcionCargoField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
         <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="descripcionCargoField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
+    <Component class="javax.swing.JTextField" name="codigoInstitucionField">
+      <BindingProperties>
+        <BindingProperty name="text" source="cargo1" sourcePath="${codigoInstitucion.codigoInstitucion}" target="codigoInstitucionField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoInstitucionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+      </BindingProperties>
+    </Component>
     <Component class="javax.swing.JTextField" name="informeCargoField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.informeCargo}" target="informeCargoField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="cargo1" sourcePath="${informeCargo}" target="informeCargoField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
         <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="informeCargoField" targetPath="enabled" updateStrategy="1" immediately="false"/>
@@ -289,15 +301,33 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jRadioButton1"/>
+      </Properties>
       <BindingProperties>
-        <BindingProperty name="elements" source="list1" target="jComboBox1" targetPath="elements" updateStrategy="0" immediately="false">
-          <Property name="name" type="java.lang.String" value="{NombreInstitucion}"/>
-        </BindingProperty>
+        <BindingProperty name="selected" source="masterTable" sourcePath="${selectedElement.codigoInstitucion.codigoInstitucion}" target="jRadioButton1" targetPath="selected" updateStrategy="0" immediately="false"/>
       </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox2">
+      <BindingProperties>
+        <BindingProperty name="elements" source="institucionList" target="jComboBox2" targetPath="elements" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="selectedItem" source="cargo1" sourcePath="${codigoInstitucion}" target="jComboBox2" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox2ItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jButton1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="asdf"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

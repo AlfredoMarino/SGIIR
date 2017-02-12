@@ -9,6 +9,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sgiir.Vistas.FrameTest;
+import sgiir.Vistas.login;
 
 
 /**
@@ -28,11 +29,11 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        //login VistaLogin = new login();
-        //VistaLogin.setVisible(true);
+        login VistaLogin = new login();
+        VistaLogin.setVisible(true);
         
-        FrameTest VistaCargo = new FrameTest();
-        VistaCargo.setVisible(true);
+        //FrameTest VistaCargo = new FrameTest();
+        //VistaCargo.setVisible(true);
         
     }
     

@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Institucion.findByNombreInstitucion", query = "SELECT i FROM Institucion i WHERE i.nombreInstitucion = :nombreInstitucion"),
     @NamedQuery(name = "Institucion.findByCliente", query = "SELECT i FROM Institucion i WHERE i.cliente = :cliente")})
 public class Institucion implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,7 +76,9 @@ public class Institucion implements Serializable {
     }
 
     public void setCodigoInstitucion(Integer codigoInstitucion) {
+        Integer oldCodigoInstitucion = this.codigoInstitucion;
         this.codigoInstitucion = codigoInstitucion;
+        changeSupport.firePropertyChange("codigoInstitucion", oldCodigoInstitucion, codigoInstitucion);
     }
 
     public String getNombreInstitucion() {
@@ -78,7 +86,9 @@ public class Institucion implements Serializable {
     }
 
     public void setNombreInstitucion(String nombreInstitucion) {
+        String oldNombreInstitucion = this.nombreInstitucion;
         this.nombreInstitucion = nombreInstitucion;
+        changeSupport.firePropertyChange("nombreInstitucion", oldNombreInstitucion, nombreInstitucion);
     }
 
     public boolean getCliente() {
@@ -86,7 +96,9 @@ public class Institucion implements Serializable {
     }
 
     public void setCliente(boolean cliente) {
+        boolean oldCliente = this.cliente;
         this.cliente = cliente;
+        changeSupport.firePropertyChange("cliente", oldCliente, cliente);
     }
 
     @XmlTransient
@@ -130,6 +142,14 @@ public class Institucion implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Institucion[ codigoInstitucion=" + codigoInstitucion + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
