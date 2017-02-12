@@ -36,7 +36,7 @@ public class menu extends javax.swing.JFrame {
     
     public panelInstitucion VistaInstitucion = new panelInstitucion();
     public panelResumen VistaResumen = new panelResumen();
-    //public panelArea VistaArea = new panelArea();
+    public panelArea VistaArea = new panelArea();
     public panelCargo VistaCargo = new panelCargo();
     
     CardLayout controladorPaneles;
@@ -301,7 +301,7 @@ public class menu extends javax.swing.JFrame {
         
         pnlDetails.add(VistaResumen, "RESUMEN");
         pnlDetails.add(VistaInstitucion, "INSTITUCION");
-        //pnlDetails.add(VistaArea, "AREA");
+        pnlDetails.add(VistaArea, "AREA");
         pnlDetails.add(VistaCargo, "CARGO");
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
