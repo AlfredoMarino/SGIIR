@@ -5,8 +5,6 @@
  */
 package sgiir.Entidades;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,9 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Area.findByNombreArea", query = "SELECT a FROM Area a WHERE a.nombreArea = :nombreArea"),
     @NamedQuery(name = "Area.findByDescripcionArea", query = "SELECT a FROM Area a WHERE a.descripcionArea = :descripcionArea")})
 public class Area implements Serializable {
-
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,9 +62,7 @@ public class Area implements Serializable {
     }
 
     public void setCodigoArea(Integer codigoArea) {
-        Integer oldCodigoArea = this.codigoArea;
         this.codigoArea = codigoArea;
-        changeSupport.firePropertyChange("codigoArea", oldCodigoArea, codigoArea);
     }
 
     public String getNombreArea() {
@@ -78,9 +70,7 @@ public class Area implements Serializable {
     }
 
     public void setNombreArea(String nombreArea) {
-        String oldNombreArea = this.nombreArea;
         this.nombreArea = nombreArea;
-        changeSupport.firePropertyChange("nombreArea", oldNombreArea, nombreArea);
     }
 
     public String getDescripcionArea() {
@@ -88,9 +78,7 @@ public class Area implements Serializable {
     }
 
     public void setDescripcionArea(String descripcionArea) {
-        String oldDescripcionArea = this.descripcionArea;
         this.descripcionArea = descripcionArea;
-        changeSupport.firePropertyChange("descripcionArea", oldDescripcionArea, descripcionArea);
     }
 
     @Override
@@ -116,14 +104,6 @@ public class Area implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Area[ codigoArea=" + codigoArea + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

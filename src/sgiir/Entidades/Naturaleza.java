@@ -6,7 +6,7 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,14 +50,14 @@ public class Naturaleza implements Serializable {
     @Column(name = "CodigoNaturaleza")
     private Integer codigoNaturaleza;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoNaturaleza")
-    private Collection<Tarea> tareaCollection;
+    private List<Tarea> tareaList;
     @JoinColumn(name = "CodigoInstitucion", referencedColumnName = "CodigoInstitucion")
     @ManyToOne(optional = false)
     private Institucion codigoInstitucion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoNaturaleza")
-    private Collection<Seguimiento> seguimientoCollection;
+    private List<Seguimiento> seguimientoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoNaturaleza")
-    private Collection<Bitacora> bitacoraCollection;
+    private List<Bitacora> bitacoraList;
 
     public Naturaleza() {
     }
@@ -97,12 +97,12 @@ public class Naturaleza implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Tarea> getTareaCollection() {
-        return tareaCollection;
+    public List<Tarea> getTareaList() {
+        return tareaList;
     }
 
-    public void setTareaCollection(Collection<Tarea> tareaCollection) {
-        this.tareaCollection = tareaCollection;
+    public void setTareaList(List<Tarea> tareaList) {
+        this.tareaList = tareaList;
     }
 
     public Institucion getCodigoInstitucion() {
@@ -114,21 +114,21 @@ public class Naturaleza implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Seguimiento> getSeguimientoCollection() {
-        return seguimientoCollection;
+    public List<Seguimiento> getSeguimientoList() {
+        return seguimientoList;
     }
 
-    public void setSeguimientoCollection(Collection<Seguimiento> seguimientoCollection) {
-        this.seguimientoCollection = seguimientoCollection;
+    public void setSeguimientoList(List<Seguimiento> seguimientoList) {
+        this.seguimientoList = seguimientoList;
     }
 
     @XmlTransient
-    public Collection<Bitacora> getBitacoraCollection() {
-        return bitacoraCollection;
+    public List<Bitacora> getBitacoraList() {
+        return bitacoraList;
     }
 
-    public void setBitacoraCollection(Collection<Bitacora> bitacoraCollection) {
-        this.bitacoraCollection = bitacoraCollection;
+    public void setBitacoraList(List<Bitacora> bitacoraList) {
+        this.bitacoraList = bitacoraList;
     }
 
     @Override

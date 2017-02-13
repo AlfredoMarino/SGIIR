@@ -5,10 +5,8 @@
  */
 package sgiir.Entidades;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,9 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cargo.findByInformeCargo", query = "SELECT c FROM Cargo c WHERE c.informeCargo = :informeCargo")})
 public class Cargo implements Serializable {
 
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +50,7 @@ public class Cargo implements Serializable {
     @Column(name = "InformeCargo")
     private boolean informeCargo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoCargo")
-    private Collection<Persona> personaCollection;
+    private List<Persona> personaList;
     @JoinColumn(name = "CodigoInstitucion", referencedColumnName = "CodigoInstitucion")
     @ManyToOne(optional = false)
     private Institucion codigoInstitucion;
@@ -79,9 +73,7 @@ public class Cargo implements Serializable {
     }
 
     public void setCodigoCargo(Integer codigoCargo) {
-        Integer oldCodigoCargo = this.codigoCargo;
         this.codigoCargo = codigoCargo;
-        changeSupport.firePropertyChange("codigoCargo", oldCodigoCargo, codigoCargo);
     }
 
     public String getDescripcionCargo() {
@@ -89,9 +81,7 @@ public class Cargo implements Serializable {
     }
 
     public void setDescripcionCargo(String descripcionCargo) {
-        String oldDescripcionCargo = this.descripcionCargo;
         this.descripcionCargo = descripcionCargo;
-        changeSupport.firePropertyChange("descripcionCargo", oldDescripcionCargo, descripcionCargo);
     }
 
     public boolean getInformeCargo() {
@@ -99,18 +89,16 @@ public class Cargo implements Serializable {
     }
 
     public void setInformeCargo(boolean informeCargo) {
-        boolean oldInformeCargo = this.informeCargo;
         this.informeCargo = informeCargo;
-        changeSupport.firePropertyChange("informeCargo", oldInformeCargo, informeCargo);
     }
 
     @XmlTransient
-    public Collection<Persona> getPersonaCollection() {
-        return personaCollection;
+    public List<Persona> getPersonaList() {
+        return personaList;
     }
 
-    public void setPersonaCollection(Collection<Persona> personaCollection) {
-        this.personaCollection = personaCollection;
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     public Institucion getCodigoInstitucion() {
@@ -118,9 +106,7 @@ public class Cargo implements Serializable {
     }
 
     public void setCodigoInstitucion(Institucion codigoInstitucion) {
-        Institucion oldCodigoInstitucion = this.codigoInstitucion;
         this.codigoInstitucion = codigoInstitucion;
-        changeSupport.firePropertyChange("codigoInstitucion", oldCodigoInstitucion, codigoInstitucion);
     }
 
     @Override
@@ -145,15 +131,7 @@ public class Cargo implements Serializable {
 
     @Override
     public String toString() {
-        return codigoCargo.toString();
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
+        return "sgiir.Entidades.Cargo[ codigoCargo=" + codigoCargo + " ]";
     }
     
 }

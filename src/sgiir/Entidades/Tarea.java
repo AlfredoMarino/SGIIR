@@ -6,8 +6,8 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -94,7 +94,7 @@ public class Tarea implements Serializable {
     @ManyToOne(optional = false)
     private Seguimiento codigoSeguimiento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTarea")
-    private Collection<Bitacora> bitacoraCollection;
+    private List<Bitacora> bitacoraList;
 
     public Tarea() {
     }
@@ -213,12 +213,12 @@ public class Tarea implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Bitacora> getBitacoraCollection() {
-        return bitacoraCollection;
+    public List<Bitacora> getBitacoraList() {
+        return bitacoraList;
     }
 
-    public void setBitacoraCollection(Collection<Bitacora> bitacoraCollection) {
-        this.bitacoraCollection = bitacoraCollection;
+    public void setBitacoraList(List<Bitacora> bitacoraList) {
+        this.bitacoraList = bitacoraList;
     }
 
     @Override

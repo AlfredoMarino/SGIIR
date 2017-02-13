@@ -11,9 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,9 +41,9 @@ public class Autenticacion implements Serializable {
     private String passAutenticacion;
     @Basic(optional = false)
     @Column(name = "NivelAutenticacion")
-    private boolean nivelAutenticacion;
+    private short nivelAutenticacion;
     @JoinColumn(name = "CodigoPersona", referencedColumnName = "CodigoPersona")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Persona codigoPersona;
 
     public Autenticacion() {
@@ -53,7 +53,7 @@ public class Autenticacion implements Serializable {
         this.userAutenticacion = userAutenticacion;
     }
 
-    public Autenticacion(String userAutenticacion, String passAutenticacion, boolean nivelAutenticacion) {
+    public Autenticacion(String userAutenticacion, String passAutenticacion, short nivelAutenticacion) {
         this.userAutenticacion = userAutenticacion;
         this.passAutenticacion = passAutenticacion;
         this.nivelAutenticacion = nivelAutenticacion;
@@ -75,11 +75,11 @@ public class Autenticacion implements Serializable {
         this.passAutenticacion = passAutenticacion;
     }
 
-    public boolean getNivelAutenticacion() {
+    public short getNivelAutenticacion() {
         return nivelAutenticacion;
     }
 
-    public void setNivelAutenticacion(boolean nivelAutenticacion) {
+    public void setNivelAutenticacion(short nivelAutenticacion) {
         this.nivelAutenticacion = nivelAutenticacion;
     }
 

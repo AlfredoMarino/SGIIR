@@ -32,13 +32,14 @@ public class menu extends javax.swing.JFrame {
     
     //Manejador de base de datos
     manejadorDB DataBase = manejadorDB.getInstance(); 
-    //PANELES
     
+    //PANELES
     public panelInstitucion VistaInstitucion = new panelInstitucion();
     public panelResumen VistaResumen = new panelResumen();
     public panelArea VistaArea = new panelArea();
     public panelCargo VistaCargo = new panelCargo();
     public panelPersona VistaPersona = new panelPersona();
+    public panelAutenticacion VistaAutenticacion = new panelAutenticacion();
     
     CardLayout controladorPaneles;
     
@@ -120,7 +121,9 @@ public class menu extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        mnuPersonas = new javax.swing.JMenu();
+        mitPersona = new javax.swing.JMenuItem();
+        mitAutenticacion = new javax.swing.JMenuItem();
         mnuConfiguracion = new javax.swing.JMenu();
         mitArea = new javax.swing.JMenuItem();
         mitInstitucion = new javax.swing.JMenuItem();
@@ -198,13 +201,35 @@ public class menu extends javax.swing.JFrame {
         jMenu2.setText("Reportes");
         menuBar.add(jMenu2);
 
-        jMenu3.setText("Personas");
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu3ActionPerformed(evt);
+        mnuPersonas.setText("Personas");
+        mnuPersonas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mnuPersonasMouseReleased(evt);
             }
         });
-        menuBar.add(jMenu3);
+        mnuPersonas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPersonasActionPerformed(evt);
+            }
+        });
+
+        mitPersona.setText("jMenuItem3");
+        mitPersona.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mitPersonaMouseReleased(evt);
+            }
+        });
+        mnuPersonas.add(mitPersona);
+
+        mitAutenticacion.setText("jMenuItem4");
+        mitAutenticacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mitAutenticacionMouseReleased(evt);
+            }
+        });
+        mnuPersonas.add(mitAutenticacion);
+
+        menuBar.add(mnuPersonas);
 
         mnuConfiguracion.setText(msgFile.getProperty("lbl0007"));
 
@@ -268,9 +293,21 @@ public class menu extends javax.swing.JFrame {
         controladorPaneles.show(pnlDetails, "CARGO");
     }//GEN-LAST:event_mitCargoActionPerformed
 
-    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+    private void mnuPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPersonasActionPerformed
+        
+    }//GEN-LAST:event_mnuPersonasActionPerformed
+
+    private void mnuPersonasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuPersonasMouseReleased
+        
+    }//GEN-LAST:event_mnuPersonasMouseReleased
+
+    private void mitPersonaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mitPersonaMouseReleased
         controladorPaneles.show(pnlDetails, "PERSONA");
-    }//GEN-LAST:event_jMenu3ActionPerformed
+    }//GEN-LAST:event_mitPersonaMouseReleased
+
+    private void mitAutenticacionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mitAutenticacionMouseReleased
+        controladorPaneles.show(pnlDetails, "AUTENTICACION");
+    }//GEN-LAST:event_mitAutenticacionMouseReleased
 
     /**
      * @param args the command line arguments
@@ -314,6 +351,8 @@ public class menu extends javax.swing.JFrame {
         pnlDetails.add(VistaInstitucion, "INSTITUCION");
         pnlDetails.add(VistaArea, "AREA");
         pnlDetails.add(VistaCargo, "CARGO");
+        pnlDetails.add(VistaAutenticacion, "AUTENTICACION");
+        
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }
@@ -321,16 +360,18 @@ public class menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel StatusBar;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
+    private javax.swing.JMenuItem mitAutenticacion;
     private javax.swing.JMenuItem mitCargo;
     private javax.swing.JMenuItem mitInstitucion;
+    private javax.swing.JMenuItem mitPersona;
     private javax.swing.JMenu mnuAcerca;
     private javax.swing.JMenu mnuConfiguracion;
     private javax.swing.JMenu mnuInicio;
+    private javax.swing.JMenu mnuPersonas;
     private javax.swing.JMenu mnuTarea;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlFoot;

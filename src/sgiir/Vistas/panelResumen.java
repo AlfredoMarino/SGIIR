@@ -27,10 +27,6 @@ public class panelResumen extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        SGIIRPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
-        areaQuery = java.beans.Beans.isDesignTime() ? null : SGIIRPUEntityManager.createQuery("SELECT a FROM Area a");
-        areaList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : areaQuery.getResultList();
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -45,8 +41,5 @@ public class panelResumen extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.persistence.EntityManager SGIIRPUEntityManager;
-    private java.util.List<sgiir.Entidades.Area> areaList;
-    private javax.persistence.Query areaQuery;
     // End of variables declaration//GEN-END:variables
 }

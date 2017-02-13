@@ -5,10 +5,8 @@
  */
 package sgiir.Entidades;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Institucion.findByCliente", query = "SELECT i FROM Institucion i WHERE i.cliente = :cliente")})
 public class Institucion implements Serializable {
 
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,9 +48,9 @@ public class Institucion implements Serializable {
     @Column(name = "Cliente")
     private boolean cliente;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoInstitucion")
-    private Collection<Naturaleza> naturalezaCollection;
+    private List<Naturaleza> naturalezaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoInstitucion")
-    private Collection<Cargo> cargoCollection;
+    private List<Cargo> cargoList;
 
     public Institucion() {
     }
@@ -76,9 +70,7 @@ public class Institucion implements Serializable {
     }
 
     public void setCodigoInstitucion(Integer codigoInstitucion) {
-        Integer oldCodigoInstitucion = this.codigoInstitucion;
         this.codigoInstitucion = codigoInstitucion;
-        changeSupport.firePropertyChange("codigoInstitucion", oldCodigoInstitucion, codigoInstitucion);
     }
 
     public String getNombreInstitucion() {
@@ -86,9 +78,7 @@ public class Institucion implements Serializable {
     }
 
     public void setNombreInstitucion(String nombreInstitucion) {
-        String oldNombreInstitucion = this.nombreInstitucion;
         this.nombreInstitucion = nombreInstitucion;
-        changeSupport.firePropertyChange("nombreInstitucion", oldNombreInstitucion, nombreInstitucion);
     }
 
     public boolean getCliente() {
@@ -96,27 +86,25 @@ public class Institucion implements Serializable {
     }
 
     public void setCliente(boolean cliente) {
-        boolean oldCliente = this.cliente;
         this.cliente = cliente;
-        changeSupport.firePropertyChange("cliente", oldCliente, cliente);
     }
 
     @XmlTransient
-    public Collection<Naturaleza> getNaturalezaCollection() {
-        return naturalezaCollection;
+    public List<Naturaleza> getNaturalezaList() {
+        return naturalezaList;
     }
 
-    public void setNaturalezaCollection(Collection<Naturaleza> naturalezaCollection) {
-        this.naturalezaCollection = naturalezaCollection;
+    public void setNaturalezaList(List<Naturaleza> naturalezaList) {
+        this.naturalezaList = naturalezaList;
     }
 
     @XmlTransient
-    public Collection<Cargo> getCargoCollection() {
-        return cargoCollection;
+    public List<Cargo> getCargoList() {
+        return cargoList;
     }
 
-    public void setCargoCollection(Collection<Cargo> cargoCollection) {
-        this.cargoCollection = cargoCollection;
+    public void setCargoList(List<Cargo> cargoList) {
+        this.cargoList = cargoList;
     }
 
     @Override
@@ -142,14 +130,6 @@ public class Institucion implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Institucion[ codigoInstitucion=" + codigoInstitucion + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

@@ -6,7 +6,7 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,7 +58,7 @@ public class Seguimiento implements Serializable {
     @Column(name = "MaximoSeguimiento")
     private int maximoSeguimiento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoSeguimiento")
-    private Collection<Tarea> tareaCollection;
+    private List<Tarea> tareaList;
     @JoinColumn(name = "CodigoNaturaleza", referencedColumnName = "CodigoNaturaleza")
     @ManyToOne(optional = false)
     private Naturaleza codigoNaturaleza;
@@ -119,12 +119,12 @@ public class Seguimiento implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Tarea> getTareaCollection() {
-        return tareaCollection;
+    public List<Tarea> getTareaList() {
+        return tareaList;
     }
 
-    public void setTareaCollection(Collection<Tarea> tareaCollection) {
-        this.tareaCollection = tareaCollection;
+    public void setTareaList(List<Tarea> tareaList) {
+        this.tareaList = tareaList;
     }
 
     public Naturaleza getCodigoNaturaleza() {
