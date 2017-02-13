@@ -86,7 +86,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="masterScrollPane" pref="380" max="32767" attributes="0"/>
+                          <Component id="masterScrollPane" pref="427" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="codigoPersonaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -103,7 +103,7 @@
                                   <Component id="emailPersonaField" alignment="0" pref="315" max="32767" attributes="0"/>
                                   <Component id="telefonoPersonaField" alignment="0" pref="315" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="chbRecordatoria" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chbRecordatorio" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="cbxCargo" max="32767" attributes="0"/>
@@ -149,7 +149,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="recordatorioPersonaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="chbRecordatoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="chbRecordatorio" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="1"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -173,9 +173,14 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="masterTable">
           <Properties>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="masterTable.getColumnModel().getColumn(0).setMaxWidth(0);&#xa;masterTable.getColumnModel().getColumn(0).setMinWidth(0);&#xa;masterTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);&#xa;masterTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);">
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="masterTable.getColumnModel().getColumn(0).setMaxWidth(0);&#xa;masterTable.getColumnModel().getColumn(0).setMinWidth(0);&#xa;masterTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);&#xa;masterTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);&#xa;&#xa;masterTable.getColumnModel().getColumn(1).setMaxWidth(0);&#xa;masterTable.getColumnModel().getColumn(1).setMinWidth(0);&#xa;masterTable.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);&#xa;masterTable.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -190,7 +195,7 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -206,9 +211,15 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
-              <Subbinding sourcePath="${codigoCargo.codigoCargo}">
-                <BindingParameter name="NAME" value="Id cargo"/>
+              <Subbinding sourcePath="${codigoPersona}">
+                <BindingParameter name="NAME" value="Codigo de persona"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
+              <Subbinding sourcePath="${codigoCargo.codigoCargo}">
+                <BindingParameter name="NAME" value="Codigo Cargo"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${nombrePersona}">
                 <BindingParameter name="NAME" value="Nombre Persona"/>
@@ -359,9 +370,9 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;comboBox&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="chbRecordatoria">
+    <Component class="javax.swing.JCheckBox" name="chbRecordatorio">
       <BindingProperties>
-        <BindingProperty name="selected" source="masterTable" sourcePath="${selectedElement.recordatorioPersona}" target="chbRecordatoria" targetPath="selected" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="selected" source="masterTable" sourcePath="${selectedElement.recordatorioPersona}" target="chbRecordatorio" targetPath="selected" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
   </SubComponents>

@@ -101,16 +101,21 @@ public class panelPersona extends JPanel {
         newButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         cbxCargo = new javax.swing.JComboBox<>();
-        chbRecordatoria = new javax.swing.JCheckBox();
+        chbRecordatorio = new javax.swing.JCheckBox();
 
         FormListener formListener = new FormListener();
 
         masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo.codigoCargo}"));
-        columnBinding.setColumnName("Id cargo");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoPersona}"));
+        columnBinding.setColumnName("Codigo de persona");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo.codigoCargo}"));
+        columnBinding.setColumnName("Codigo Cargo");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombrePersona}"));
         columnBinding.setColumnName("Nombre Persona");
         columnBinding.setColumnClass(String.class);
@@ -128,13 +133,21 @@ public class panelPersona extends JPanel {
         masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
         if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(0).setResizable(false);
             masterTable.getColumnModel().getColumn(1).setResizable(false);
             masterTable.getColumnModel().getColumn(2).setResizable(false);
+            masterTable.getColumnModel().getColumn(3).setResizable(false);
+            masterTable.getColumnModel().getColumn(4).setResizable(false);
         }
         masterTable.getColumnModel().getColumn(0).setMaxWidth(0);
         masterTable.getColumnModel().getColumn(0).setMinWidth(0);
         masterTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
         masterTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+
+        masterTable.getColumnModel().getColumn(1).setMaxWidth(0);
+        masterTable.getColumnModel().getColumn(1).setMinWidth(0);
+        masterTable.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
+        masterTable.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
 
         codigoPersonaLabel.setText("Codigo Persona:");
 
@@ -190,7 +203,7 @@ public class panelPersona extends JPanel {
 
         cbxCargo.addMouseListener(formListener);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordatorioPersona}"), chbRecordatoria, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordatorioPersona}"), chbRecordatorio, org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -210,7 +223,7 @@ public class panelPersona extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(codigoPersonaLabel)
@@ -226,7 +239,7 @@ public class panelPersona extends JPanel {
                                     .addComponent(emailPersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                                     .addComponent(telefonoPersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(chbRecordatoria)
+                                        .addComponent(chbRecordatorio)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(cbxCargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
@@ -262,7 +275,7 @@ public class panelPersona extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(recordatorioPersonaLabel)
-                    .addComponent(chbRecordatoria))
+                    .addComponent(chbRecordatorio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -323,6 +336,11 @@ public class panelPersona extends JPanel {
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+         Query = "DELETE FROM persona WHERE CodigoPersona = " + masterTable.getValueAt(masterTable.getSelectedRow(), 0).toString();
+        if(DataBase.executeUpdate(Query)){
+            refreshMasterTable();
+        }
+        /*
         int[] selected = masterTable.getSelectedRows();
         List<sgiir.Entidades.Persona> toRemove = new ArrayList<sgiir.Entidades.Persona>(selected.length);
         for (int idx = 0; idx < selected.length; idx++) {
@@ -330,7 +348,7 @@ public class panelPersona extends JPanel {
             toRemove.add(p);
             entityManager.remove(p);
         }
-        list.removeAll(toRemove);
+        list.removeAll(toRemove);*/
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
@@ -346,33 +364,29 @@ public class panelPersona extends JPanel {
         comboBox datoCombo =(comboBox) cbxCargo.getSelectedItem();
         
         try {
-            Query = "INSERT INTO persona (CodigoPersona, NombrePersona, EmailPersona, TelefonoPersona, CodigoCargo, RecordatorioPersona) VALUES (NULL, ?, ?, ?, ?, ?)"; 
-            
-            
             //si esta seleccionando uno en el grid y el codigo de la primera columna es diferente de 0 hace update
             if(masterTable.getSelectedRow() != -1){
+                Query = "INSERT INTO persona (CodigoPersona, NombrePersona, EmailPersona, TelefonoPersona, CodigoCargo, RecordatorioPersona) VALUES (NULL, ?, ?, ?, ?, ?)"; 
                 int filaSeleccionada = masterTable.getSelectedRow();
                 
-                if(!masterTable.getValueAt(filaSeleccionada, 0).equals(0)){     
+                if(masterTable.getValueAt(filaSeleccionada, 0) != null){     
                     Query = "UPDATE persona SET NombrePersona = ?, EmailPersona = ?, TelefonoPersona = ?, CodigoCargo = ?, RecordatorioPersona = ? WHERE persona.CodigoPersona = " + masterTable.getValueAt(filaSeleccionada, 0);
                 }
 
-            }else{
+                PreparedStatement ps = Conexion.prepareCall(Query);
+                ps.setString(1, nombrePersonaField.getText());
+                ps.setString(2, emailPersonaField.getText());
+                ps.setString(3, telefonoPersonaField.getText());
+                ps.setInt(4, datoCombo.getId());
+                ps.setBoolean(5, chbRecordatorio.isSelected());
 
+                int res = ps.executeUpdate();
+                if(res > 0){
+                    refreshMasterTable();
+                }
+                //entityManager.getTransaction().commit();
+                //entityManager.getTransaction().begin();
             }
-            PreparedStatement ps = Conexion.prepareCall(Query);
-            ps.setString(1, nombrePersonaField.getText());
-            ps.setString(2, emailPersonaField.getText());
-            ps.setString(3, telefonoPersonaField.getText());
-            ps.setInt(4, datoCombo.getId());
-            ps.setBoolean(5, chbRecordatoria.isSelected());
-            
-            int res = ps.executeUpdate();
-            if(res > 0){
-                refreshMasterTable();
-                            }
-            //entityManager.getTransaction().commit();
-            //entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
@@ -404,7 +418,7 @@ public class panelPersona extends JPanel {
             int filaSeleccionada = masterTable.getSelectedRow();
             try{
                 //habilitar
-                Query = "select * from cargo where codigoCargo = " + masterTable.getValueAt(filaSeleccionada, 0);
+                Query = "select * from cargo where codigoCargo = " + masterTable.getValueAt(filaSeleccionada, 1);
                 rs = DataBase.executeQuery(Query);
                 rs.next();              
                 cbxCargo.setSelectedItem(new comboBox(rs.getInt("codigoCargo"), rs.getString("DescripcionCargo")));
@@ -416,6 +430,10 @@ public class panelPersona extends JPanel {
     }//GEN-LAST:event_masterTableMouseReleased
 
     private void refreshMasterTable(){
+        
+        cbxCargo.setSelectedIndex(0);
+        chbRecordatorio.setSelected(false);
+        
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -431,7 +449,7 @@ public class panelPersona extends JPanel {
     private java.util.List<sgiir.Entidades.Cargo> cargoList;
     private javax.persistence.Query cargoQuery;
     private javax.swing.JComboBox<comboBox> cbxCargo;
-    private javax.swing.JCheckBox chbRecordatoria;
+    private javax.swing.JCheckBox chbRecordatorio;
     private javax.swing.JLabel codigoCargoLabel;
     private javax.swing.JTextField codigoPersonaField;
     private javax.swing.JLabel codigoPersonaLabel;
