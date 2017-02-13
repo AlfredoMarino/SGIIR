@@ -130,7 +130,7 @@ public class panelCargo extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 591;
+        gridBagConstraints.ipadx = 579;
         gridBagConstraints.ipady = 124;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -149,24 +149,24 @@ public class panelCargo extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 239;
+        gridBagConstraints.ipadx = 276;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 51, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(6, 52, 0, 0);
         add(cbxInstitucion, gridBagConstraints);
 
         fldDescripcion.setText("jTextField1");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 3;
-        gridBagConstraints.ipadx = 261;
+        gridBagConstraints.ipadx = 298;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(24, 51, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(24, 52, 0, 0);
         add(fldDescripcion, gridBagConstraints);
 
         btnCreate.setText(msgFile.getProperty("lbl0009"));
@@ -176,11 +176,10 @@ public class panelCargo extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 161, 11, 0);
+        gridBagConstraints.insets = new java.awt.Insets(7, 154, 11, 0);
         add(btnCreate, gridBagConstraints);
 
         btnRead.setText(msgFile.getProperty("lbl0016"));
@@ -203,10 +202,11 @@ public class panelCargo extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 10, 11, 0);
+        gridBagConstraints.insets = new java.awt.Insets(7, 6, 11, 0);
         add(btnUpdate, gridBagConstraints);
 
         btnDelete.setText(msgFile.getProperty("lbl0012"));
@@ -222,11 +222,11 @@ public class panelCargo extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(7, 6, 11, 10);
         add(btnDelete, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 52, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 52, 0, 0);
         add(chbInforme, gridBagConstraints);
 
         jLabel1.setText(msgFile.getProperty("lbl0017"));
@@ -243,16 +243,15 @@ public class panelCargo extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(9, 10, 0, 0);
         add(jLabel2, gridBagConstraints);
 
         jLabel3.setText(msgFile.getProperty("lbl0019"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 11, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 10, 0, 0);
         add(jLabel3, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
