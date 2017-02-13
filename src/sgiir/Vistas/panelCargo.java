@@ -81,8 +81,8 @@ public class panelCargo extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         MasterTable = new javax.swing.JTable();
         cbxInstitucion = new javax.swing.JComboBox<>();
@@ -95,6 +95,8 @@ public class panelCargo extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+
+        setLayout(new java.awt.GridBagLayout());
 
         MasterTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -117,8 +119,24 @@ public class panelCargo extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MasterTableMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                MasterTableMouseReleased(evt);
+            }
         });
         jScrollPane1.setViewportView(MasterTable);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 591;
+        gridBagConstraints.ipady = 124;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(11, 10, 0, 10);
+        add(jScrollPane1, gridBagConstraints);
 
         cbxInstitucion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -130,8 +148,26 @@ public class panelCargo extends javax.swing.JPanel {
                 cbxInstitucionActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 239;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 51, 0, 0);
+        add(cbxInstitucion, gridBagConstraints);
 
         fldDescripcion.setText("jTextField1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 261;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(24, 51, 0, 0);
+        add(fldDescripcion, gridBagConstraints);
 
         btnCreate.setText(msgFile.getProperty("lbl0009"));
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -139,110 +175,89 @@ public class panelCargo extends javax.swing.JPanel {
                 btnCreateActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(7, 161, 11, 0);
+        add(btnCreate, gridBagConstraints);
 
-        btnRead.setText("jButton2");
+        btnRead.setText(msgFile.getProperty("lbl0016"));
         btnRead.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReadActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 10);
+        add(btnRead, gridBagConstraints);
 
-        btnUpdate.setText("jButton3");
+        btnUpdate.setText(msgFile.getProperty("lbl0010"));
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(7, 10, 11, 0);
+        add(btnUpdate, gridBagConstraints);
 
-        btnDelete.setText("jButton4");
+        btnDelete.setText(msgFile.getProperty("lbl0012"));
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(7, 6, 11, 10);
+        add(btnDelete, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 52, 0, 0);
+        add(chbInforme, gridBagConstraints);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText(msgFile.getProperty("lbl0017"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(27, 10, 0, 0);
+        add(jLabel1, gridBagConstraints);
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText(msgFile.getProperty("lbl0018"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        add(jLabel2, gridBagConstraints);
 
-        jLabel3.setText("jLabel3");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(btnCreate)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnRead)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chbInforme)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(fldDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                                .addComponent(cbxInstitucion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chbInforme)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
-                    .addComponent(btnRead)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
-                .addGap(12, 12, 12))
-        );
+        jLabel3.setText(msgFile.getProperty("lbl0019"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 11, 0, 0);
+        add(jLabel3, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void MasterTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MasterTableMouseClicked
-        if(evt.getButton()==1){
-            int filaSeleccionada = MasterTable.getSelectedRow();
-            try{
-                //habilitar
-                Query = "select a.*, b.NombreInstitucion from cargo a, institucion b where a.CodigoInstitucion = b.CodigoInstitucion and a.codigoCargo = " + MasterTable.getValueAt(filaSeleccionada, 0);
-                rs = DataBase.executeQuery(Query);
-                rs.next();
-                fldDescripcion.setText(rs.getString("descripcionCargo"));
-                chbInforme.setSelected(rs.getBoolean("informeCargo"));
-                
-                cbxInstitucion.setSelectedItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("NombreInstitucion")));
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
     }//GEN-LAST:event_MasterTableMouseClicked
 
     private void cbxInstitucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxInstitucionActionPerformed
@@ -282,17 +297,20 @@ public class panelCargo extends javax.swing.JPanel {
         comboBox datoCombo =(comboBox) cbxInstitucion.getSelectedItem();
 
         try {
-            Query = "UPDATE cargo SET DescripcionCargo = ?, CodigoInstitucion = ?, InformeCargo = ? WHERE cargo.CodigoCargo = " + MasterTable.getValueAt(MasterTable.getSelectedRow(), 0).toString();
-            PreparedStatement ps = Conexion.prepareCall(Query);
-            ps.setString(1, fldDescripcion.getText());
-            ps.setInt(2, datoCombo.getId());
-            ps.setBoolean(3, chbInforme.isSelected());
-            //ps.setInt(4, (int) MasterTable.getValueAt(MasterTable.getSelectedRow(), 0));
-            
-            int res = ps.executeUpdate();
-            if(res > 0){
-                refreshMasterTable();
-                limpiarCampos();
+            if(MasterTable.getSelectedRow() != -1){
+
+                Query = "UPDATE cargo SET DescripcionCargo = ?, CodigoInstitucion = ?, InformeCargo = ? WHERE cargo.CodigoCargo = " + MasterTable.getValueAt(MasterTable.getSelectedRow(), 0).toString();
+                PreparedStatement ps = Conexion.prepareCall(Query);
+                ps.setString(1, fldDescripcion.getText());
+                ps.setInt(2, datoCombo.getId());
+                ps.setBoolean(3, chbInforme.isSelected());
+                //ps.setInt(4, (int) MasterTable.getValueAt(MasterTable.getSelectedRow(), 0));
+
+                int res = ps.executeUpdate();
+                if(res > 0){
+                    refreshMasterTable();
+                    limpiarCampos();
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
@@ -306,6 +324,25 @@ public class panelCargo extends javax.swing.JPanel {
             limpiarCampos();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void MasterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MasterTableMouseReleased
+        if(evt.getButton()==1){
+            int filaSeleccionada = MasterTable.getSelectedRow();
+            try{
+                //habilitar
+                Query = "select a.*, b.NombreInstitucion from cargo a, institucion b where a.CodigoInstitucion = b.CodigoInstitucion and a.codigoCargo = " + MasterTable.getValueAt(filaSeleccionada, 0);
+                rs = DataBase.executeQuery(Query);
+                rs.next();
+                fldDescripcion.setText(rs.getString("descripcionCargo"));
+                chbInforme.setSelected(rs.getBoolean("informeCargo"));
+                
+                cbxInstitucion.setSelectedItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("NombreInstitucion")));
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_MasterTableMouseReleased
     
     private void limpiarCampos(){
         fldDescripcion.setText("");
@@ -347,7 +384,6 @@ public class panelCargo extends javax.swing.JPanel {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRead;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<comboBox> cbxInstitucion;
     private javax.swing.JCheckBox chbInforme;
     private javax.swing.JTextField fldDescripcion;
