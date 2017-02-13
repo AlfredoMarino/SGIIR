@@ -105,34 +105,36 @@ public class panelPersona extends JPanel {
 
         FormListener formListener = new FormListener();
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoPersona}"));
-        columnBinding.setColumnName("Codigo Persona");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo.codigoCargo}"));
+        columnBinding.setColumnName("Id cargo");
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nombrePersona}"));
         columnBinding.setColumnName("Nombre Persona");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${emailPersona}"));
-        columnBinding.setColumnName("Email Persona");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${telefonoPersona}"));
-        columnBinding.setColumnName("Telefono Persona");
-        columnBinding.setColumnClass(Long.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo}"));
-        columnBinding.setColumnName("Codigo Cargo");
-        columnBinding.setColumnClass(sgiir.Entidades.Cargo.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordatorioPersona}"));
-        columnBinding.setColumnName("Recordatorio Persona");
-        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo.descripcionCargo}"));
         columnBinding.setColumnName("Cargo");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo.codigoInstitucion.nombreInstitucion}"));
         columnBinding.setColumnName("Institucion");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
+        if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(1).setResizable(false);
+            masterTable.getColumnModel().getColumn(2).setResizable(false);
+        }
+        masterTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        masterTable.getColumnModel().getColumn(0).setMinWidth(0);
+        masterTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
+        masterTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
 
         codigoPersonaLabel.setText("Codigo Persona:");
 
@@ -308,6 +310,9 @@ public class panelPersona extends JPanel {
             if (evt.getSource() == cbxCargo) {
                 panelPersona.this.cbxCargoMouseReleased(evt);
             }
+            else if (evt.getSource() == masterTable) {
+                panelPersona.this.masterTableMouseReleased(evt);
+            }
         }
     }// </editor-fold>//GEN-END:initComponents
 
@@ -341,7 +346,20 @@ public class panelPersona extends JPanel {
         comboBox datoCombo =(comboBox) cbxCargo.getSelectedItem();
         
         try {
-            Query = "INSERT INTO persona (CodigoPersona, NombrePersona, EmailPersona, TelefonoPersona, CodigoCargo, RecordatorioPersona) VALUES (NULL, ?, ?, ?, ?, ?)";
+            Query = "INSERT INTO persona (CodigoPersona, NombrePersona, EmailPersona, TelefonoPersona, CodigoCargo, RecordatorioPersona) VALUES (NULL, ?, ?, ?, ?, ?)"; 
+            
+            
+            //si esta seleccionando uno en el grid y el codigo de la primera columna es diferente de 0 hace update
+            if(masterTable.getSelectedRow() != -1){
+                int filaSeleccionada = masterTable.getSelectedRow();
+                
+                if(!masterTable.getValueAt(filaSeleccionada, 0).equals(0)){     
+                    Query = "UPDATE persona SET NombrePersona = ?, EmailPersona = ?, TelefonoPersona = ?, CodigoCargo = ?, RecordatorioPersona = ? WHERE persona.CodigoPersona = " + masterTable.getValueAt(filaSeleccionada, 0);
+                }
+
+            }else{
+
+            }
             PreparedStatement ps = Conexion.prepareCall(Query);
             ps.setString(1, nombrePersonaField.getText());
             ps.setString(2, emailPersonaField.getText());
@@ -380,6 +398,22 @@ public class panelPersona extends JPanel {
     private void cbxCargoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxCargoMouseReleased
         
     }//GEN-LAST:event_cbxCargoMouseReleased
+
+    private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
+        if(evt.getButton()==1){
+            int filaSeleccionada = masterTable.getSelectedRow();
+            try{
+                //habilitar
+                Query = "select * from cargo where codigoCargo = " + masterTable.getValueAt(filaSeleccionada, 0);
+                rs = DataBase.executeQuery(Query);
+                rs.next();              
+                cbxCargo.setSelectedItem(new comboBox(rs.getInt("codigoCargo"), rs.getString("DescripcionCargo")));
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_masterTableMouseReleased
 
     private void refreshMasterTable(){
         entityManager.getTransaction().rollback();
