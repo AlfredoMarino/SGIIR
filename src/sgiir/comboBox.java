@@ -11,16 +11,19 @@ package sgiir;
  * @author Alfredo Mariño
  */
 public class comboBox {
-    private String id;
+    private int id;
     private String descripcion;
     
+   // public comboBox(){
+
+    //}
     
-    public comboBox(String id, String descripcion){
+    public comboBox(int id, String descripcion){
         this.setId(id);
         this.setDescripcion(descripcion);
     }
     
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
     
@@ -28,11 +31,15 @@ public class comboBox {
         this.descripcion = descripcion;
     }
     
-    public String getId(){
+    public int getId(){
         return id;
     }
     
     public String getDescripcion(){
+        return descripcion;
+    }
+    
+    public String toString(){
         return descripcion;
     }
     

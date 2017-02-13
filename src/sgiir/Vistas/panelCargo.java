@@ -8,9 +8,11 @@ package sgiir.Vistas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import sgiir.comboBox;
 import sgiir.manejadorDB;
 import static sgiir.manejadorDB.Conexion;
 import sgiir.propiedades.propiedades;
@@ -25,10 +27,13 @@ public class panelCargo extends javax.swing.JPanel {
     private propiedades qryFile = new propiedades(5);
     private String Query = "";
     private ResultSet rs;
-    private int[] indiceInstrumento = new int[50];
+    private int[] indiceInstitucion = new int[50];
     private int i = 0;
-    private String[] columnas = {"Codigo", "Nombre", "Apellidos"};
+    private String[] columnas = {"CodigoCargo", "Cargo", "Intitución"};
     private DefaultTableModel model = new DefaultTableModel(null, columnas);
+    //private comboBox Combo = new comboBox();
+    //private comboBox[] listaCombo = new comboBox[50];
+    
 
   
     public byte TypeUser;
@@ -41,27 +46,32 @@ public class panelCargo extends javax.swing.JPanel {
      */
     public panelCargo() {
         initComponents();
-        
-
-        cargaComboInstrumento();
-        cargaMasterTable();
-        MasterTable.getColumnModel().getColumn(0).setMaxWidth(0);
-        MasterTable.getColumnModel().getColumn(0).setMinWidth(0);
-        MasterTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
-        MasterTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+         
+        cargaComboInstitucion();
+        refreshMasterTable();
+        limpiarCampos();
 
     }
     
-    private void cargaComboInstrumento(){
+    private void cargaComboInstitucion(){
        
         cbxInstitucion.removeAllItems();
-        
+                
         try {
             rs = DataBase.executeQuery(qryFile.getProperty("qry0002"));
             i = 0;
+            cbxInstitucion.addItem(new comboBox(i,""));
+            //listaCombo[i] = new comboBox(0, "");
+            i++;
             while(rs.next()){
-                cbxInstitucion.addItem(rs.getString("nombreInstitucion"));
-                indiceInstrumento[i] = rs.getInt("codigoInstitucion");
+                
+                
+                //Combo.setId(rs.getInt("codigoInstitucion"));
+                //Combo.setDescripcion(rs.getString("nombreInstitucion"));
+                //listaCombo[i] = new comboBox(rs.getInt("codigoInstitucion"), rs.getString("nombreInstitucion"));
+                
+                cbxInstitucion.addItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("nombreInstitucion")));
+                //indiceInstitucion[i] = rs.getInt("codigoInstitucion");
                 i++;
             }
         } catch (SQLException ex) {
@@ -84,20 +94,31 @@ public class panelCargo extends javax.swing.JPanel {
         MasterTable = new javax.swing.JTable();
         cbxInstitucion = new javax.swing.JComboBox<>();
         fldDescripcion = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
+        btnRead = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         chbInforme = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         MasterTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Title 2", "Title 3"
+                "Codigo Cargo", "Cargo", "Institución"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         MasterTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MasterTableMouseClicked(evt);
@@ -118,20 +139,34 @@ public class panelCargo extends javax.swing.JPanel {
 
         fldDescripcion.setText("jTextField1");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCreate.setText(msgFile.getProperty("lbl0009"));
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCreateActionPerformed(evt);
             }
         });
 
-        jButton2.setText("jButton2");
+        btnRead.setText("jButton2");
+        btnRead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReadActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("jButton3");
+        btnUpdate.setText("jButton3");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("jButton4");
+        btnDelete.setText("jButton4");
 
-        chbInforme.setText("jCheckBox1");
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
+
+        jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -143,16 +178,21 @@ public class panelCargo extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jButton1)
+                        .addGap(76, 76, 76)
+                        .addComponent(btnCreate)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnRead)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4))
+                        .addComponent(btnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(chbInforme)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -166,18 +206,24 @@ public class panelCargo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(fldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chbInforme)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(24, 24, 24))
+                    .addComponent(fldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chbInforme)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreate)
+                    .addComponent(btnRead)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addGap(12, 12, 12))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -190,8 +236,9 @@ public class panelCargo extends javax.swing.JPanel {
                 rs = DataBase.executeQuery(Query);
                 rs.next();
                 fldDescripcion.setText(rs.getString("descripcionCargo"));
-                posicionaInstitucion(rs.getInt("codigoInstitucion"));
+                //cbxInstitucion.setSelectedItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("nombreInstitucion")));
                 chbInforme.setSelected(rs.getBoolean("informeCargo"));
+
                 
             } catch (SQLException ex) {
                 Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,34 +254,79 @@ public class panelCargo extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxInstitucionMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        comboBox datoCombo =(comboBox) cbxInstitucion.getSelectedItem();
+
         try {
             Query = "INSERT INTO cargo (CodigoCargo, DescripcionCargo, CodigoInstitucion, InformeCargo) VALUES (NULL, ?, ?, ?)";
             PreparedStatement ps = Conexion.prepareCall(Query);
             ps.setString(1, fldDescripcion.getText());
-            ps.setInt(2, indiceInstrumento[cbxInstitucion.getSelectedIndex()]);
+            ps.setInt(2, datoCombo.getId());
             ps.setBoolean(3, chbInforme.isSelected());
             
             int res = ps.executeUpdate();
+            if(res > 0){
+                refreshMasterTable();
+                limpiarCampos();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
+        refreshMasterTable();
+        limpiarCampos();
+    }//GEN-LAST:event_btnReadActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        comboBox datoCombo =(comboBox) cbxInstitucion.getSelectedItem();
+
+        try {
+            Query = "UPDATE cargo SET DescripcionCargo = ?, CodigoInstitucion = ?, InformeCargo = ? WHERE cargo.CodigoCargo = " + MasterTable.getValueAt(MasterTable.getSelectedRow(), 0).toString();
+            PreparedStatement ps = Conexion.prepareCall(Query);
+            ps.setString(1, fldDescripcion.getText());
+            ps.setInt(2, datoCombo.getId());
+            ps.setBoolean(3, chbInforme.isSelected());
+            //ps.setInt(4, (int) MasterTable.getValueAt(MasterTable.getSelectedRow(), 0));
+            
+            int res = ps.executeUpdate();
+            if(res > 0){
+                refreshMasterTable();
+                limpiarCampos();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
     
-    private void cargaMasterTable(){
+    private void limpiarCampos(){
+        fldDescripcion.setText("");
+        cbxInstitucion.getItemAt(0);
+        chbInforme.setSelected(false);
+    }
+    
+    private void refreshMasterTable(){
+        
+        model.setRowCount(0);
         String[] fila = new String[3];
         
         try {
             Query = qryFile.getProperty("qry0003");
             rs = DataBase.executeQuery(Query);
             while(rs.next()){
-                fila[0] = rs.getString("codigoInstitucion");
+                fila[0] = rs.getString("codigoCargo");
                 fila[1] = rs.getString("descripcionCargo");
-                fila[2] = rs.getString("informeCargo");
+                fila[2] = rs.getString("codigoInstitucion");
                 
                 model.addRow(fila);
             }
             MasterTable.setModel(model);
+            MasterTable.getColumnModel().getColumn(0).setMaxWidth(0);
+            MasterTable.getColumnModel().getColumn(0).setMinWidth(0);
+            MasterTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
+            MasterTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+            
         } catch (SQLException ex) {
             Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -242,32 +334,36 @@ public class panelCargo extends javax.swing.JPanel {
     }
     
     
-    private void posicionaInstitucion(int indice){
+   /* private void posicionaInstitucion(int indice){
        
-        cbxInstitucion.getItemAt(buscaData(indiceInstrumento, indice));
+        cbxInstitucion.getItemAt(buscaData(indiceInstitucion, indice));
         
     }
+   
     
-    private int buscaData(int [] arreglo, int dato){
-        for (int i = 0 ; i < arreglo.length ; i++) {
+    private int buscaData(List lista, int dato){
+        for (int i = 0 ; i < lista. ; i++) {
             if (arreglo[i] == dato) {
                 return i;
             }
         }
         return 0;
     }
-      
+    */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable MasterTable;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRead;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbxInstitucion;
+    private javax.swing.JComboBox<comboBox> cbxInstitucion;
     private javax.swing.JCheckBox chbInforme;
     private javax.swing.JTextField fldDescripcion;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

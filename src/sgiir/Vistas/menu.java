@@ -218,7 +218,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mitInstitucion);
 
-        mitCargo.setText("jMenuItem3");
+        mitCargo.setText(msgFile.getProperty("lbl0015"));
         mitCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mitCargoActionPerformed(evt);
