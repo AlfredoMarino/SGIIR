@@ -145,7 +145,7 @@ public class Cargo implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.Cargo[ codigoCargo=" + codigoCargo + " ]";
+        return codigoCargo.toString();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

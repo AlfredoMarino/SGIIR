@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,6 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Persona.findByTelefonoPersona", query = "SELECT p FROM Persona p WHERE p.telefonoPersona = :telefonoPersona"),
     @NamedQuery(name = "Persona.findByRecordatorioPersona", query = "SELECT p FROM Persona p WHERE p.recordatorioPersona = :recordatorioPersona")})
 public class Persona implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -81,7 +87,9 @@ public class Persona implements Serializable {
     }
 
     public void setCodigoPersona(Integer codigoPersona) {
+        Integer oldCodigoPersona = this.codigoPersona;
         this.codigoPersona = codigoPersona;
+        changeSupport.firePropertyChange("codigoPersona", oldCodigoPersona, codigoPersona);
     }
 
     public String getNombrePersona() {
@@ -89,7 +97,9 @@ public class Persona implements Serializable {
     }
 
     public void setNombrePersona(String nombrePersona) {
+        String oldNombrePersona = this.nombrePersona;
         this.nombrePersona = nombrePersona;
+        changeSupport.firePropertyChange("nombrePersona", oldNombrePersona, nombrePersona);
     }
 
     public String getEmailPersona() {
@@ -97,7 +107,9 @@ public class Persona implements Serializable {
     }
 
     public void setEmailPersona(String emailPersona) {
+        String oldEmailPersona = this.emailPersona;
         this.emailPersona = emailPersona;
+        changeSupport.firePropertyChange("emailPersona", oldEmailPersona, emailPersona);
     }
 
     public long getTelefonoPersona() {
@@ -105,7 +117,9 @@ public class Persona implements Serializable {
     }
 
     public void setTelefonoPersona(long telefonoPersona) {
+        long oldTelefonoPersona = this.telefonoPersona;
         this.telefonoPersona = telefonoPersona;
+        changeSupport.firePropertyChange("telefonoPersona", oldTelefonoPersona, telefonoPersona);
     }
 
     public boolean getRecordatorioPersona() {
@@ -113,7 +127,9 @@ public class Persona implements Serializable {
     }
 
     public void setRecordatorioPersona(boolean recordatorioPersona) {
+        boolean oldRecordatorioPersona = this.recordatorioPersona;
         this.recordatorioPersona = recordatorioPersona;
+        changeSupport.firePropertyChange("recordatorioPersona", oldRecordatorioPersona, recordatorioPersona);
     }
 
     public Cargo getCodigoCargo() {
@@ -121,7 +137,9 @@ public class Persona implements Serializable {
     }
 
     public void setCodigoCargo(Cargo codigoCargo) {
+        Cargo oldCodigoCargo = this.codigoCargo;
         this.codigoCargo = codigoCargo;
+        changeSupport.firePropertyChange("codigoCargo", oldCodigoCargo, codigoCargo);
     }
 
     public Autenticacion getAutenticacion() {
@@ -155,6 +173,14 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Persona[ codigoPersona=" + codigoPersona + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

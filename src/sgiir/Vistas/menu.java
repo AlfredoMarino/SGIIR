@@ -38,6 +38,7 @@ public class menu extends javax.swing.JFrame {
     public panelResumen VistaResumen = new panelResumen();
     public panelArea VistaArea = new panelArea();
     public panelCargo VistaCargo = new panelCargo();
+    public panelPersona VistaPersona = new panelPersona();
     
     CardLayout controladorPaneles;
     
@@ -198,6 +199,11 @@ public class menu extends javax.swing.JFrame {
         menuBar.add(jMenu2);
 
         jMenu3.setText("Personas");
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
         menuBar.add(jMenu3);
 
         mnuConfiguracion.setText(msgFile.getProperty("lbl0007"));
@@ -262,6 +268,10 @@ public class menu extends javax.swing.JFrame {
         controladorPaneles.show(pnlDetails, "CARGO");
     }//GEN-LAST:event_mitCargoActionPerformed
 
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+        controladorPaneles.show(pnlDetails, "PERSONA");
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,6 +309,7 @@ public class menu extends javax.swing.JFrame {
 
     private void controlPanel(){
         
+        pnlDetails.add(VistaPersona, "PERSONA");
         pnlDetails.add(VistaResumen, "RESUMEN");
         pnlDetails.add(VistaInstitucion, "INSTITUCION");
         pnlDetails.add(VistaArea, "AREA");

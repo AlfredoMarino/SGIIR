@@ -22,6 +22,8 @@ import sgiir.propiedades.propiedades;
  */
 public class panelCargo extends javax.swing.JPanel {
     
+    //Manejador de base de datos
+    manejadorDB DataBase = manejadorDB.getInstance(); 
     private propiedades msgFile = new propiedades();
     private propiedades qryFile = new propiedades(5);
     private String Query = "";
@@ -37,8 +39,7 @@ public class panelCargo extends javax.swing.JPanel {
   
     public byte TypeUser;
     
-    //Manejador de base de datos
-    manejadorDB DataBase = manejadorDB.getInstance(); 
+
 
     /**
      * Creates new form panelCargo
