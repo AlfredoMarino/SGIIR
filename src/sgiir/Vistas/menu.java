@@ -201,7 +201,7 @@ public class menu extends javax.swing.JFrame {
         jMenu2.setText("Reportes");
         menuBar.add(jMenu2);
 
-        mnuPersonas.setText("Personas");
+        mnuPersonas.setText(msgFile.getProperty("lbl0006"));
         mnuPersonas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 mnuPersonasMouseReleased(evt);
@@ -213,15 +213,21 @@ public class menu extends javax.swing.JFrame {
             }
         });
 
-        mitPersona.setText("jMenuItem3");
+        mitPersona.setText(msgFile.getProperty("lbl0006"));
         mitPersona.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 mitPersonaMouseReleased(evt);
             }
         });
+        mitPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitPersonaActionPerformed(evt);
+            }
+        });
         mnuPersonas.add(mitPersona);
 
-        mitAutenticacion.setText("jMenuItem4");
+        mitAutenticacion.setText(msgFile.getProperty("lbl0020")
+        );
         mitAutenticacion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 mitAutenticacionMouseReleased(evt);
@@ -308,6 +314,10 @@ public class menu extends javax.swing.JFrame {
     private void mitAutenticacionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mitAutenticacionMouseReleased
         controladorPaneles.show(pnlDetails, "AUTENTICACION");
     }//GEN-LAST:event_mitAutenticacionMouseReleased
+
+    private void mitPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPersonaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mitPersonaActionPerformed
 
     /**
      * @param args the command line arguments

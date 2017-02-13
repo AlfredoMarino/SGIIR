@@ -7,11 +7,21 @@ package sgiir.Vistas;
 
 import java.awt.EventQueue;
 import java.beans.Beans;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.apache.commons.codec.digest.DigestUtils;
+import sgiir.comboBox;
+import sgiir.manejadorDB;
+import static sgiir.manejadorDB.Conexion;
+import sgiir.propiedades.propiedades;
 
 /**
  *
@@ -19,12 +29,22 @@ import javax.swing.JPanel;
  */
 public class panelAutenticacion extends JPanel {
     
+    //Manejador de base de datos
+    manejadorDB DataBase = manejadorDB.getInstance(); 
+    private propiedades msgFile = new propiedades();
+    private propiedades qryFile = new propiedades(5);
+    private String Query = "";
+    private ResultSet rs;
+    private int i=0;
+    private String SavePass = "";
+    
     public panelAutenticacion() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
         }
     }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,6 +59,8 @@ public class panelAutenticacion extends JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Autenticacion a");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
+        rgrNivelAutenticacion = new javax.swing.ButtonGroup();
+        nivelAutenticacionField = new javax.swing.JTextField();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         userAutenticacionLabel = new javax.swing.JLabel();
@@ -46,32 +68,49 @@ public class panelAutenticacion extends JPanel {
         codigoPersonaLabel = new javax.swing.JLabel();
         nivelAutenticacionLabel = new javax.swing.JLabel();
         userAutenticacionField = new javax.swing.JTextField();
-        passAutenticacionField = new javax.swing.JTextField();
+        passAutenticacionField = new javax.swing.JPasswordField();
         codigoPersonaField = new javax.swing.JTextField();
-        nivelAutenticacionField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
+        rdbNivelUser1 = new javax.swing.JRadioButton();
+        rdbNivelUser2 = new javax.swing.JRadioButton();
+        rdbNivelUser3 = new javax.swing.JRadioButton();
+        rdbNivelUser4 = new javax.swing.JRadioButton();
 
         FormListener formListener = new FormListener();
+
+        rgrNivelAutenticacion.add(rdbNivelUser1);
+        rgrNivelAutenticacion.add(rdbNivelUser2);
+        rgrNivelAutenticacion.add(rdbNivelUser3);
+        rgrNivelAutenticacion.add(rdbNivelUser4);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nivelAutenticacion}"), nivelAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nivelAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        nivelAutenticacionField.addCaretListener(formListener);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${userAutenticacion}"));
         columnBinding.setColumnName("User Autenticacion");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${passAutenticacion}"));
-        columnBinding.setColumnName("Pass Autenticacion");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoPersona.nombrePersona}"));
+        columnBinding.setColumnName("Nombre");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoPersona}"));
-        columnBinding.setColumnName("Codigo Persona");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nivelAutenticacion}"));
-        columnBinding.setColumnName("Nivel Autenticacion");
-        columnBinding.setColumnClass(Short.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
-
+        jTableBinding.bind();
+        masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
+        if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(0).setResizable(false);
+            masterTable.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         userAutenticacionLabel.setText("User Autenticacion:");
 
@@ -81,28 +120,18 @@ public class panelAutenticacion extends JPanel {
 
         nivelAutenticacionLabel.setText("Nivel Autenticacion:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.userAutenticacion}"), userAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.userAutenticacion}"), userAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), userAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.passAutenticacion}"), passAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), passAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoPersona}"), codigoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nivelAutenticacion}"), nivelAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nivelAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         saveButton.setText("Save");
@@ -121,36 +150,53 @@ public class panelAutenticacion extends JPanel {
 
         deleteButton.addActionListener(formListener);
 
+        rdbNivelUser1.setText(msgFile.getProperty("lbl0021")
+        );
+
+        rdbNivelUser2.setText(msgFile.getProperty("lbl0022"));
+
+        rdbNivelUser3.setText(msgFile.getProperty("lbl0023"));
+
+        rdbNivelUser4.setText(msgFile.getProperty("lbl0024"));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(newButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deleteButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(refreshButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveButton)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userAutenticacionLabel)
-                    .addComponent(passAutenticacionLabel)
-                    .addComponent(codigoPersonaLabel)
-                    .addComponent(nivelAutenticacionLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userAutenticacionField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .addComponent(passAutenticacionField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .addComponent(codigoPersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                    .addComponent(nivelAutenticacionField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(newButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(masterScrollPane)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(userAutenticacionLabel)
+                                    .addComponent(passAutenticacionLabel)
+                                    .addComponent(codigoPersonaLabel)
+                                    .addComponent(nivelAutenticacionLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rdbNivelUser1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rdbNivelUser2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rdbNivelUser3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rdbNivelUser4)
+                                        .addGap(0, 4, Short.MAX_VALUE))
+                                    .addComponent(userAutenticacionField)
+                                    .addComponent(passAutenticacionField)
+                                    .addComponent(codigoPersonaField))))))
                 .addContainerGap())
         );
 
@@ -160,7 +206,7 @@ public class panelAutenticacion extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userAutenticacionLabel)
@@ -176,7 +222,10 @@ public class panelAutenticacion extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nivelAutenticacionLabel)
-                    .addComponent(nivelAutenticacionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdbNivelUser1)
+                    .addComponent(rdbNivelUser2)
+                    .addComponent(rdbNivelUser3)
+                    .addComponent(rdbNivelUser4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -191,7 +240,7 @@ public class panelAutenticacion extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener, javax.swing.event.CaretListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -207,19 +256,36 @@ public class panelAutenticacion extends JPanel {
                 panelAutenticacion.this.deleteButtonActionPerformed(evt);
             }
         }
+
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseReleased(java.awt.event.MouseEvent evt) {
+            if (evt.getSource() == masterTable) {
+                panelAutenticacion.this.masterTableMouseReleased(evt);
+            }
+        }
+
+        public void caretUpdate(javax.swing.event.CaretEvent evt) {
+            if (evt.getSource() == nivelAutenticacionField) {
+                panelAutenticacion.this.nivelAutenticacionFieldCaretUpdate(evt);
+            }
+        }
     }// </editor-fold>//GEN-END:initComponents
 
     
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        entityManager.getTransaction().rollback();
-        entityManager.getTransaction().begin();
-        java.util.Collection data = query.getResultList();
-        for (Object entity : data) {
-            entityManager.refresh(entity);
-        }
-        list.clear();
-        list.addAll(data);
+        refreshMasterTable();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -244,8 +310,34 @@ public class panelAutenticacion extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
+            //si esta seleccionando uno en el grid y el codigo de la primera columna es diferente de 0 hace update
+            if(masterTable.getSelectedRow() != -1){
+                Query = "INSERT INTO autenticacion (UserAutenticacion, PassAutenticacion, CodigoPersona, NivelAutenticacion) VALUES (?, ?, ?, ?)"; 
+                int filaSeleccionada = masterTable.getSelectedRow();
+                
+                if(masterTable.getValueAt(filaSeleccionada, 0) != null){ 
+                    
+                    if(SavePass != passAutenticacionField.getText()){
+                       passAutenticacionField.setText(Encrypt(passAutenticacionField.getText().toUpperCase()));
+                    }
+                    Query = "UPDATE persona SET NombrePersona = ?, EmailPersona = ?, TelefonoPersona = ?, CodigoCargo = ?, RecordatorioPersona = ? WHERE persona.CodigoPersona = " + masterTable.getValueAt(filaSeleccionada, 0); 
+                    
+                }
+
+                PreparedStatement ps = Conexion.prepareCall(Query);
+                ps.setString(1, nombrePersonaField.getText());
+                ps.setString(2, emailPersonaField.getText());
+                ps.setString(3, telefonoPersonaField.getText());
+                ps.setInt(4, datoCombo.getId());
+                ps.setBoolean(5, chbRecordatorio.isSelected());
+
+                int res = ps.executeUpdate();
+                if(res > 0){
+                    refreshMasterTable();
+                }
+            }
+                //entityManager.getTransaction().commit();
+                //entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
@@ -258,7 +350,70 @@ public class panelAutenticacion extends JPanel {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void nivelAutenticacionFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_nivelAutenticacionFieldCaretUpdate
+        switch(nivelAutenticacionField.getText()){
+            //Master
+            case "1":
+                rdbNivelUser1.setSelected(true);
+            break;
+            
+            //CAU
+            case "2":
+                rdbNivelUser2.setSelected(true);
+            break;
+            
+            //Director
+            case "3":
+                rdbNivelUser3.setSelected(true);
+            break;
+           
+            //Programador
+            case "4":
+                rdbNivelUser4.setSelected(true);
+            break;
+        }
+    }//GEN-LAST:event_nivelAutenticacionFieldCaretUpdate
 
+    private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
+        if(evt.getButton()==1){
+            int filaSeleccionada = masterTable.getSelectedRow();
+            try{
+                //habilitar
+                Query = "select * from cargo where codigoCargo = " + masterTable.getValueAt(filaSeleccionada, 1);
+                
+                rs = DataBase.executeQuery(Query);
+                rs.next(); 
+                SavePass = rs.getString("passAutenticacion");
+                cbxCargo.setSelectedItem(new comboBox(rs.getInt("codigoCargo"), rs.getString("DescripcionCargo")));
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_masterTableMouseReleased
+
+    private void refreshMasterTable(){
+        
+        SavePass = "";
+        cbxCargo.setSelectedIndex(0);
+        chbRecordatorio.setSelected(false);
+        
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
+        java.util.Collection data = query.getResultList();
+        for (Object entity : data) {
+            entityManager.refresh(entity);
+        }
+        list.clear();
+        list.addAll(data);
+    }
+
+    //Encripta texto como la contraseña
+    private static String Encrypt(String texto){
+      
+        return DigestUtils.md5Hex(texto); 
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField codigoPersonaField;
     private javax.swing.JLabel codigoPersonaLabel;
@@ -273,7 +428,12 @@ public class panelAutenticacion extends JPanel {
     private javax.swing.JTextField passAutenticacionField;
     private javax.swing.JLabel passAutenticacionLabel;
     private javax.persistence.Query query;
+    private javax.swing.JRadioButton rdbNivelUser1;
+    private javax.swing.JRadioButton rdbNivelUser2;
+    private javax.swing.JRadioButton rdbNivelUser3;
+    private javax.swing.JRadioButton rdbNivelUser4;
     private javax.swing.JButton refreshButton;
+    private javax.swing.ButtonGroup rgrNivelAutenticacion;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField userAutenticacionField;
     private javax.swing.JLabel userAutenticacionLabel;

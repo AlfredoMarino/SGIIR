@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Autenticacion.findByPassAutenticacion", query = "SELECT a FROM Autenticacion a WHERE a.passAutenticacion = :passAutenticacion"),
     @NamedQuery(name = "Autenticacion.findByNivelAutenticacion", query = "SELECT a FROM Autenticacion a WHERE a.nivelAutenticacion = :nivelAutenticacion")})
 public class Autenticacion implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,7 +70,9 @@ public class Autenticacion implements Serializable {
     }
 
     public void setUserAutenticacion(String userAutenticacion) {
+        String oldUserAutenticacion = this.userAutenticacion;
         this.userAutenticacion = userAutenticacion;
+        changeSupport.firePropertyChange("userAutenticacion", oldUserAutenticacion, userAutenticacion);
     }
 
     public String getPassAutenticacion() {
@@ -72,7 +80,9 @@ public class Autenticacion implements Serializable {
     }
 
     public void setPassAutenticacion(String passAutenticacion) {
+        String oldPassAutenticacion = this.passAutenticacion;
         this.passAutenticacion = passAutenticacion;
+        changeSupport.firePropertyChange("passAutenticacion", oldPassAutenticacion, passAutenticacion);
     }
 
     public short getNivelAutenticacion() {
@@ -80,7 +90,9 @@ public class Autenticacion implements Serializable {
     }
 
     public void setNivelAutenticacion(short nivelAutenticacion) {
+        short oldNivelAutenticacion = this.nivelAutenticacion;
         this.nivelAutenticacion = nivelAutenticacion;
+        changeSupport.firePropertyChange("nivelAutenticacion", oldNivelAutenticacion, nivelAutenticacion);
     }
 
     public Persona getCodigoPersona() {
@@ -88,7 +100,9 @@ public class Autenticacion implements Serializable {
     }
 
     public void setCodigoPersona(Persona codigoPersona) {
+        Persona oldCodigoPersona = this.codigoPersona;
         this.codigoPersona = codigoPersona;
+        changeSupport.firePropertyChange("codigoPersona", oldCodigoPersona, codigoPersona);
     }
 
     @Override
@@ -114,6 +128,14 @@ public class Autenticacion implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Autenticacion[ userAutenticacion=" + userAutenticacion + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
