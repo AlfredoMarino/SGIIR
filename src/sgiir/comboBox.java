@@ -43,4 +43,32 @@ public class comboBox {
         return descripcion;
     }
     
+     @Override  
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof comboBox)) {
+            return false;
+        }
+        comboBox combo = (comboBox) o;
+        if (id != combo.id) {
+            return false;
+        }
+        if (descripcion != null ? !descripcion.equals(combo.descripcion) : combo.descripcion != null) {
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + (this.descripcion != null ? this.descripcion.hashCode() : 0);
+        hash = 89 * hash + this.id;
+        return hash;
+    }
+    
 }

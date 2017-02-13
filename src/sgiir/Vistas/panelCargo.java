@@ -8,7 +8,6 @@ package sgiir.Vistas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -27,12 +26,12 @@ public class panelCargo extends javax.swing.JPanel {
     private propiedades qryFile = new propiedades(5);
     private String Query = "";
     private ResultSet rs;
-    private int[] indiceInstitucion = new int[50];
+    private ResultSet rsInstitucion;
+
     private int i = 0;
     private String[] columnas = {"CodigoCargo", "Cargo", "Intitución"};
     private DefaultTableModel model = new DefaultTableModel(null, columnas);
-    //private comboBox Combo = new comboBox();
-    //private comboBox[] listaCombo = new comboBox[50];
+
     
 
   
@@ -58,20 +57,14 @@ public class panelCargo extends javax.swing.JPanel {
         cbxInstitucion.removeAllItems();
                 
         try {
-            rs = DataBase.executeQuery(qryFile.getProperty("qry0002"));
+            rsInstitucion = DataBase.executeQuery(qryFile.getProperty("qry0002"));
             i = 0;
             cbxInstitucion.addItem(new comboBox(i,""));
-            //listaCombo[i] = new comboBox(0, "");
             i++;
-            while(rs.next()){
-                
-                
-                //Combo.setId(rs.getInt("codigoInstitucion"));
-                //Combo.setDescripcion(rs.getString("nombreInstitucion"));
-                //listaCombo[i] = new comboBox(rs.getInt("codigoInstitucion"), rs.getString("nombreInstitucion"));
-                
-                cbxInstitucion.addItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("nombreInstitucion")));
-                //indiceInstitucion[i] = rs.getInt("codigoInstitucion");
+            while(rsInstitucion.next()){
+
+                cbxInstitucion.addItem(new comboBox(rsInstitucion.getInt("codigoInstitucion"), rsInstitucion.getString("nombreInstitucion")));
+ 
                 i++;
             }
         } catch (SQLException ex) {
@@ -119,6 +112,7 @@ public class panelCargo extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        MasterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         MasterTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MasterTableMouseClicked(evt);
@@ -161,6 +155,11 @@ public class panelCargo extends javax.swing.JPanel {
         });
 
         btnDelete.setText("jButton4");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("jLabel1");
 
@@ -232,13 +231,13 @@ public class panelCargo extends javax.swing.JPanel {
             int filaSeleccionada = MasterTable.getSelectedRow();
             try{
                 //habilitar
-                Query = "select * from cargo where codigoCargo = " + MasterTable.getValueAt(filaSeleccionada, 0);
+                Query = "select a.*, b.NombreInstitucion from cargo a, institucion b where a.CodigoInstitucion = b.CodigoInstitucion and a.codigoCargo = " + MasterTable.getValueAt(filaSeleccionada, 0);
                 rs = DataBase.executeQuery(Query);
                 rs.next();
                 fldDescripcion.setText(rs.getString("descripcionCargo"));
-                //cbxInstitucion.setSelectedItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("nombreInstitucion")));
                 chbInforme.setSelected(rs.getBoolean("informeCargo"));
-
+                
+                cbxInstitucion.setSelectedItem(new comboBox(rs.getInt("codigoInstitucion"), rs.getString("NombreInstitucion")));
                 
             } catch (SQLException ex) {
                 Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
@@ -299,10 +298,18 @@ public class panelCargo extends javax.swing.JPanel {
             Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        Query = "DELETE FROM cargo WHERE cargo.CodigoCargo = " + MasterTable.getValueAt(MasterTable.getSelectedRow(), 0).toString();
+        if(DataBase.executeUpdate(Query)){
+            refreshMasterTable();
+            limpiarCampos();
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
     
     private void limpiarCampos(){
         fldDescripcion.setText("");
-        cbxInstitucion.getItemAt(0);
+        cbxInstitucion.setSelectedIndex(0);
         chbInforme.setSelected(false);
     }
     
@@ -317,8 +324,8 @@ public class panelCargo extends javax.swing.JPanel {
             while(rs.next()){
                 fila[0] = rs.getString("codigoCargo");
                 fila[1] = rs.getString("descripcionCargo");
-                fila[2] = rs.getString("codigoInstitucion");
-                
+                fila[2] = rs.getString("NombreInstitucion");
+
                 model.addRow(fila);
             }
             MasterTable.setModel(model);
@@ -332,24 +339,7 @@ public class panelCargo extends javax.swing.JPanel {
         }
         
     }
-    
-    
-   /* private void posicionaInstitucion(int indice){
-       
-        cbxInstitucion.getItemAt(buscaData(indiceInstitucion, indice));
-        
-    }
    
-    
-    private int buscaData(List lista, int dato){
-        for (int i = 0 ; i < lista. ; i++) {
-            if (arreglo[i] == dato) {
-                return i;
-            }
-        }
-        return 0;
-    }
-    */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable MasterTable;
