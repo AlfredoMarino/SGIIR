@@ -13,7 +13,7 @@
     </Component>
     <Component class="javax.persistence.Query" name="query">
       <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT a FROM Autenticacion a"/>
+        <Property name="query" type="java.lang.String" value="SELECT n FROM Naturaleza n"/>
         <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
           <ComponentRef name="entityManager"/>
         </Property>
@@ -31,27 +31,10 @@
         <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;sgiir.Entidades.Autenticacion&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;sgiir.Entidades.Naturaleza&gt;"/>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="rgrNivelAutenticacion">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.ButtonGroup()"/>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rgrNivelAutenticacion.add(rdbNivelUser1);&#xa;rgrNivelAutenticacion.add(rdbNivelUser2);&#xa;rgrNivelAutenticacion.add(rdbNivelUser3);&#xa;rgrNivelAutenticacion.add(rdbNivelUser4);"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JTextField" name="nivelAutenticacionField">
-      <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.nivelAutenticacion}" target="nivelAutenticacionField" targetPath="text" updateStrategy="0" immediately="false">
-          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="nivelAutenticacionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-      <Events>
-        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="nivelAutenticacionFieldCaretUpdate"/>
-      </Events>
     </Component>
   </NonVisualComponents>
   <AuxValues>
@@ -80,34 +63,25 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="saveButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="masterScrollPane" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="userAutenticacionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="passAutenticacionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="codigoPersonaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="nivelAutenticacionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="codigoInstitucionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tipoNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="prioridadNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="codigoNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="rdbNivelUser1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="rdbNivelUser2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="rdbNivelUser3" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="rdbNivelUser4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="userAutenticacionField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="passAutenticacionField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="codigoPersonaField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="codigoInstitucionField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="tipoNaturalezaField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="prioridadNaturalezaField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="codigoNaturalezaField" alignment="0" pref="315" max="32767" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="masterScrollPane" pref="380" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -118,30 +92,27 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="135" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="masterScrollPane" pref="130" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="userAutenticacionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="userAutenticacionField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codigoInstitucionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codigoInstitucionField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="passAutenticacionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="passAutenticacionField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoNaturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tipoNaturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="codigoPersonaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="codigoPersonaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="prioridadNaturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="prioridadNaturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="nivelAutenticacionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rdbNivelUser1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rdbNivelUser2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rdbNivelUser3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rdbNivelUser4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codigoNaturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codigoNaturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="1"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -167,12 +138,22 @@
           <Properties>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -185,21 +166,24 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
-              <Subbinding sourcePath="${userAutenticacion}">
-                <BindingParameter name="NAME" value="User Autenticacion"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              <Subbinding sourcePath="${codigoInstitucion.cargoList}">
+                <BindingParameter name="NAME" value="Codigo Institucion"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.List.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${codigoPersona.nombrePersona}">
-                <BindingParameter name="NAME" value="Nombre"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              <Subbinding sourcePath="${tipoNaturaleza}">
+                <BindingParameter name="NAME" value="Tipo Naturaleza"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${prioridadNaturaleza}">
+                <BindingParameter name="NAME" value="Prioridad Naturaleza"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${codigoNaturaleza}">
+                <BindingParameter name="NAME" value="Codigo Naturaleza"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="masterTableMouseReleased"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
@@ -207,55 +191,57 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="userAutenticacionLabel">
+    <Component class="javax.swing.JLabel" name="codigoInstitucionLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="User Autenticacion:"/>
+        <Property name="text" type="java.lang.String" value="Codigo Institucion:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="passAutenticacionLabel">
+    <Component class="javax.swing.JLabel" name="tipoNaturalezaLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Pass Autenticacion:"/>
+        <Property name="text" type="java.lang.String" value="Tipo Naturaleza:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="codigoPersonaLabel">
+    <Component class="javax.swing.JLabel" name="prioridadNaturalezaLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Codigo Persona:"/>
+        <Property name="text" type="java.lang.String" value="Prioridad Naturaleza:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="nivelAutenticacionLabel">
+    <Component class="javax.swing.JLabel" name="codigoNaturalezaLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nivel Autenticacion:"/>
+        <Property name="text" type="java.lang.String" value="Codigo Naturaleza:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="userAutenticacionField">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="codigoInstitucionField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.userAutenticacion}" target="userAutenticacionField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoInstitucion}" target="codigoInstitucionField" targetPath="text" updateStrategy="0" immediately="false">
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="userAutenticacionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoInstitucionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JTextField" name="passAutenticacionField">
+    <Component class="javax.swing.JTextField" name="tipoNaturalezaField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.passAutenticacion}" target="passAutenticacionField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.tipoNaturaleza}" target="tipoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="passAutenticacionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="tipoNaturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPasswordField()"/>
-      </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="codigoPersonaField">
+    <Component class="javax.swing.JTextField" name="prioridadNaturalezaField">
       <BindingProperties>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoPersonaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.prioridadNaturaleza}" target="prioridadNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="prioridadNaturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
-      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="codigoNaturalezaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoNaturaleza}" target="codigoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoNaturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JButton" name="saveButton">
       <Properties>
@@ -307,37 +293,6 @@
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rdbNivelUser1">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="msgFile.getProperty(&quot;lbl0021&quot;)&#xd;&#xa;" type="code"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="rdbNivelUser1ItemStateChanged"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rdbNivelUser2">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="msgFile.getProperty(&quot;lbl0022&quot;)" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rdbNivelUser3">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="msgFile.getProperty(&quot;lbl0023&quot;)" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rdbNivelUser4">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="msgFile.getProperty(&quot;lbl0024&quot;)" type="code"/>
-        </Property>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

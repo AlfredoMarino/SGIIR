@@ -120,6 +120,8 @@ public class panelAutenticacion extends JPanel {
 
         nivelAutenticacionLabel.setText("Nivel Autenticacion:");
 
+        userAutenticacionField.setEditable(false);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.userAutenticacion}"), userAutenticacionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
@@ -152,6 +154,7 @@ public class panelAutenticacion extends JPanel {
 
         rdbNivelUser1.setText(msgFile.getProperty("lbl0021")
         );
+        rdbNivelUser1.addItemListener(formListener);
 
         rdbNivelUser2.setText(msgFile.getProperty("lbl0022"));
 
@@ -240,7 +243,7 @@ public class panelAutenticacion extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener, javax.swing.event.CaretListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener, javax.swing.event.CaretListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -254,6 +257,12 @@ public class panelAutenticacion extends JPanel {
             }
             else if (evt.getSource() == deleteButton) {
                 panelAutenticacion.this.deleteButtonActionPerformed(evt);
+            }
+        }
+
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            if (evt.getSource() == rdbNivelUser1) {
+                panelAutenticacion.this.rdbNivelUser1ItemStateChanged(evt);
             }
         }
 
@@ -300,6 +309,8 @@ public class panelAutenticacion extends JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        
+        userAutenticacionField.enable(true);
         sgiir.Entidades.Autenticacion a = new sgiir.Entidades.Autenticacion();
         entityManager.persist(a);
         list.add(a);
@@ -309,37 +320,60 @@ public class panelAutenticacion extends JPanel {
     }//GEN-LAST:event_newButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+      
+        
         try {
             //si esta seleccionando uno en el grid y el codigo de la primera columna es diferente de 0 hace update
             if(masterTable.getSelectedRow() != -1){
-                Query = "INSERT INTO autenticacion (UserAutenticacion, PassAutenticacion, CodigoPersona, NivelAutenticacion) VALUES (?, ?, ?, ?)"; 
+                
                 int filaSeleccionada = masterTable.getSelectedRow();
                 
-                if(masterTable.getValueAt(filaSeleccionada, 0) != null){ 
+                if(masterTable.getValueAt(filaSeleccionada, 0) != null){
                     
                     if(SavePass != passAutenticacionField.getText()){
                        passAutenticacionField.setText(Encrypt(passAutenticacionField.getText().toUpperCase()));
                     }
-                    Query = "UPDATE persona SET NombrePersona = ?, EmailPersona = ?, TelefonoPersona = ?, CodigoCargo = ?, RecordatorioPersona = ? WHERE persona.CodigoPersona = " + masterTable.getValueAt(filaSeleccionada, 0); 
+                    Query = "UPDATE autenticacion SET PassAutenticacion = ?, CodigoPersona = ?, NivelAutenticacion = ? WHERE autenticacion.UserAutenticacion = '" + masterTable.getValueAt(filaSeleccionada, 0) + "'";
+                        PreparedStatement ps = Conexion.prepareCall(Query);
+                        //ps.setString(1, userAutenticacionField.getText());
+                        ps.setString(1, passAutenticacionField.getText());
+                        ps.setInt(2, 5);
+                        ps.setInt(3, selectNivelAutenticacion());
+                        //ps.setBoolean(5, chbRecordatorio.isSelected());
+                        
+                        int res = ps.executeUpdate();
+                        if(res > 0){
+                            refreshMasterTable();
+                        }
+                }else{
+                    Query = "INSERT INTO autenticacion (UserAutenticacion, PassAutenticacion, CodigoPersona, NivelAutenticacion) VALUES (?, ?, ?, ?)"; 
                     
-                }
+                    PreparedStatement ps = Conexion.prepareCall(Query);
+                    ps.setString(1, userAutenticacionField.getText());
+                    ps.setString(2, passAutenticacionField.getText());
+                    ps.setInt(3, 5);
+                    ps.setInt(4, selectNivelAutenticacion());
 
-                PreparedStatement ps = Conexion.prepareCall(Query);
-                ps.setString(1, nombrePersonaField.getText());
-                ps.setString(2, emailPersonaField.getText());
-                ps.setString(3, telefonoPersonaField.getText());
-                ps.setInt(4, datoCombo.getId());
-                ps.setBoolean(5, chbRecordatorio.isSelected());
-
-                int res = ps.executeUpdate();
-                if(res > 0){
-                    refreshMasterTable();
+                    int res = ps.executeUpdate();
+                    if(res > 0){
+                        refreshMasterTable();
+                    }
                 }
+               
             }
                 //entityManager.getTransaction().commit();
                 //entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
             rex.printStackTrace();
+            entityManager.getTransaction().begin();
+            List<sgiir.Entidades.Autenticacion> merged = new ArrayList<sgiir.Entidades.Autenticacion>(list.size());
+            for (sgiir.Entidades.Autenticacion a : list) {
+                merged.add(entityManager.merge(a));
+            }
+            list.clear();
+            list.addAll(merged);
+        } catch (SQLException ex) {
+            Logger.getLogger(panelAutenticacion.class.getName()).log(Level.SEVERE, null, ex);
             entityManager.getTransaction().begin();
             List<sgiir.Entidades.Autenticacion> merged = new ArrayList<sgiir.Entidades.Autenticacion>(list.size());
             for (sgiir.Entidades.Autenticacion a : list) {
@@ -379,12 +413,14 @@ public class panelAutenticacion extends JPanel {
             int filaSeleccionada = masterTable.getSelectedRow();
             try{
                 //habilitar
-                Query = "select * from cargo where codigoCargo = " + masterTable.getValueAt(filaSeleccionada, 1);
+                Query = "select * from autenticacion where UserAutenticacion = '" + masterTable.getValueAt(filaSeleccionada, 0) + "'";
                 
                 rs = DataBase.executeQuery(Query);
                 rs.next(); 
+                
                 SavePass = rs.getString("passAutenticacion");
-                cbxCargo.setSelectedItem(new comboBox(rs.getInt("codigoCargo"), rs.getString("DescripcionCargo")));
+                nivelAutenticacionField.setText("0");
+                //cbxCargo.setSelectedItem(new comboBox(rs.getInt("codigoCargo"), rs.getString("DescripcionCargo")));
                 
             } catch (SQLException ex) {
                 Logger.getLogger(panelCargo.class.getName()).log(Level.SEVERE, null, ex);
@@ -392,11 +428,16 @@ public class panelAutenticacion extends JPanel {
         }
     }//GEN-LAST:event_masterTableMouseReleased
 
+    private void rdbNivelUser1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbNivelUser1ItemStateChanged
+
+    }//GEN-LAST:event_rdbNivelUser1ItemStateChanged
+
     private void refreshMasterTable(){
         
         SavePass = "";
-        cbxCargo.setSelectedIndex(0);
-        chbRecordatorio.setSelected(false);
+        userAutenticacionField.enable(false);
+        //cbxCargo.setSelectedIndex(0);
+        nivelAutenticacionField.setText("0");
         
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
@@ -407,7 +448,27 @@ public class panelAutenticacion extends JPanel {
         list.clear();
         list.addAll(data);
     }
-
+    private int selectNivelAutenticacion(){
+        if(rdbNivelUser1.isSelected() == true){
+            return 1;
+        }else{
+            if(rdbNivelUser2.isSelected() == true){
+                return 2;
+            }else{
+                if(rdbNivelUser3.isSelected() == true){
+                    return 3;
+                }else{
+                    if(rdbNivelUser4.isSelected() == true){
+                        return 4;
+                    }else{
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    
     //Encripta texto como la contraseña
     private static String Encrypt(String texto){
       

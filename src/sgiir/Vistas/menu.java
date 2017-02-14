@@ -40,6 +40,7 @@ public class menu extends javax.swing.JFrame {
     public panelCargo VistaCargo = new panelCargo();
     public panelPersona VistaPersona = new panelPersona();
     public panelAutenticacion VistaAutenticacion = new panelAutenticacion();
+    public panelNaturaleza VistaNaturaleza = new panelNaturaleza();
     
     CardLayout controladorPaneles;
     
@@ -128,6 +129,7 @@ public class menu extends javax.swing.JFrame {
         mitArea = new javax.swing.JMenuItem();
         mitInstitucion = new javax.swing.JMenuItem();
         mitCargo = new javax.swing.JMenuItem();
+        mitNaturaleza = new javax.swing.JMenuItem();
         mnuAcerca = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -263,6 +265,14 @@ public class menu extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mitCargo);
 
+        mitNaturaleza.setText("jMenuItem3");
+        mitNaturaleza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitNaturalezaActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(mitNaturaleza);
+
         menuBar.add(mnuConfiguracion);
 
         mnuAcerca.setText("Acerca de");
@@ -276,7 +286,7 @@ public class menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
  
         //controladorPaneles.show(pnlDetails, "TAREA");
-        controladorPaneles.show(pnlDetails, "TAREA");
+        //controladorPaneles.show(pnlDetails, "TAREA");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void mitAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAreaActionPerformed
@@ -318,6 +328,10 @@ public class menu extends javax.swing.JFrame {
     private void mitPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPersonaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mitPersonaActionPerformed
+
+    private void mitNaturalezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitNaturalezaActionPerformed
+        controladorPaneles.show(pnlDetails, "NATURALEZA");
+    }//GEN-LAST:event_mitNaturalezaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,6 +376,7 @@ public class menu extends javax.swing.JFrame {
         pnlDetails.add(VistaArea, "AREA");
         pnlDetails.add(VistaCargo, "CARGO");
         pnlDetails.add(VistaAutenticacion, "AUTENTICACION");
+        pnlDetails.add(VistaNaturaleza, "NATURALEZA");
         
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
@@ -377,6 +392,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitAutenticacion;
     private javax.swing.JMenuItem mitCargo;
     private javax.swing.JMenuItem mitInstitucion;
+    private javax.swing.JMenuItem mitNaturaleza;
     private javax.swing.JMenuItem mitPersona;
     private javax.swing.JMenu mnuAcerca;
     private javax.swing.JMenu mnuConfiguracion;

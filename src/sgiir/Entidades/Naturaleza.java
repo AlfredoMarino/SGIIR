@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -20,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Naturaleza.findByPrioridadNaturaleza", query = "SELECT n FROM Naturaleza n WHERE n.prioridadNaturaleza = :prioridadNaturaleza"),
     @NamedQuery(name = "Naturaleza.findByCodigoNaturaleza", query = "SELECT n FROM Naturaleza n WHERE n.codigoNaturaleza = :codigoNaturaleza")})
 public class Naturaleza implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -77,7 +83,9 @@ public class Naturaleza implements Serializable {
     }
 
     public void setTipoNaturaleza(boolean tipoNaturaleza) {
+        boolean oldTipoNaturaleza = this.tipoNaturaleza;
         this.tipoNaturaleza = tipoNaturaleza;
+        changeSupport.firePropertyChange("tipoNaturaleza", oldTipoNaturaleza, tipoNaturaleza);
     }
 
     public boolean getPrioridadNaturaleza() {
@@ -85,7 +93,9 @@ public class Naturaleza implements Serializable {
     }
 
     public void setPrioridadNaturaleza(boolean prioridadNaturaleza) {
+        boolean oldPrioridadNaturaleza = this.prioridadNaturaleza;
         this.prioridadNaturaleza = prioridadNaturaleza;
+        changeSupport.firePropertyChange("prioridadNaturaleza", oldPrioridadNaturaleza, prioridadNaturaleza);
     }
 
     public Integer getCodigoNaturaleza() {
@@ -93,7 +103,9 @@ public class Naturaleza implements Serializable {
     }
 
     public void setCodigoNaturaleza(Integer codigoNaturaleza) {
+        Integer oldCodigoNaturaleza = this.codigoNaturaleza;
         this.codigoNaturaleza = codigoNaturaleza;
+        changeSupport.firePropertyChange("codigoNaturaleza", oldCodigoNaturaleza, codigoNaturaleza);
     }
 
     @XmlTransient
@@ -110,7 +122,9 @@ public class Naturaleza implements Serializable {
     }
 
     public void setCodigoInstitucion(Institucion codigoInstitucion) {
+        Institucion oldCodigoInstitucion = this.codigoInstitucion;
         this.codigoInstitucion = codigoInstitucion;
+        changeSupport.firePropertyChange("codigoInstitucion", oldCodigoInstitucion, codigoInstitucion);
     }
 
     @XmlTransient
@@ -154,6 +168,14 @@ public class Naturaleza implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Naturaleza[ codigoNaturaleza=" + codigoNaturaleza + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
