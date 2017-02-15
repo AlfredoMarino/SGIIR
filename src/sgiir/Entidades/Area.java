@@ -6,7 +6,9 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Area.findByNombreArea", query = "SELECT a FROM Area a WHERE a.nombreArea = :nombreArea"),
     @NamedQuery(name = "Area.findByDescripcionArea", query = "SELECT a FROM Area a WHERE a.descripcionArea = :descripcionArea")})
 public class Area implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
+    private Collection<Caracteristica> caracteristicaCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -104,6 +111,15 @@ public class Area implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Area[ codigoArea=" + codigoArea + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Caracteristica> getCaracteristicaCollection() {
+        return caracteristicaCollection;
+    }
+
+    public void setCaracteristicaCollection(Collection<Caracteristica> caracteristicaCollection) {
+        this.caracteristicaCollection = caracteristicaCollection;
     }
     
 }

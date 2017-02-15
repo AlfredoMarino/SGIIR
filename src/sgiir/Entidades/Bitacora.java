@@ -18,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,6 +37,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bitacora.findByFechaBitacora", query = "SELECT b FROM Bitacora b WHERE b.fechaBitacora = :fechaBitacora"),
     @NamedQuery(name = "Bitacora.findByHoraBitacora", query = "SELECT b FROM Bitacora b WHERE b.horaBitacora = :horaBitacora")})
 public class Bitacora implements Serializable {
+
+    @JoinColumn(name = "CodigoInvolucrado", referencedColumnName = "CodigoInvolucrado")
+    @OneToOne(optional = false)
+    private Involucrado codigoInvolucrado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -158,6 +163,14 @@ public class Bitacora implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Bitacora[ correlativoBitacora=" + correlativoBitacora + " ]";
+    }
+
+    public Involucrado getCodigoInvolucrado() {
+        return codigoInvolucrado;
+    }
+
+    public void setCodigoInvolucrado(Involucrado codigoInvolucrado) {
+        this.codigoInvolucrado = codigoInvolucrado;
     }
     
 }

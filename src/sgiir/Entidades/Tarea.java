@@ -46,6 +46,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tarea.findByHoraFinalizacionTarea", query = "SELECT t FROM Tarea t WHERE t.horaFinalizacionTarea = :horaFinalizacionTarea")})
 public class Tarea implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "CarpetaTarea")
+    private String carpetaTarea;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "ObservacionTarea")
+    private String observacionTarea;
+    @JoinColumn(name = "CodigoInvolucrado", referencedColumnName = "CodigoInvolucrado")
+    @ManyToOne(optional = false)
+    private Involucrado codigoInvolucrado;
+    @JoinColumn(name = "CodigoCaracteristica", referencedColumnName = "CodigoCaracteristica")
+    @ManyToOne(optional = false)
+    private Caracteristica codigoCaracteristica;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -244,6 +258,38 @@ public class Tarea implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Tarea[ codigoTarea=" + codigoTarea + " ]";
+    }
+
+    public String getCarpetaTarea() {
+        return carpetaTarea;
+    }
+
+    public void setCarpetaTarea(String carpetaTarea) {
+        this.carpetaTarea = carpetaTarea;
+    }
+
+    public String getObservacionTarea() {
+        return observacionTarea;
+    }
+
+    public void setObservacionTarea(String observacionTarea) {
+        this.observacionTarea = observacionTarea;
+    }
+
+    public Involucrado getCodigoInvolucrado() {
+        return codigoInvolucrado;
+    }
+
+    public void setCodigoInvolucrado(Involucrado codigoInvolucrado) {
+        this.codigoInvolucrado = codigoInvolucrado;
+    }
+
+    public Caracteristica getCodigoCaracteristica() {
+        return codigoCaracteristica;
+    }
+
+    public void setCodigoCaracteristica(Caracteristica codigoCaracteristica) {
+        this.codigoCaracteristica = codigoCaracteristica;
     }
     
 }

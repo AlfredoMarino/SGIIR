@@ -6,6 +6,7 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -38,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Persona.findByTelefonoPersona", query = "SELECT p FROM Persona p WHERE p.telefonoPersona = :telefonoPersona"),
     @NamedQuery(name = "Persona.findByRecordatorioPersona", query = "SELECT p FROM Persona p WHERE p.recordatorioPersona = :recordatorioPersona")})
 public class Persona implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private Collection<Involucrado> involucradoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -158,6 +162,15 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return codigoPersona.toString();
+    }
+
+    @XmlTransient
+    public Collection<Involucrado> getInvolucradoCollection() {
+        return involucradoCollection;
+    }
+
+    public void setInvolucradoCollection(Collection<Involucrado> involucradoCollection) {
+        this.involucradoCollection = involucradoCollection;
     }
     
 }

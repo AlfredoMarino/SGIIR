@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Institucion.findByCliente", query = "SELECT i FROM Institucion i WHERE i.cliente = :cliente")})
 public class Institucion implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "ClienteInstitucion")
+    private boolean clienteInstitucion;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -130,6 +134,14 @@ public class Institucion implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Institucion[ codigoInstitucion=" + codigoInstitucion + " ]";
+    }
+
+    public boolean getClienteInstitucion() {
+        return clienteInstitucion;
+    }
+
+    public void setClienteInstitucion(boolean clienteInstitucion) {
+        this.clienteInstitucion = clienteInstitucion;
     }
     
 }
