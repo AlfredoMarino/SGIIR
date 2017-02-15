@@ -18,6 +18,12 @@ import javax.persistence.Embeddable;
 public class InvolucradoPK implements Serializable {
 
     @Basic(optional = false)
+    @Column(name = "CodigoNaturaleza")
+    private int codigoNaturaleza;
+    @Basic(optional = false)
+    @Column(name = "CodigoTarea")
+    private int codigoTarea;
+    @Basic(optional = false)
     @Column(name = "CodigoInvolucrado")
     private int codigoInvolucrado;
     @Basic(optional = false)
@@ -27,9 +33,27 @@ public class InvolucradoPK implements Serializable {
     public InvolucradoPK() {
     }
 
-    public InvolucradoPK(int codigoInvolucrado, int codigoPersona) {
+    public InvolucradoPK(int codigoNaturaleza, int codigoTarea, int codigoInvolucrado, int codigoPersona) {
+        this.codigoNaturaleza = codigoNaturaleza;
+        this.codigoTarea = codigoTarea;
         this.codigoInvolucrado = codigoInvolucrado;
         this.codigoPersona = codigoPersona;
+    }
+
+    public int getCodigoNaturaleza() {
+        return codigoNaturaleza;
+    }
+
+    public void setCodigoNaturaleza(int codigoNaturaleza) {
+        this.codigoNaturaleza = codigoNaturaleza;
+    }
+
+    public int getCodigoTarea() {
+        return codigoTarea;
+    }
+
+    public void setCodigoTarea(int codigoTarea) {
+        this.codigoTarea = codigoTarea;
     }
 
     public int getCodigoInvolucrado() {
@@ -51,6 +75,8 @@ public class InvolucradoPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
+        hash += (int) codigoNaturaleza;
+        hash += (int) codigoTarea;
         hash += (int) codigoInvolucrado;
         hash += (int) codigoPersona;
         return hash;
@@ -63,6 +89,12 @@ public class InvolucradoPK implements Serializable {
             return false;
         }
         InvolucradoPK other = (InvolucradoPK) object;
+        if (this.codigoNaturaleza != other.codigoNaturaleza) {
+            return false;
+        }
+        if (this.codigoTarea != other.codigoTarea) {
+            return false;
+        }
         if (this.codigoInvolucrado != other.codigoInvolucrado) {
             return false;
         }
@@ -74,7 +106,7 @@ public class InvolucradoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.InvolucradoPK[ codigoInvolucrado=" + codigoInvolucrado + ", codigoPersona=" + codigoPersona + " ]";
+        return "sgiir.Entidades.InvolucradoPK[ codigoNaturaleza=" + codigoNaturaleza + ", codigoTarea=" + codigoTarea + ", codigoInvolucrado=" + codigoInvolucrado + ", codigoPersona=" + codigoPersona + " ]";
     }
     
 }

@@ -7,7 +7,6 @@ package sgiir.Entidades;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,9 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Persona.findByRecordatorioPersona", query = "SELECT p FROM Persona p WHERE p.recordatorioPersona = :recordatorioPersona")})
 public class Persona implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private Collection<Involucrado> involucradoCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +61,9 @@ public class Persona implements Serializable {
     @ManyToOne(optional = false)
     private Cargo codigoCargo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoPersona")
-    private List<Autenticacion> autenticacionList;
+    private Collection<Autenticacion> autenticacionCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private Collection<Involucrado> involucradoCollection;
 
     public Persona() {
     }
@@ -131,12 +129,21 @@ public class Persona implements Serializable {
     }
 
     @XmlTransient
-    public List<Autenticacion> getAutenticacionList() {
-        return autenticacionList;
+    public Collection<Autenticacion> getAutenticacionCollection() {
+        return autenticacionCollection;
     }
 
-    public void setAutenticacionList(List<Autenticacion> autenticacionList) {
-        this.autenticacionList = autenticacionList;
+    public void setAutenticacionCollection(Collection<Autenticacion> autenticacionCollection) {
+        this.autenticacionCollection = autenticacionCollection;
+    }
+
+    @XmlTransient
+    public Collection<Involucrado> getInvolucradoCollection() {
+        return involucradoCollection;
+    }
+
+    public void setInvolucradoCollection(Collection<Involucrado> involucradoCollection) {
+        this.involucradoCollection = involucradoCollection;
     }
 
     @Override
@@ -161,16 +168,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return codigoPersona.toString();
-    }
-
-    @XmlTransient
-    public Collection<Involucrado> getInvolucradoCollection() {
-        return involucradoCollection;
-    }
-
-    public void setInvolucradoCollection(Collection<Involucrado> involucradoCollection) {
-        this.involucradoCollection = involucradoCollection;
+        return "sgiir.Entidades.Persona[ codigoPersona=" + codigoPersona + " ]";
     }
     
 }

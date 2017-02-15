@@ -6,7 +6,7 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,7 +44,7 @@ public class Estado implements Serializable {
     @Column(name = "DescripcionEstado")
     private String descripcionEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoEstado")
-    private List<Bitacora> bitacoraList;
+    private Collection<Bitacora> bitacoraCollection;
 
     public Estado() {
     }
@@ -75,12 +75,12 @@ public class Estado implements Serializable {
     }
 
     @XmlTransient
-    public List<Bitacora> getBitacoraList() {
-        return bitacoraList;
+    public Collection<Bitacora> getBitacoraCollection() {
+        return bitacoraCollection;
     }
 
-    public void setBitacoraList(List<Bitacora> bitacoraList) {
-        this.bitacoraList = bitacoraList;
+    public void setBitacoraCollection(Collection<Bitacora> bitacoraCollection) {
+        this.bitacoraCollection = bitacoraCollection;
     }
 
     @Override

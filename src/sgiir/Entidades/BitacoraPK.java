@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Alfredo Mariño
  */
 @Embeddable
-public class CaracteristicaPK implements Serializable {
+public class BitacoraPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "CodigoNaturaleza")
@@ -24,16 +24,16 @@ public class CaracteristicaPK implements Serializable {
     @Column(name = "CodigoTarea")
     private int codigoTarea;
     @Basic(optional = false)
-    @Column(name = "CodigoArea")
-    private int codigoArea;
+    @Column(name = "CorrelativoBitacora")
+    private int correlativoBitacora;
 
-    public CaracteristicaPK() {
+    public BitacoraPK() {
     }
 
-    public CaracteristicaPK(int codigoNaturaleza, int codigoTarea, int codigoArea) {
+    public BitacoraPK(int codigoNaturaleza, int codigoTarea, int correlativoBitacora) {
         this.codigoNaturaleza = codigoNaturaleza;
         this.codigoTarea = codigoTarea;
-        this.codigoArea = codigoArea;
+        this.correlativoBitacora = correlativoBitacora;
     }
 
     public int getCodigoNaturaleza() {
@@ -52,12 +52,12 @@ public class CaracteristicaPK implements Serializable {
         this.codigoTarea = codigoTarea;
     }
 
-    public int getCodigoArea() {
-        return codigoArea;
+    public int getCorrelativoBitacora() {
+        return correlativoBitacora;
     }
 
-    public void setCodigoArea(int codigoArea) {
-        this.codigoArea = codigoArea;
+    public void setCorrelativoBitacora(int correlativoBitacora) {
+        this.correlativoBitacora = correlativoBitacora;
     }
 
     @Override
@@ -65,24 +65,24 @@ public class CaracteristicaPK implements Serializable {
         int hash = 0;
         hash += (int) codigoNaturaleza;
         hash += (int) codigoTarea;
-        hash += (int) codigoArea;
+        hash += (int) correlativoBitacora;
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CaracteristicaPK)) {
+        if (!(object instanceof BitacoraPK)) {
             return false;
         }
-        CaracteristicaPK other = (CaracteristicaPK) object;
+        BitacoraPK other = (BitacoraPK) object;
         if (this.codigoNaturaleza != other.codigoNaturaleza) {
             return false;
         }
         if (this.codigoTarea != other.codigoTarea) {
             return false;
         }
-        if (this.codigoArea != other.codigoArea) {
+        if (this.correlativoBitacora != other.correlativoBitacora) {
             return false;
         }
         return true;
@@ -90,7 +90,7 @@ public class CaracteristicaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.CaracteristicaPK[ codigoNaturaleza=" + codigoNaturaleza + ", codigoTarea=" + codigoTarea + ", codigoArea=" + codigoArea + " ]";
+        return "sgiir.Entidades.BitacoraPK[ codigoNaturaleza=" + codigoNaturaleza + ", codigoTarea=" + codigoTarea + ", correlativoBitacora=" + correlativoBitacora + " ]";
     }
     
 }

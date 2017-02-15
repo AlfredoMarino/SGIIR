@@ -35,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Area.findByDescripcionArea", query = "SELECT a FROM Area a WHERE a.descripcionArea = :descripcionArea")})
 public class Area implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
-    private Collection<Caracteristica> caracteristicaCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +47,8 @@ public class Area implements Serializable {
     @Basic(optional = false)
     @Column(name = "DescripcionArea")
     private String descripcionArea;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "area")
+    private Collection<Caracteristica> caracteristicaCollection;
 
     public Area() {
     }
@@ -88,6 +87,15 @@ public class Area implements Serializable {
         this.descripcionArea = descripcionArea;
     }
 
+    @XmlTransient
+    public Collection<Caracteristica> getCaracteristicaCollection() {
+        return caracteristicaCollection;
+    }
+
+    public void setCaracteristicaCollection(Collection<Caracteristica> caracteristicaCollection) {
+        this.caracteristicaCollection = caracteristicaCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,15 +119,6 @@ public class Area implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Area[ codigoArea=" + codigoArea + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Caracteristica> getCaracteristicaCollection() {
-        return caracteristicaCollection;
-    }
-
-    public void setCaracteristicaCollection(Collection<Caracteristica> caracteristicaCollection) {
-        this.caracteristicaCollection = caracteristicaCollection;
     }
     
 }

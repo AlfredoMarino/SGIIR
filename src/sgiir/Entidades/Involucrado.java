@@ -6,19 +6,14 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,6 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Involucrado.findAll", query = "SELECT i FROM Involucrado i"),
+    @NamedQuery(name = "Involucrado.findByCodigoNaturaleza", query = "SELECT i FROM Involucrado i WHERE i.involucradoPK.codigoNaturaleza = :codigoNaturaleza"),
+    @NamedQuery(name = "Involucrado.findByCodigoTarea", query = "SELECT i FROM Involucrado i WHERE i.involucradoPK.codigoTarea = :codigoTarea"),
     @NamedQuery(name = "Involucrado.findByCodigoInvolucrado", query = "SELECT i FROM Involucrado i WHERE i.involucradoPK.codigoInvolucrado = :codigoInvolucrado"),
     @NamedQuery(name = "Involucrado.findByCodigoPersona", query = "SELECT i FROM Involucrado i WHERE i.involucradoPK.codigoPersona = :codigoPersona")})
 public class Involucrado implements Serializable {
@@ -36,13 +33,15 @@ public class Involucrado implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected InvolucradoPK involucradoPK;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoInvolucrado")
-    private Collection<Tarea> tareaCollection;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "codigoInvolucrado")
-    private Bitacora bitacora;
     @JoinColumn(name = "CodigoPersona", referencedColumnName = "CodigoPersona", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Persona persona;
+    @JoinColumn(name = "CodigoTarea", referencedColumnName = "CodigoTarea", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Tarea tarea;
+    @JoinColumn(name = "CodigoNaturaleza", referencedColumnName = "CodigoNaturaleza", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Naturaleza naturaleza;
 
     public Involucrado() {
     }
@@ -51,8 +50,8 @@ public class Involucrado implements Serializable {
         this.involucradoPK = involucradoPK;
     }
 
-    public Involucrado(int codigoInvolucrado, int codigoPersona) {
-        this.involucradoPK = new InvolucradoPK(codigoInvolucrado, codigoPersona);
+    public Involucrado(int codigoNaturaleza, int codigoTarea, int codigoInvolucrado, int codigoPersona) {
+        this.involucradoPK = new InvolucradoPK(codigoNaturaleza, codigoTarea, codigoInvolucrado, codigoPersona);
     }
 
     public InvolucradoPK getInvolucradoPK() {
@@ -63,29 +62,28 @@ public class Involucrado implements Serializable {
         this.involucradoPK = involucradoPK;
     }
 
-    @XmlTransient
-    public Collection<Tarea> getTareaCollection() {
-        return tareaCollection;
-    }
-
-    public void setTareaCollection(Collection<Tarea> tareaCollection) {
-        this.tareaCollection = tareaCollection;
-    }
-
-    public Bitacora getBitacora() {
-        return bitacora;
-    }
-
-    public void setBitacora(Bitacora bitacora) {
-        this.bitacora = bitacora;
-    }
-
     public Persona getPersona() {
         return persona;
     }
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public Tarea getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        this.tarea = tarea;
+    }
+
+    public Naturaleza getNaturaleza() {
+        return naturaleza;
+    }
+
+    public void setNaturaleza(Naturaleza naturaleza) {
+        this.naturaleza = naturaleza;
     }
 
     @Override

@@ -6,7 +6,7 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,7 +50,7 @@ public class Cargo implements Serializable {
     @Column(name = "InformeCargo")
     private boolean informeCargo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoCargo")
-    private List<Persona> personaList;
+    private Collection<Persona> personaCollection;
     @JoinColumn(name = "CodigoInstitucion", referencedColumnName = "CodigoInstitucion")
     @ManyToOne(optional = false)
     private Institucion codigoInstitucion;
@@ -93,12 +93,12 @@ public class Cargo implements Serializable {
     }
 
     @XmlTransient
-    public List<Persona> getPersonaList() {
-        return personaList;
+    public Collection<Persona> getPersonaCollection() {
+        return personaCollection;
     }
 
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
+    public void setPersonaCollection(Collection<Persona> personaCollection) {
+        this.personaCollection = personaCollection;
     }
 
     public Institucion getCodigoInstitucion() {

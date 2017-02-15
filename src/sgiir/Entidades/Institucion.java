@@ -6,7 +6,7 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,12 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Institucion.findAll", query = "SELECT i FROM Institucion i"),
     @NamedQuery(name = "Institucion.findByCodigoInstitucion", query = "SELECT i FROM Institucion i WHERE i.codigoInstitucion = :codigoInstitucion"),
     @NamedQuery(name = "Institucion.findByNombreInstitucion", query = "SELECT i FROM Institucion i WHERE i.nombreInstitucion = :nombreInstitucion"),
-    @NamedQuery(name = "Institucion.findByCliente", query = "SELECT i FROM Institucion i WHERE i.cliente = :cliente")})
+    @NamedQuery(name = "Institucion.findByClienteInstitucion", query = "SELECT i FROM Institucion i WHERE i.clienteInstitucion = :clienteInstitucion")})
 public class Institucion implements Serializable {
-
-    @Basic(optional = false)
-    @Column(name = "ClienteInstitucion")
-    private boolean clienteInstitucion;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,12 +45,12 @@ public class Institucion implements Serializable {
     @Column(name = "NombreInstitucion")
     private String nombreInstitucion;
     @Basic(optional = false)
-    @Column(name = "Cliente")
-    private boolean cliente;
+    @Column(name = "ClienteInstitucion")
+    private boolean clienteInstitucion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoInstitucion")
-    private List<Naturaleza> naturalezaList;
+    private Collection<Naturaleza> naturalezaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoInstitucion")
-    private List<Cargo> cargoList;
+    private Collection<Cargo> cargoCollection;
 
     public Institucion() {
     }
@@ -63,10 +59,10 @@ public class Institucion implements Serializable {
         this.codigoInstitucion = codigoInstitucion;
     }
 
-    public Institucion(Integer codigoInstitucion, String nombreInstitucion, boolean cliente) {
+    public Institucion(Integer codigoInstitucion, String nombreInstitucion, boolean clienteInstitucion) {
         this.codigoInstitucion = codigoInstitucion;
         this.nombreInstitucion = nombreInstitucion;
-        this.cliente = cliente;
+        this.clienteInstitucion = clienteInstitucion;
     }
 
     public Integer getCodigoInstitucion() {
@@ -85,30 +81,30 @@ public class Institucion implements Serializable {
         this.nombreInstitucion = nombreInstitucion;
     }
 
-    public boolean getCliente() {
-        return cliente;
+    public boolean getClienteInstitucion() {
+        return clienteInstitucion;
     }
 
-    public void setCliente(boolean cliente) {
-        this.cliente = cliente;
-    }
-
-    @XmlTransient
-    public List<Naturaleza> getNaturalezaList() {
-        return naturalezaList;
-    }
-
-    public void setNaturalezaList(List<Naturaleza> naturalezaList) {
-        this.naturalezaList = naturalezaList;
+    public void setClienteInstitucion(boolean clienteInstitucion) {
+        this.clienteInstitucion = clienteInstitucion;
     }
 
     @XmlTransient
-    public List<Cargo> getCargoList() {
-        return cargoList;
+    public Collection<Naturaleza> getNaturalezaCollection() {
+        return naturalezaCollection;
     }
 
-    public void setCargoList(List<Cargo> cargoList) {
-        this.cargoList = cargoList;
+    public void setNaturalezaCollection(Collection<Naturaleza> naturalezaCollection) {
+        this.naturalezaCollection = naturalezaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Cargo> getCargoCollection() {
+        return cargoCollection;
+    }
+
+    public void setCargoCollection(Collection<Cargo> cargoCollection) {
+        this.cargoCollection = cargoCollection;
     }
 
     @Override
@@ -134,14 +130,6 @@ public class Institucion implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Institucion[ codigoInstitucion=" + codigoInstitucion + " ]";
-    }
-
-    public boolean getClienteInstitucion() {
-        return clienteInstitucion;
-    }
-
-    public void setClienteInstitucion(boolean clienteInstitucion) {
-        this.clienteInstitucion = clienteInstitucion;
     }
     
 }

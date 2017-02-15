@@ -6,18 +6,14 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,18 +24,23 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Caracteristica.findAll", query = "SELECT c FROM Caracteristica c"),
-    @NamedQuery(name = "Caracteristica.findByCodigoCaracteristica", query = "SELECT c FROM Caracteristica c WHERE c.caracteristicaPK.codigoCaracteristica = :codigoCaracteristica"),
+    @NamedQuery(name = "Caracteristica.findByCodigoNaturaleza", query = "SELECT c FROM Caracteristica c WHERE c.caracteristicaPK.codigoNaturaleza = :codigoNaturaleza"),
+    @NamedQuery(name = "Caracteristica.findByCodigoTarea", query = "SELECT c FROM Caracteristica c WHERE c.caracteristicaPK.codigoTarea = :codigoTarea"),
     @NamedQuery(name = "Caracteristica.findByCodigoArea", query = "SELECT c FROM Caracteristica c WHERE c.caracteristicaPK.codigoArea = :codigoArea")})
 public class Caracteristica implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CaracteristicaPK caracteristicaPK;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoCaracteristica")
-    private Collection<Tarea> tareaCollection;
     @JoinColumn(name = "CodigoArea", referencedColumnName = "CodigoArea", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Area area;
+    @JoinColumn(name = "CodigoTarea", referencedColumnName = "CodigoTarea", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Tarea tarea;
+    @JoinColumn(name = "CodigoNaturaleza", referencedColumnName = "CodigoNaturaleza", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Naturaleza naturaleza;
 
     public Caracteristica() {
     }
@@ -48,8 +49,8 @@ public class Caracteristica implements Serializable {
         this.caracteristicaPK = caracteristicaPK;
     }
 
-    public Caracteristica(int codigoCaracteristica, int codigoArea) {
-        this.caracteristicaPK = new CaracteristicaPK(codigoCaracteristica, codigoArea);
+    public Caracteristica(int codigoNaturaleza, int codigoTarea, int codigoArea) {
+        this.caracteristicaPK = new CaracteristicaPK(codigoNaturaleza, codigoTarea, codigoArea);
     }
 
     public CaracteristicaPK getCaracteristicaPK() {
@@ -60,21 +61,28 @@ public class Caracteristica implements Serializable {
         this.caracteristicaPK = caracteristicaPK;
     }
 
-    @XmlTransient
-    public Collection<Tarea> getTareaCollection() {
-        return tareaCollection;
-    }
-
-    public void setTareaCollection(Collection<Tarea> tareaCollection) {
-        this.tareaCollection = tareaCollection;
-    }
-
     public Area getArea() {
         return area;
     }
 
     public void setArea(Area area) {
         this.area = area;
+    }
+
+    public Tarea getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        this.tarea = tarea;
+    }
+
+    public Naturaleza getNaturaleza() {
+        return naturaleza;
+    }
+
+    public void setNaturaleza(Naturaleza naturaleza) {
+        this.naturaleza = naturaleza;
     }
 
     @Override

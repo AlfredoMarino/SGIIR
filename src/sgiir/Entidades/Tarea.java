@@ -6,8 +6,8 @@
 package sgiir.Entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,28 +37,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Tarea.findAll", query = "SELECT t FROM Tarea t"),
     @NamedQuery(name = "Tarea.findByCodigoTarea", query = "SELECT t FROM Tarea t WHERE t.codigoTarea = :codigoTarea"),
+    @NamedQuery(name = "Tarea.findByCodigoInvolucrado", query = "SELECT t FROM Tarea t WHERE t.codigoInvolucrado = :codigoInvolucrado"),
+    @NamedQuery(name = "Tarea.findByCodigoCaracteristica", query = "SELECT t FROM Tarea t WHERE t.codigoCaracteristica = :codigoCaracteristica"),
     @NamedQuery(name = "Tarea.findByFechaRecepcionTarea", query = "SELECT t FROM Tarea t WHERE t.fechaRecepcionTarea = :fechaRecepcionTarea"),
     @NamedQuery(name = "Tarea.findByHoraRecepcionTarea", query = "SELECT t FROM Tarea t WHERE t.horaRecepcionTarea = :horaRecepcionTarea"),
     @NamedQuery(name = "Tarea.findByFechaEstimadaTarea", query = "SELECT t FROM Tarea t WHERE t.fechaEstimadaTarea = :fechaEstimadaTarea"),
     @NamedQuery(name = "Tarea.findByHoraEstimadaTarea", query = "SELECT t FROM Tarea t WHERE t.horaEstimadaTarea = :horaEstimadaTarea"),
-    @NamedQuery(name = "Tarea.findByCarpetaEvento", query = "SELECT t FROM Tarea t WHERE t.carpetaEvento = :carpetaEvento"),
+    @NamedQuery(name = "Tarea.findByCarpetaTarea", query = "SELECT t FROM Tarea t WHERE t.carpetaTarea = :carpetaTarea"),
     @NamedQuery(name = "Tarea.findByFechaFinalizacionTarea", query = "SELECT t FROM Tarea t WHERE t.fechaFinalizacionTarea = :fechaFinalizacionTarea"),
     @NamedQuery(name = "Tarea.findByHoraFinalizacionTarea", query = "SELECT t FROM Tarea t WHERE t.horaFinalizacionTarea = :horaFinalizacionTarea")})
 public class Tarea implements Serializable {
-
-    @Basic(optional = false)
-    @Column(name = "CarpetaTarea")
-    private String carpetaTarea;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "ObservacionTarea")
-    private String observacionTarea;
-    @JoinColumn(name = "CodigoInvolucrado", referencedColumnName = "CodigoInvolucrado")
-    @ManyToOne(optional = false)
-    private Involucrado codigoInvolucrado;
-    @JoinColumn(name = "CodigoCaracteristica", referencedColumnName = "CodigoCaracteristica")
-    @ManyToOne(optional = false)
-    private Caracteristica codigoCaracteristica;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,6 +58,12 @@ public class Tarea implements Serializable {
     @Lob
     @Column(name = "DescripcionTarea")
     private String descripcionTarea;
+    @Basic(optional = false)
+    @Column(name = "CodigoInvolucrado")
+    private int codigoInvolucrado;
+    @Basic(optional = false)
+    @Column(name = "CodigoCaracteristica")
+    private int codigoCaracteristica;
     @Basic(optional = false)
     @Column(name = "FechaRecepcionTarea")
     @Temporal(TemporalType.DATE)
@@ -87,12 +81,12 @@ public class Tarea implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date horaEstimadaTarea;
     @Basic(optional = false)
-    @Column(name = "CarpetaEvento")
-    private String carpetaEvento;
+    @Column(name = "CarpetaTarea")
+    private String carpetaTarea;
     @Basic(optional = false)
     @Lob
-    @Column(name = "ObservacionEvento")
-    private String observacionEvento;
+    @Column(name = "ObservacionTarea")
+    private String observacionTarea;
     @Basic(optional = false)
     @Column(name = "FechaFinalizacionTarea")
     @Temporal(TemporalType.DATE)
@@ -107,8 +101,12 @@ public class Tarea implements Serializable {
     @JoinColumn(name = "CodigoSeguimiento", referencedColumnName = "CodigoSeguimiento")
     @ManyToOne(optional = false)
     private Seguimiento codigoSeguimiento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTarea")
-    private List<Bitacora> bitacoraList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tarea")
+    private Collection<Caracteristica> caracteristicaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tarea")
+    private Collection<Bitacora> bitacoraCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tarea")
+    private Collection<Involucrado> involucradoCollection;
 
     public Tarea() {
     }
@@ -117,15 +115,17 @@ public class Tarea implements Serializable {
         this.codigoTarea = codigoTarea;
     }
 
-    public Tarea(Integer codigoTarea, String descripcionTarea, Date fechaRecepcionTarea, Date horaRecepcionTarea, Date fechaEstimadaTarea, Date horaEstimadaTarea, String carpetaEvento, String observacionEvento, Date fechaFinalizacionTarea, Date horaFinalizacionTarea) {
+    public Tarea(Integer codigoTarea, String descripcionTarea, int codigoInvolucrado, int codigoCaracteristica, Date fechaRecepcionTarea, Date horaRecepcionTarea, Date fechaEstimadaTarea, Date horaEstimadaTarea, String carpetaTarea, String observacionTarea, Date fechaFinalizacionTarea, Date horaFinalizacionTarea) {
         this.codigoTarea = codigoTarea;
         this.descripcionTarea = descripcionTarea;
+        this.codigoInvolucrado = codigoInvolucrado;
+        this.codigoCaracteristica = codigoCaracteristica;
         this.fechaRecepcionTarea = fechaRecepcionTarea;
         this.horaRecepcionTarea = horaRecepcionTarea;
         this.fechaEstimadaTarea = fechaEstimadaTarea;
         this.horaEstimadaTarea = horaEstimadaTarea;
-        this.carpetaEvento = carpetaEvento;
-        this.observacionEvento = observacionEvento;
+        this.carpetaTarea = carpetaTarea;
+        this.observacionTarea = observacionTarea;
         this.fechaFinalizacionTarea = fechaFinalizacionTarea;
         this.horaFinalizacionTarea = horaFinalizacionTarea;
     }
@@ -144,6 +144,22 @@ public class Tarea implements Serializable {
 
     public void setDescripcionTarea(String descripcionTarea) {
         this.descripcionTarea = descripcionTarea;
+    }
+
+    public int getCodigoInvolucrado() {
+        return codigoInvolucrado;
+    }
+
+    public void setCodigoInvolucrado(int codigoInvolucrado) {
+        this.codigoInvolucrado = codigoInvolucrado;
+    }
+
+    public int getCodigoCaracteristica() {
+        return codigoCaracteristica;
+    }
+
+    public void setCodigoCaracteristica(int codigoCaracteristica) {
+        this.codigoCaracteristica = codigoCaracteristica;
     }
 
     public Date getFechaRecepcionTarea() {
@@ -178,20 +194,20 @@ public class Tarea implements Serializable {
         this.horaEstimadaTarea = horaEstimadaTarea;
     }
 
-    public String getCarpetaEvento() {
-        return carpetaEvento;
+    public String getCarpetaTarea() {
+        return carpetaTarea;
     }
 
-    public void setCarpetaEvento(String carpetaEvento) {
-        this.carpetaEvento = carpetaEvento;
+    public void setCarpetaTarea(String carpetaTarea) {
+        this.carpetaTarea = carpetaTarea;
     }
 
-    public String getObservacionEvento() {
-        return observacionEvento;
+    public String getObservacionTarea() {
+        return observacionTarea;
     }
 
-    public void setObservacionEvento(String observacionEvento) {
-        this.observacionEvento = observacionEvento;
+    public void setObservacionTarea(String observacionTarea) {
+        this.observacionTarea = observacionTarea;
     }
 
     public Date getFechaFinalizacionTarea() {
@@ -227,12 +243,30 @@ public class Tarea implements Serializable {
     }
 
     @XmlTransient
-    public List<Bitacora> getBitacoraList() {
-        return bitacoraList;
+    public Collection<Caracteristica> getCaracteristicaCollection() {
+        return caracteristicaCollection;
     }
 
-    public void setBitacoraList(List<Bitacora> bitacoraList) {
-        this.bitacoraList = bitacoraList;
+    public void setCaracteristicaCollection(Collection<Caracteristica> caracteristicaCollection) {
+        this.caracteristicaCollection = caracteristicaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Bitacora> getBitacoraCollection() {
+        return bitacoraCollection;
+    }
+
+    public void setBitacoraCollection(Collection<Bitacora> bitacoraCollection) {
+        this.bitacoraCollection = bitacoraCollection;
+    }
+
+    @XmlTransient
+    public Collection<Involucrado> getInvolucradoCollection() {
+        return involucradoCollection;
+    }
+
+    public void setInvolucradoCollection(Collection<Involucrado> involucradoCollection) {
+        this.involucradoCollection = involucradoCollection;
     }
 
     @Override
@@ -258,38 +292,6 @@ public class Tarea implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Tarea[ codigoTarea=" + codigoTarea + " ]";
-    }
-
-    public String getCarpetaTarea() {
-        return carpetaTarea;
-    }
-
-    public void setCarpetaTarea(String carpetaTarea) {
-        this.carpetaTarea = carpetaTarea;
-    }
-
-    public String getObservacionTarea() {
-        return observacionTarea;
-    }
-
-    public void setObservacionTarea(String observacionTarea) {
-        this.observacionTarea = observacionTarea;
-    }
-
-    public Involucrado getCodigoInvolucrado() {
-        return codigoInvolucrado;
-    }
-
-    public void setCodigoInvolucrado(Involucrado codigoInvolucrado) {
-        this.codigoInvolucrado = codigoInvolucrado;
-    }
-
-    public Caracteristica getCodigoCaracteristica() {
-        return codigoCaracteristica;
-    }
-
-    public void setCodigoCaracteristica(Caracteristica codigoCaracteristica) {
-        this.codigoCaracteristica = codigoCaracteristica;
     }
     
 }
