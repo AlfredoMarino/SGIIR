@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -20,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Seguimiento.findByHorasSeguimiento", query = "SELECT s FROM Seguimiento s WHERE s.horasSeguimiento = :horasSeguimiento"),
     @NamedQuery(name = "Seguimiento.findByMaximoSeguimiento", query = "SELECT s FROM Seguimiento s WHERE s.maximoSeguimiento = :maximoSeguimiento")})
 public class Seguimiento implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,7 +89,9 @@ public class Seguimiento implements Serializable {
     }
 
     public void setCodigoSeguimiento(Integer codigoSeguimiento) {
+        Integer oldCodigoSeguimiento = this.codigoSeguimiento;
         this.codigoSeguimiento = codigoSeguimiento;
+        changeSupport.firePropertyChange("codigoSeguimiento", oldCodigoSeguimiento, codigoSeguimiento);
     }
 
     public String getDescripcionSeguimiento() {
@@ -91,7 +99,9 @@ public class Seguimiento implements Serializable {
     }
 
     public void setDescripcionSeguimiento(String descripcionSeguimiento) {
+        String oldDescripcionSeguimiento = this.descripcionSeguimiento;
         this.descripcionSeguimiento = descripcionSeguimiento;
+        changeSupport.firePropertyChange("descripcionSeguimiento", oldDescripcionSeguimiento, descripcionSeguimiento);
     }
 
     public int getDiasSeguimiento() {
@@ -99,7 +109,9 @@ public class Seguimiento implements Serializable {
     }
 
     public void setDiasSeguimiento(int diasSeguimiento) {
+        int oldDiasSeguimiento = this.diasSeguimiento;
         this.diasSeguimiento = diasSeguimiento;
+        changeSupport.firePropertyChange("diasSeguimiento", oldDiasSeguimiento, diasSeguimiento);
     }
 
     public int getHorasSeguimiento() {
@@ -107,7 +119,9 @@ public class Seguimiento implements Serializable {
     }
 
     public void setHorasSeguimiento(int horasSeguimiento) {
+        int oldHorasSeguimiento = this.horasSeguimiento;
         this.horasSeguimiento = horasSeguimiento;
+        changeSupport.firePropertyChange("horasSeguimiento", oldHorasSeguimiento, horasSeguimiento);
     }
 
     public int getMaximoSeguimiento() {
@@ -115,7 +129,9 @@ public class Seguimiento implements Serializable {
     }
 
     public void setMaximoSeguimiento(int maximoSeguimiento) {
+        int oldMaximoSeguimiento = this.maximoSeguimiento;
         this.maximoSeguimiento = maximoSeguimiento;
+        changeSupport.firePropertyChange("maximoSeguimiento", oldMaximoSeguimiento, maximoSeguimiento);
     }
 
     @XmlTransient
@@ -132,7 +148,9 @@ public class Seguimiento implements Serializable {
     }
 
     public void setCodigoNaturaleza(Naturaleza codigoNaturaleza) {
+        Naturaleza oldCodigoNaturaleza = this.codigoNaturaleza;
         this.codigoNaturaleza = codigoNaturaleza;
+        changeSupport.firePropertyChange("codigoNaturaleza", oldCodigoNaturaleza, codigoNaturaleza);
     }
 
     @Override
@@ -158,6 +176,14 @@ public class Seguimiento implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Seguimiento[ codigoSeguimiento=" + codigoSeguimiento + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

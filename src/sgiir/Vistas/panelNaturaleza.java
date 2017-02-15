@@ -74,9 +74,9 @@ public class panelNaturaleza extends JPanel {
 
         tipoNaturalezaField.addCaretListener(formListener);
 
-        rgrPrioridad.add(rdbrPrioridad1);
-        rgrPrioridad.add(rdbrPrioridad2);
-        rgrPrioridad.add(rdbrPrioridad3);
+        rgrPrioridad.add(rdbPrioridad1);
+        rgrPrioridad.add(rdbPrioridad2);
+        rgrPrioridad.add(rdbPrioridad3);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prioridadNaturaleza}"), prioridadNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
@@ -85,6 +85,8 @@ public class panelNaturaleza extends JPanel {
         bindingGroup.addBinding(binding);
 
         prioridadNaturalezaField.addCaretListener(formListener);
+
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion.nombreInstitucion}"));
@@ -193,15 +195,14 @@ public class panelNaturaleza extends JPanel {
                                     .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(rdbTipo1)
+                                            .addComponent(rdbPrioridad1))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(rdbTipo2)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(rdbTipo1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(rdbTipo2))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(rdbPrioridad1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(rdbPrioridad2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGap(49, 49, 49)
                                                 .addComponent(rdbPrioridad3)))
                                         .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap())
@@ -213,13 +214,8 @@ public class panelNaturaleza extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdbPrioridad1)
-                    .addComponent(rdbPrioridad2)
-                    .addComponent(rdbPrioridad3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoInstitucionLabel)
                     .addComponent(codigoInstitucionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -229,7 +225,11 @@ public class panelNaturaleza extends JPanel {
                     .addComponent(rdbTipo1)
                     .addComponent(rdbTipo2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prioridadNaturalezaLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(prioridadNaturalezaLabel)
+                    .addComponent(rdbPrioridad1)
+                    .addComponent(rdbPrioridad2)
+                    .addComponent(rdbPrioridad3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoNaturalezaLabel)
@@ -342,14 +342,14 @@ public class panelNaturaleza extends JPanel {
 
     private void tipoNaturalezaFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tipoNaturalezaFieldCaretUpdate
         switch(tipoNaturalezaField.getText()){
-            //Master
-            case "true":
-                rdbTipo1.setSelected(true);
+            //Requerimiento
+            case "0":
+                rdbTipo2.setSelected(true);
             break;
             
-            //CAU
-            case "false":
-                rdbTipo2.setSelected(true);
+            //incidencia
+            case "1":
+                rdbTipo1.setSelected(true);
             break; 
         }
     }//GEN-LAST:event_tipoNaturalezaFieldCaretUpdate
@@ -367,20 +367,20 @@ public class panelNaturaleza extends JPanel {
     }//GEN-LAST:event_rdbPrioridad3ActionPerformed
 
     private void prioridadNaturalezaFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_prioridadNaturalezaFieldCaretUpdate
-        switch(tipoNaturalezaField.getText()){
-            //Master
+        switch(prioridadNaturalezaField.getText()){
+            //baja
             case "1":
-                rdbTipo1.setSelected(true);
+                rdbPrioridad1.setSelected(true);
             break;
             
-            //CAU
+            //Media
             case "2":
-                rdbTipo2.setSelected(true);
+                rdbPrioridad2.setSelected(true);
             break; 
             
-            //CAU
+            //Alta
             case "3":
-                rdbTipo2.setSelected(true);
+                rdbPrioridad3.setSelected(true);
             break; 
         }
     }//GEN-LAST:event_prioridadNaturalezaFieldCaretUpdate
