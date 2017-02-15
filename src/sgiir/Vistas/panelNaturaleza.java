@@ -39,6 +39,10 @@ public class panelNaturaleza extends JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT n FROM Naturaleza n");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
+        rgrTipo = new javax.swing.ButtonGroup();
+        tipoNaturalezaField = new javax.swing.JTextField();
+        rgrPrioridad = new javax.swing.ButtonGroup();
+        prioridadNaturalezaField = new javax.swing.JTextField();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         codigoInstitucionLabel = new javax.swing.JLabel();
@@ -46,32 +50,68 @@ public class panelNaturaleza extends JPanel {
         prioridadNaturalezaLabel = new javax.swing.JLabel();
         codigoNaturalezaLabel = new javax.swing.JLabel();
         codigoInstitucionField = new javax.swing.JTextField();
-        tipoNaturalezaField = new javax.swing.JTextField();
-        prioridadNaturalezaField = new javax.swing.JTextField();
         codigoNaturalezaField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
+        rdbTipo1 = new javax.swing.JRadioButton();
+        rdbTipo2 = new javax.swing.JRadioButton();
+        rdbPrioridad1 = new javax.swing.JRadioButton();
+        rdbPrioridad2 = new javax.swing.JRadioButton();
+        rdbPrioridad3 = new javax.swing.JRadioButton();
 
         FormListener formListener = new FormListener();
 
+        rgrTipo.add(rdbTipo1);
+        rgrTipo.add(rdbTipo2);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipoNaturaleza}"), tipoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), tipoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        tipoNaturalezaField.addCaretListener(formListener);
+
+        rgrPrioridad.add(rdbrPrioridad1);
+        rgrPrioridad.add(rdbrPrioridad2);
+        rgrPrioridad.add(rdbrPrioridad3);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prioridadNaturaleza}"), prioridadNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), prioridadNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        prioridadNaturalezaField.addCaretListener(formListener);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion.cargoList}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion.nombreInstitucion}"));
         columnBinding.setColumnName("Codigo Institucion");
-        columnBinding.setColumnClass(java.util.List.class);
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipoNaturaleza}"));
         columnBinding.setColumnName("Tipo Naturaleza");
-        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${prioridadNaturaleza}"));
         columnBinding.setColumnName("Prioridad Naturaleza");
-        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza}"));
         columnBinding.setColumnName("Codigo Naturaleza");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         masterScrollPane.setViewportView(masterTable);
+        if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(0).setResizable(false);
+            masterTable.getColumnModel().getColumn(1).setResizable(false);
+            masterTable.getColumnModel().getColumn(2).setResizable(false);
+            masterTable.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         codigoInstitucionLabel.setText("Codigo Institucion:");
 
@@ -81,22 +121,10 @@ public class panelNaturaleza extends JPanel {
 
         codigoNaturalezaLabel.setText("Codigo Naturaleza:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoInstitucion}"), codigoInstitucionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoInstitucion.nombreInstitucion}"), codigoInstitucionField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoInstitucionField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tipoNaturaleza}"), tipoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), tipoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prioridadNaturaleza}"), prioridadNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), prioridadNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoNaturaleza}"), codigoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -121,6 +149,20 @@ public class panelNaturaleza extends JPanel {
 
         deleteButton.addActionListener(formListener);
 
+        rdbTipo1.setText("Incidencia");
+        rdbTipo1.addActionListener(formListener);
+
+        rdbTipo2.setText("Requerimiento");
+
+        rdbPrioridad1.setText("Baja");
+        rdbPrioridad1.addActionListener(formListener);
+
+        rdbPrioridad2.setText("Media");
+        rdbPrioridad2.addActionListener(formListener);
+
+        rdbPrioridad3.setText("Alta");
+        rdbPrioridad3.addActionListener(formListener);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,6 +180,7 @@ public class panelNaturaleza extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(codigoInstitucionLabel)
@@ -147,10 +190,20 @@ public class panelNaturaleza extends JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(codigoInstitucionField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(tipoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(prioridadNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))))
+                                    .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(rdbTipo1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(rdbTipo2))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(rdbPrioridad1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(rdbPrioridad2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(rdbPrioridad3)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
 
@@ -160,19 +213,23 @@ public class panelNaturaleza extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdbPrioridad1)
+                    .addComponent(rdbPrioridad2)
+                    .addComponent(rdbPrioridad3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoInstitucionLabel)
                     .addComponent(codigoInstitucionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tipoNaturalezaLabel)
-                    .addComponent(tipoNaturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdbTipo1)
+                    .addComponent(rdbTipo2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(prioridadNaturalezaLabel)
-                    .addComponent(prioridadNaturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(prioridadNaturalezaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoNaturalezaLabel)
@@ -191,7 +248,7 @@ public class panelNaturaleza extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener {
+    private class FormListener implements java.awt.event.ActionListener, javax.swing.event.CaretListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -205,6 +262,27 @@ public class panelNaturaleza extends JPanel {
             }
             else if (evt.getSource() == deleteButton) {
                 panelNaturaleza.this.deleteButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbTipo1) {
+                panelNaturaleza.this.rdbTipo1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad1) {
+                panelNaturaleza.this.rdbPrioridad1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad2) {
+                panelNaturaleza.this.rdbPrioridad2ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad3) {
+                panelNaturaleza.this.rdbPrioridad3ActionPerformed(evt);
+            }
+        }
+
+        public void caretUpdate(javax.swing.event.CaretEvent evt) {
+            if (evt.getSource() == tipoNaturalezaField) {
+                panelNaturaleza.this.tipoNaturalezaFieldCaretUpdate(evt);
+            }
+            else if (evt.getSource() == prioridadNaturalezaField) {
+                panelNaturaleza.this.prioridadNaturalezaFieldCaretUpdate(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -258,6 +336,55 @@ public class panelNaturaleza extends JPanel {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void rdbTipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbTipo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbTipo1ActionPerformed
+
+    private void tipoNaturalezaFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tipoNaturalezaFieldCaretUpdate
+        switch(tipoNaturalezaField.getText()){
+            //Master
+            case "true":
+                rdbTipo1.setSelected(true);
+            break;
+            
+            //CAU
+            case "false":
+                rdbTipo2.setSelected(true);
+            break; 
+        }
+    }//GEN-LAST:event_tipoNaturalezaFieldCaretUpdate
+
+    private void rdbPrioridad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad1ActionPerformed
+
+    private void rdbPrioridad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad2ActionPerformed
+
+    private void rdbPrioridad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad3ActionPerformed
+
+    private void prioridadNaturalezaFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_prioridadNaturalezaFieldCaretUpdate
+        switch(tipoNaturalezaField.getText()){
+            //Master
+            case "1":
+                rdbTipo1.setSelected(true);
+            break;
+            
+            //CAU
+            case "2":
+                rdbTipo2.setSelected(true);
+            break; 
+            
+            //CAU
+            case "3":
+                rdbTipo2.setSelected(true);
+            break; 
+        }
+    }//GEN-LAST:event_prioridadNaturalezaFieldCaretUpdate
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField codigoInstitucionField;
@@ -273,7 +400,14 @@ public class panelNaturaleza extends JPanel {
     private javax.swing.JTextField prioridadNaturalezaField;
     private javax.swing.JLabel prioridadNaturalezaLabel;
     private javax.persistence.Query query;
+    private javax.swing.JRadioButton rdbPrioridad1;
+    private javax.swing.JRadioButton rdbPrioridad2;
+    private javax.swing.JRadioButton rdbPrioridad3;
+    private javax.swing.JRadioButton rdbTipo1;
+    private javax.swing.JRadioButton rdbTipo2;
     private javax.swing.JButton refreshButton;
+    private javax.swing.ButtonGroup rgrPrioridad;
+    private javax.swing.ButtonGroup rgrTipo;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField tipoNaturalezaField;
     private javax.swing.JLabel tipoNaturalezaLabel;

@@ -94,7 +94,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="nombreInstitucionField" alignment="0" pref="315" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdbCliente" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -120,7 +120,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="clienteLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jRadioButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="rdbCliente" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="1"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -253,9 +253,9 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+    <Component class="javax.swing.JRadioButton" name="rdbCliente">
       <BindingProperties>
-        <BindingProperty name="selected" source="masterTable" sourcePath="${selectedElement.clienteInstitucion}" target="jRadioButton1" targetPath="selected" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="selected" source="masterTable" sourcePath="${selectedElement.clienteInstitucion}" target="rdbCliente" targetPath="selected" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
   </SubComponents>
