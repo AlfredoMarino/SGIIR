@@ -41,6 +41,8 @@ public class menu extends javax.swing.JFrame {
     public panelPersona VistaPersona = new panelPersona();
     public panelAutenticacion VistaAutenticacion = new panelAutenticacion();
     public panelNaturaleza VistaNaturaleza = new panelNaturaleza();
+    public panelSeguimiento VistaSeguimiento = new panelSeguimiento();
+    
     
     CardLayout controladorPaneles;
     
@@ -130,6 +132,7 @@ public class menu extends javax.swing.JFrame {
         mitInstitucion = new javax.swing.JMenuItem();
         mitCargo = new javax.swing.JMenuItem();
         mitNaturaleza = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         mnuAcerca = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -273,6 +276,14 @@ public class menu extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mitNaturaleza);
 
+        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(jMenuItem3);
+
         menuBar.add(mnuConfiguracion);
 
         mnuAcerca.setText("Acerca de");
@@ -333,6 +344,10 @@ public class menu extends javax.swing.JFrame {
         controladorPaneles.show(pnlDetails, "NATURALEZA");
     }//GEN-LAST:event_mitNaturalezaActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        controladorPaneles.show(pnlDetails, "SEGUIMIENTO");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -377,6 +392,7 @@ public class menu extends javax.swing.JFrame {
         pnlDetails.add(VistaCargo, "CARGO");
         pnlDetails.add(VistaAutenticacion, "AUTENTICACION");
         pnlDetails.add(VistaNaturaleza, "NATURALEZA");
+        pnlDetails.add(VistaSeguimiento, "SEGUIMIENTO");
         
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
@@ -387,6 +403,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
     private javax.swing.JMenuItem mitAutenticacion;

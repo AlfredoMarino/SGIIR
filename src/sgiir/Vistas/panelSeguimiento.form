@@ -52,50 +52,56 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="newButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="deleteButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="refreshButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="saveButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="codigoNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="codigoSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="descripcionSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="diasSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="horasSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="maximoSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="newButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="deleteButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="refreshButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="saveButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="masterScrollPane" pref="380" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="codigoNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="codigoSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="descripcionSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="diasSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="horasSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="maximoSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="codigoNaturalezaField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="codigoSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="descripcionSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="diasSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="horasSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="maximoSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
+                                  <Component id="cbxNaturaleza" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="codigoNaturalezaField" alignment="0" pref="315" max="32767" attributes="0"/>
-                  <Component id="codigoSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                  <Component id="descripcionSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                  <Component id="diasSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                  <Component id="horasSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
-                  <Component id="maximoSeguimientoField" alignment="0" pref="315" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="380" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="130" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="masterScrollPane" min="-2" pref="86" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="cbxNaturaleza" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="codigoNaturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="codigoNaturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -213,7 +219,8 @@
     </Component>
     <Component class="javax.swing.JTextField" name="codigoNaturalezaField">
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoNaturaleza}" target="codigoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="cbxNaturaleza" sourcePath="${selectedItem}" target="codigoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
         <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoNaturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
@@ -308,6 +315,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbxNaturaleza">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxNaturalezaActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;comboBox&gt;"/>
       </AuxValues>
     </Component>
   </SubComponents>

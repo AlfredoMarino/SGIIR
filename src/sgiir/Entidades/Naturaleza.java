@@ -116,7 +116,7 @@ public class Naturaleza implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.Naturaleza[ codigoNaturaleza=" + codigoNaturaleza + " ]";
+        return codigoNaturaleza.toString();
     }
     
 }
