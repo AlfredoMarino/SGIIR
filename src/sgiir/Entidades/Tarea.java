@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -24,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,8 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Tarea.findAll", query = "SELECT t FROM Tarea t"),
     @NamedQuery(name = "Tarea.findByCodigoTarea", query = "SELECT t FROM Tarea t WHERE t.codigoTarea = :codigoTarea"),
-    @NamedQuery(name = "Tarea.findByCodigoInvolucrado", query = "SELECT t FROM Tarea t WHERE t.codigoInvolucrado = :codigoInvolucrado"),
-    @NamedQuery(name = "Tarea.findByCodigoCaracteristica", query = "SELECT t FROM Tarea t WHERE t.codigoCaracteristica = :codigoCaracteristica"),
     @NamedQuery(name = "Tarea.findByFechaRecepcionTarea", query = "SELECT t FROM Tarea t WHERE t.fechaRecepcionTarea = :fechaRecepcionTarea"),
     @NamedQuery(name = "Tarea.findByHoraRecepcionTarea", query = "SELECT t FROM Tarea t WHERE t.horaRecepcionTarea = :horaRecepcionTarea"),
     @NamedQuery(name = "Tarea.findByFechaEstimadaTarea", query = "SELECT t FROM Tarea t WHERE t.fechaEstimadaTarea = :fechaEstimadaTarea"),
@@ -47,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tarea.findByFechaFinalizacionTarea", query = "SELECT t FROM Tarea t WHERE t.fechaFinalizacionTarea = :fechaFinalizacionTarea"),
     @NamedQuery(name = "Tarea.findByHoraFinalizacionTarea", query = "SELECT t FROM Tarea t WHERE t.horaFinalizacionTarea = :horaFinalizacionTarea")})
 public class Tarea implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,12 +62,6 @@ public class Tarea implements Serializable {
     @Lob
     @Column(name = "DescripcionTarea")
     private String descripcionTarea;
-    @Basic(optional = false)
-    @Column(name = "CodigoInvolucrado")
-    private int codigoInvolucrado;
-    @Basic(optional = false)
-    @Column(name = "CodigoCaracteristica")
-    private int codigoCaracteristica;
     @Basic(optional = false)
     @Column(name = "FechaRecepcionTarea")
     @Temporal(TemporalType.DATE)
@@ -115,11 +113,9 @@ public class Tarea implements Serializable {
         this.codigoTarea = codigoTarea;
     }
 
-    public Tarea(Integer codigoTarea, String descripcionTarea, int codigoInvolucrado, int codigoCaracteristica, Date fechaRecepcionTarea, Date horaRecepcionTarea, Date fechaEstimadaTarea, Date horaEstimadaTarea, String carpetaTarea, String observacionTarea, Date fechaFinalizacionTarea, Date horaFinalizacionTarea) {
+    public Tarea(Integer codigoTarea, String descripcionTarea, Date fechaRecepcionTarea, Date horaRecepcionTarea, Date fechaEstimadaTarea, Date horaEstimadaTarea, String carpetaTarea, String observacionTarea, Date fechaFinalizacionTarea, Date horaFinalizacionTarea) {
         this.codigoTarea = codigoTarea;
         this.descripcionTarea = descripcionTarea;
-        this.codigoInvolucrado = codigoInvolucrado;
-        this.codigoCaracteristica = codigoCaracteristica;
         this.fechaRecepcionTarea = fechaRecepcionTarea;
         this.horaRecepcionTarea = horaRecepcionTarea;
         this.fechaEstimadaTarea = fechaEstimadaTarea;
@@ -135,7 +131,9 @@ public class Tarea implements Serializable {
     }
 
     public void setCodigoTarea(Integer codigoTarea) {
+        Integer oldCodigoTarea = this.codigoTarea;
         this.codigoTarea = codigoTarea;
+        changeSupport.firePropertyChange("codigoTarea", oldCodigoTarea, codigoTarea);
     }
 
     public String getDescripcionTarea() {
@@ -143,23 +141,9 @@ public class Tarea implements Serializable {
     }
 
     public void setDescripcionTarea(String descripcionTarea) {
+        String oldDescripcionTarea = this.descripcionTarea;
         this.descripcionTarea = descripcionTarea;
-    }
-
-    public int getCodigoInvolucrado() {
-        return codigoInvolucrado;
-    }
-
-    public void setCodigoInvolucrado(int codigoInvolucrado) {
-        this.codigoInvolucrado = codigoInvolucrado;
-    }
-
-    public int getCodigoCaracteristica() {
-        return codigoCaracteristica;
-    }
-
-    public void setCodigoCaracteristica(int codigoCaracteristica) {
-        this.codigoCaracteristica = codigoCaracteristica;
+        changeSupport.firePropertyChange("descripcionTarea", oldDescripcionTarea, descripcionTarea);
     }
 
     public Date getFechaRecepcionTarea() {
@@ -167,7 +151,9 @@ public class Tarea implements Serializable {
     }
 
     public void setFechaRecepcionTarea(Date fechaRecepcionTarea) {
+        Date oldFechaRecepcionTarea = this.fechaRecepcionTarea;
         this.fechaRecepcionTarea = fechaRecepcionTarea;
+        changeSupport.firePropertyChange("fechaRecepcionTarea", oldFechaRecepcionTarea, fechaRecepcionTarea);
     }
 
     public Date getHoraRecepcionTarea() {
@@ -175,7 +161,9 @@ public class Tarea implements Serializable {
     }
 
     public void setHoraRecepcionTarea(Date horaRecepcionTarea) {
+        Date oldHoraRecepcionTarea = this.horaRecepcionTarea;
         this.horaRecepcionTarea = horaRecepcionTarea;
+        changeSupport.firePropertyChange("horaRecepcionTarea", oldHoraRecepcionTarea, horaRecepcionTarea);
     }
 
     public Date getFechaEstimadaTarea() {
@@ -183,7 +171,9 @@ public class Tarea implements Serializable {
     }
 
     public void setFechaEstimadaTarea(Date fechaEstimadaTarea) {
+        Date oldFechaEstimadaTarea = this.fechaEstimadaTarea;
         this.fechaEstimadaTarea = fechaEstimadaTarea;
+        changeSupport.firePropertyChange("fechaEstimadaTarea", oldFechaEstimadaTarea, fechaEstimadaTarea);
     }
 
     public Date getHoraEstimadaTarea() {
@@ -191,7 +181,9 @@ public class Tarea implements Serializable {
     }
 
     public void setHoraEstimadaTarea(Date horaEstimadaTarea) {
+        Date oldHoraEstimadaTarea = this.horaEstimadaTarea;
         this.horaEstimadaTarea = horaEstimadaTarea;
+        changeSupport.firePropertyChange("horaEstimadaTarea", oldHoraEstimadaTarea, horaEstimadaTarea);
     }
 
     public String getCarpetaTarea() {
@@ -199,7 +191,9 @@ public class Tarea implements Serializable {
     }
 
     public void setCarpetaTarea(String carpetaTarea) {
+        String oldCarpetaTarea = this.carpetaTarea;
         this.carpetaTarea = carpetaTarea;
+        changeSupport.firePropertyChange("carpetaTarea", oldCarpetaTarea, carpetaTarea);
     }
 
     public String getObservacionTarea() {
@@ -207,7 +201,9 @@ public class Tarea implements Serializable {
     }
 
     public void setObservacionTarea(String observacionTarea) {
+        String oldObservacionTarea = this.observacionTarea;
         this.observacionTarea = observacionTarea;
+        changeSupport.firePropertyChange("observacionTarea", oldObservacionTarea, observacionTarea);
     }
 
     public Date getFechaFinalizacionTarea() {
@@ -215,7 +211,9 @@ public class Tarea implements Serializable {
     }
 
     public void setFechaFinalizacionTarea(Date fechaFinalizacionTarea) {
+        Date oldFechaFinalizacionTarea = this.fechaFinalizacionTarea;
         this.fechaFinalizacionTarea = fechaFinalizacionTarea;
+        changeSupport.firePropertyChange("fechaFinalizacionTarea", oldFechaFinalizacionTarea, fechaFinalizacionTarea);
     }
 
     public Date getHoraFinalizacionTarea() {
@@ -223,7 +221,9 @@ public class Tarea implements Serializable {
     }
 
     public void setHoraFinalizacionTarea(Date horaFinalizacionTarea) {
+        Date oldHoraFinalizacionTarea = this.horaFinalizacionTarea;
         this.horaFinalizacionTarea = horaFinalizacionTarea;
+        changeSupport.firePropertyChange("horaFinalizacionTarea", oldHoraFinalizacionTarea, horaFinalizacionTarea);
     }
 
     public Naturaleza getCodigoNaturaleza() {
@@ -231,7 +231,9 @@ public class Tarea implements Serializable {
     }
 
     public void setCodigoNaturaleza(Naturaleza codigoNaturaleza) {
+        Naturaleza oldCodigoNaturaleza = this.codigoNaturaleza;
         this.codigoNaturaleza = codigoNaturaleza;
+        changeSupport.firePropertyChange("codigoNaturaleza", oldCodigoNaturaleza, codigoNaturaleza);
     }
 
     public Seguimiento getCodigoSeguimiento() {
@@ -239,7 +241,9 @@ public class Tarea implements Serializable {
     }
 
     public void setCodigoSeguimiento(Seguimiento codigoSeguimiento) {
+        Seguimiento oldCodigoSeguimiento = this.codigoSeguimiento;
         this.codigoSeguimiento = codigoSeguimiento;
+        changeSupport.firePropertyChange("codigoSeguimiento", oldCodigoSeguimiento, codigoSeguimiento);
     }
 
     @XmlTransient
@@ -292,6 +296,14 @@ public class Tarea implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Tarea[ codigoTarea=" + codigoTarea + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

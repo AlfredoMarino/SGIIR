@@ -41,7 +41,8 @@ public class menu extends javax.swing.JFrame {
     public panelPersona VistaPersona = new panelPersona();
     public panelAutenticacion VistaAutenticacion = new panelAutenticacion();
     public panelNaturaleza VistaNaturaleza = new panelNaturaleza();
-    public panelSeguimiento VistaSeguimiento = new panelSeguimiento();
+    public panelSeguimiento2 VistaSeguimiento = new panelSeguimiento2();
+    public panelTarea VistaTarea = new panelTarea();
     
     
     CardLayout controladorPaneles;
@@ -296,7 +297,7 @@ public class menu extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
  
-        //controladorPaneles.show(pnlDetails, "TAREA");
+        controladorPaneles.show(pnlDetails, "TAREA");
         //controladorPaneles.show(pnlDetails, "TAREA");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -385,6 +386,7 @@ public class menu extends javax.swing.JFrame {
 
     private void controlPanel(){
         
+        pnlDetails.add(VistaTarea, "TAREA");
         pnlDetails.add(VistaPersona, "PERSONA");
         pnlDetails.add(VistaResumen, "RESUMEN");
         pnlDetails.add(VistaInstitucion, "INSTITUCION");
