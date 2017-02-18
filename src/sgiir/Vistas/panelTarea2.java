@@ -497,22 +497,17 @@ public class panelTarea2 extends JPanel {
     
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        entityManager.getTransaction().rollback();
-        entityManager.getTransaction().begin();
-        java.util.Collection data = query.getResultList();
-        for (Object entity : data) {
-            entityManager.refresh(entity);
-        }
-        list.clear();
-        list.addAll(data);
+        refresh();
     }//GEN-LAST:event_refreshButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            valida();
+            //valida();
             
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
+            
+            refresh();
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
@@ -523,10 +518,12 @@ public class panelTarea2 extends JPanel {
             list.clear();
             list.addAll(merged);
         }
+        
+        
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private boolean valida(){
-        
+        int selected = masterTable.getSelectedRow();
         int codigoTarea = 0;
         int codigoNaturaleza = Integer.parseInt(codigoNaturalezaField.getText());
         String descripcionTarea = fldDescripcion.getText();
@@ -568,12 +565,22 @@ public class panelTarea2 extends JPanel {
         t.setFechaFinalizacionTarea(fechaFinalizacionTarea);
         t.setHoraFinalizacionTarea(horaFinalizacionTarea);
         
+        list.set(selected, n);
         entityManager.merge(t);
         
         return true;
     }
     
-    
+    private void refresh(){
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
+        java.util.Collection data = query.getResultList();
+        for (Object entity : data) {
+            entityManager.refresh(entity);
+        }
+        list.clear();
+        list.addAll(data);
+    }
     private void detailTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detailTableMouseReleased
         if(detailTable.getSelectedRow() != -1){
             for (int index = 0; index < cbxSeguimiento.getItemCount(); index++) {

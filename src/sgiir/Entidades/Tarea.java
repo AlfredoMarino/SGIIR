@@ -295,7 +295,7 @@ public class Tarea implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.Tarea[ codigoTarea=" + codigoTarea + " ]";
+        return codigoTarea.toString();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

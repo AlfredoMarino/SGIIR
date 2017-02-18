@@ -165,7 +165,7 @@ public class Seguimiento implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.Seguimiento[ codigoSeguimiento=" + codigoSeguimiento + " ]";
+        return codigoSeguimiento.toString();
     }
     
 }
