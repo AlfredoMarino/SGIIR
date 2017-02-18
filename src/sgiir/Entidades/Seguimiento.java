@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import sgiir.comboBox;
 
 /**
  *
@@ -133,6 +134,13 @@ public class Seguimiento implements Serializable {
 
     public void setCodigoNaturaleza(Naturaleza codigoNaturaleza) {
         this.codigoNaturaleza = codigoNaturaleza;
+    }
+    
+    public comboBox getItemComboBox() {
+        
+        comboBox ItemCombo = new comboBox(codigoSeguimiento, (descripcionSeguimiento + " (" + codigoSeguimiento.toString() + ")"));
+        
+        return ItemCombo;
     }
 
     @Override

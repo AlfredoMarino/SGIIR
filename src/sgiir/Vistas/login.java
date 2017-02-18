@@ -174,7 +174,7 @@ public class login extends javax.swing.JFrame {
                     this.setVisible(false);
                     
                     //envia parametros y muestra Menu
-                    menu VistaMenu = new menu(rs.getInt("CodigoPersona"), rs.getByte("nivelAutenticacion"));
+                    frameMenu VistaMenu = new frameMenu(rs.getInt("CodigoPersona"), rs.getByte("nivelAutenticacion"));
                     VistaMenu.setVisible(true);
                     
                 }else{

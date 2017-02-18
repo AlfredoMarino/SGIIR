@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Component class="javax.persistence.EntityManager" name="entityManager">
       <Properties>
@@ -36,6 +36,52 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
     </Component>
+    <Component class="javax.swing.JTextField" name="codigoNaturalezaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.codigoNaturaleza.codigoNaturaleza}" target="codigoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="codigoNaturalezaLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Codigo Naturaleza:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="descripcionTareaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.descripcionTarea}" target="descripcionTareaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="fechaRecepcionTareaField">
+    </Component>
+    <Component class="javax.persistence.Query" name="querySeguimiento">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT s FROM Seguimiento s"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="listSeguimiento">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="querySeguimiento"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Seguimiento&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="codigoInstitucionField">
+      <BindingProperties>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoInstitucion.codigoInstitucion}" target="codigoInstitucionField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -53,57 +99,69 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="newButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="deleteButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="detailScrollPane" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
-                              <Component id="newDetailButton" linkSize="2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="deleteDetailButton" linkSize="2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="refreshButton" linkSize="2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="saveButton" linkSize="2" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="masterScrollPane" pref="380" max="32767" attributes="0"/>
-                          <Component id="detailScrollPane" alignment="0" pref="380" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="384" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="masterScrollPane" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="newDetailButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="deleteDetailButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="refreshButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="saveButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="codigoTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="descripcionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="codigoSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="fechaRecepcionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="fechaEstimadaTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="carpetaTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="observacionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="fechaFinalizacionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="codigoSeguimientoField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="carpetaTareaField" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="codigoNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="codigoTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="descripcionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="codigoSeguimientoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="fechaRecepcionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="horaRecepcionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="fechaEstimadaTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="horaEstimadaTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="carpetaTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="observacionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="fechaFinalizacionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="horaFinalizacionTareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="dchRecepcion2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jSpinner3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="dchRecepcion1" max="32767" attributes="0"/>
+                                          <Component id="dchRecepcion" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jSpinner2" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="codigoTareaField" min="-2" pref="87" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="cbxSeguimiento" min="-2" pref="217" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="codigoNaturalezaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="codigoTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="descripcionTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="codigoSeguimientoField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="fechaRecepcionTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="horaRecepcionTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="fechaEstimadaTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="horaEstimadaTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="carpetaTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="observacionTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="fechaFinalizacionTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                                  <Component id="horaFinalizacionTareaField" alignment="0" pref="255" max="32767" attributes="0"/>
-                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -115,76 +173,90 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="118" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="1"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="deleteButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="newButton" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="detailScrollPane" min="-2" pref="130" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="masterScrollPane" min="-2" pref="84" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="codigoNaturalezaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="codigoTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="descripcionTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="codigoSeguimientoLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fechaRecepcionTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="horaRecepcionTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fechaEstimadaTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="horaEstimadaTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="carpetaTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="observacionTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fechaFinalizacionTareaLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="horaFinalizacionTareaLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
+                      <Component id="dchRecepcion" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="codigoNaturalezaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="codigoTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="descripcionTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="codigoSeguimientoField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fechaRecepcionTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="horaRecepcionTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fechaEstimadaTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="horaEstimadaTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="carpetaTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="observacionTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fechaFinalizacionTareaField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="horaFinalizacionTareaField" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="detailScrollPane" min="-2" pref="109" max="-2" attributes="0"/>
+                      <EmptySpace pref="11" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="codigoTareaLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                              <Component id="codigoTareaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxSeguimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="descripcionTareaLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="49" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="codigoSeguimientoLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="codigoSeguimientoField" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="fechaRecepcionTareaLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="fechaEstimadaTareaLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="dchRecepcion1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinner2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="carpetaTareaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="carpetaTareaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="observacionTareaLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="45" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="fechaFinalizacionTareaLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="dchRecepcion2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSpinner3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="deleteDetailButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="newDetailButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -198,26 +270,65 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTable" name="masterTable">
+          <Properties>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="false">
-              <Subbinding sourcePath="${codigoInstitucion}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="0"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="sgiir.Entidades.Institucion.class"/>
+            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
+              <Subbinding sourcePath="${codigoInstitucion.nombreInstitucion}">
+                <BindingParameter name="NAME" value="Codigo Institucion"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${tipoNaturaleza}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="1"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+                <BindingParameter name="NAME" value="Tipo Naturaleza"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${prioridadNaturaleza}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="2"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+                <BindingParameter name="NAME" value="Prioridad Naturaleza"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${codigoNaturaleza}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="3"/>
+                <BindingParameter name="NAME" value="Codigo Naturaleza"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="masterTableMouseReleased"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
@@ -225,33 +336,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="newButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="New"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newButtonActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="deleteButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Delete"/>
-      </Properties>
-      <BindingProperties>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="deleteButton" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
-      </AuxValues>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="detailScrollPane">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -260,57 +344,88 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTable" name="detailTable">
+          <Properties>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="0" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.tareaCollection}" target="detailTable" targetPath="elements" updateStrategy="0" immediately="false">
+            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.tareaCollection}" target="detailTable" targetPath="elements" updateStrategy="0" immediately="true">
               <Property name="incompletePathValue" type="java.util.List" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="java.util.Collections.emptyList()" type="code"/>
               </Property>
-              <Subbinding sourcePath="${codigoTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="0"/>
+              <Subbinding sourcePath="${codigoSeguimiento.codigoSeguimiento}">
+                <BindingParameter name="NAME" value="seguimiento"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
+              <Subbinding sourcePath="${codigoTarea}">
+                <BindingParameter name="NAME" value="Codigo Tarea"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${descripcionTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="1"/>
+                <BindingParameter name="NAME" value="Descripcion Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${codigoSeguimiento}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="2"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="sgiir.Entidades.Seguimiento.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${fechaRecepcionTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="3"/>
+                <BindingParameter name="NAME" value="Fecha Recepcion Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${horaRecepcionTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="4"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${fechaEstimadaTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="5"/>
+                <BindingParameter name="NAME" value="Fecha Estimada Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${horaEstimadaTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="6"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${carpetaTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="7"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${observacionTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="8"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${fechaFinalizacionTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="9"/>
+                <BindingParameter name="NAME" value="Fecha Finalizacion Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${horaFinalizacionTarea}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="10"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="detailTableMouseReleased"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
@@ -372,31 +487,22 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="codigoNaturalezaLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Codigo Naturaleza:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="codigoNaturalezaField">
-      <BindingProperties>
-        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.codigoNaturaleza.codigoNaturaleza}" target="codigoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-        </BindingProperty>
-      </BindingProperties>
-    </Component>
     <Component class="javax.swing.JLabel" name="codigoTareaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Codigo Tarea:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="codigoTareaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.codigoTarea}" target="codigoTareaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JLabel" name="descripcionTareaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Descripcion Tarea:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="descripcionTareaField">
     </Component>
     <Component class="javax.swing.JLabel" name="codigoSeguimientoLabel">
       <Properties>
@@ -404,36 +510,31 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="codigoSeguimientoField">
+      <BindingProperties>
+        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.codigoSeguimiento.codigoSeguimiento}" target="codigoSeguimientoField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="fechaRecepcionTareaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha Recepcion Tarea:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fechaRecepcionTareaField">
-    </Component>
-    <Component class="javax.swing.JLabel" name="horaRecepcionTareaLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Hora Recepcion Tarea:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="horaRecepcionTareaField">
-    </Component>
     <Component class="javax.swing.JLabel" name="fechaEstimadaTareaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha Estimada Tarea:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fechaEstimadaTareaField">
-    </Component>
-    <Component class="javax.swing.JLabel" name="horaEstimadaTareaLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Hora Estimada Tarea:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="horaEstimadaTareaField">
-    </Component>
     <Component class="javax.swing.JTextField" name="carpetaTareaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.carpetaTarea}" target="carpetaTareaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JLabel" name="carpetaTareaLabel">
       <Properties>
@@ -445,21 +546,127 @@
         <Property name="text" type="java.lang.String" value="Observacion Tarea:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="observacionTareaField">
-    </Component>
     <Component class="javax.swing.JLabel" name="fechaFinalizacionTareaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha Finalizacion Tarea:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fechaFinalizacionTareaField">
+    <Component class="com.toedter.calendar.JDateChooser" name="dchRecepcion">
+      <BindingProperties>
+        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaRecepcionTarea}" target="dchRecepcion" targetPath="date" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
-    <Component class="javax.swing.JLabel" name="horaFinalizacionTareaLabel">
+    <Component class="javax.swing.JSpinner" name="jSpinner1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Hora Finalizacion Tarea:"/>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
+        </Property>
+        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+          <SpinnerEditor format="HH:mm:ss" type="1"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="fldDescripcion">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.descripcionTarea}" target="fldDescripcion" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="com.toedter.calendar.JDateChooser" name="dchRecepcion1">
+      <BindingProperties>
+        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaEstimadaTarea}" target="dchRecepcion1" targetPath="date" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="jSpinner2">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
+        </Property>
+        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+          <SpinnerEditor format="HH:mm:ss" type="1"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="dchRecepcion2">
+      <BindingProperties>
+        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaFinalizacionTarea}" target="dchRecepcion2" targetPath="date" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="jSpinner3">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
+        </Property>
+        <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+          <SpinnerEditor format="HH:mm:ss" type="1"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Naturaleza de la tarea"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="horaFinalizacionTareaField">
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tareas"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="jTextArea1">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.observacionTarea}" target="jTextArea1" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JComboBox" name="cbxSeguimiento">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbxSeguimientoMouseReleased"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;comboBox&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
