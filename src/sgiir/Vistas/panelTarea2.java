@@ -8,8 +8,10 @@ package sgiir.Vistas;
 import java.awt.EventQueue;
 import java.beans.Beans;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Seguimiento;
+import sgiir.Entidades.Tarea;
 import sgiir.comboBox;
 
 /**
@@ -34,6 +37,8 @@ public class panelTarea2 extends JPanel {
         }
         //List<Seguimiento> lista = querySeguimiento.getResultList();
         
+        //Calendar c2 = new GregorianCalendar();
+        dchRecepcion.setCalendar(new GregorianCalendar());
         defaultComboSeguimiento();
     }
 
@@ -77,17 +82,17 @@ public class panelTarea2 extends JPanel {
         observacionTareaLabel = new javax.swing.JLabel();
         fechaFinalizacionTareaLabel = new javax.swing.JLabel();
         dchRecepcion = new com.toedter.calendar.JDateChooser();
-        jSpinner1 = new javax.swing.JSpinner();
+        spnHoraRecepcion = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         fldDescripcion = new javax.swing.JTextArea();
-        dchRecepcion1 = new com.toedter.calendar.JDateChooser();
-        jSpinner2 = new javax.swing.JSpinner();
-        dchRecepcion2 = new com.toedter.calendar.JDateChooser();
-        jSpinner3 = new javax.swing.JSpinner();
+        dchEstimada = new com.toedter.calendar.JDateChooser();
+        spnHoraEstimada = new javax.swing.JSpinner();
+        dchFinalizacion = new com.toedter.calendar.JDateChooser();
+        spnHoraFinalizacion = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        fldObservacion = new javax.swing.JTextArea();
         cbxSeguimiento = new javax.swing.JComboBox<>();
 
         FormListener formListener = new FormListener();
@@ -224,8 +229,8 @@ public class panelTarea2 extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaRecepcionTarea}"), dchRecepcion, org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
-        jSpinner1.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner1, "HH:mm:ss"));
+        spnHoraRecepcion.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
+        spnHoraRecepcion.setEditor(new javax.swing.JSpinner.DateEditor(spnHoraRecepcion, "HH:mm:ss"));
 
         fldDescripcion.setColumns(20);
         fldDescripcion.setRows(5);
@@ -235,30 +240,31 @@ public class panelTarea2 extends JPanel {
 
         jScrollPane1.setViewportView(fldDescripcion);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaEstimadaTarea}"), dchRecepcion1, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaEstimadaTarea}"), dchEstimada, org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
-        jSpinner2.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
-        jSpinner2.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner2, "HH:mm:ss"));
+        spnHoraEstimada.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
+        spnHoraEstimada.setEditor(new javax.swing.JSpinner.DateEditor(spnHoraEstimada, "HH:mm:ss"));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaFinalizacionTarea}"), dchRecepcion2, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaFinalizacionTarea}"), dchFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
-        jSpinner3.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
-        jSpinner3.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner3, "HH:mm:ss"));
+        spnHoraFinalizacion.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
+        spnHoraFinalizacion.setEditor(new javax.swing.JSpinner.DateEditor(spnHoraFinalizacion, "HH:mm:ss"));
 
         jLabel1.setText("Naturaleza de la tarea");
 
         jLabel2.setText("Tareas");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        fldObservacion.setColumns(20);
+        fldObservacion.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.observacionTarea}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.observacionTarea}"), fldObservacion, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane2.setViewportView(jTextArea1);
+        jScrollPane2.setViewportView(fldObservacion);
 
+        cbxSeguimiento.addItemListener(formListener);
         cbxSeguimiento.addMouseListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -303,17 +309,17 @@ public class panelTarea2 extends JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(dchRecepcion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dchFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(spnHoraFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(dchRecepcion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(dchEstimada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(dchRecepcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(spnHoraRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(spnHoraEstimada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(codigoTareaField, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -364,13 +370,13 @@ public class panelTarea2 extends JPanel {
                                 .addComponent(fechaRecepcionTareaLabel))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(spnHoraRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(fechaEstimadaTareaLabel)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dchRecepcion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(dchEstimada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spnHoraEstimada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(carpetaTareaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -383,8 +389,8 @@ public class panelTarea2 extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(fechaFinalizacionTareaLabel)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dchRecepcion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(dchFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spnHoraFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -399,7 +405,7 @@ public class panelTarea2 extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -416,6 +422,12 @@ public class panelTarea2 extends JPanel {
             }
         }
 
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            if (evt.getSource() == cbxSeguimiento) {
+                panelTarea2.this.cbxSeguimientoItemStateChanged(evt);
+            }
+        }
+
         public void mouseClicked(java.awt.event.MouseEvent evt) {
         }
 
@@ -429,14 +441,14 @@ public class panelTarea2 extends JPanel {
         }
 
         public void mouseReleased(java.awt.event.MouseEvent evt) {
-            if (evt.getSource() == detailTable) {
+            if (evt.getSource() == masterTable) {
+                panelTarea2.this.masterTableMouseReleased(evt);
+            }
+            else if (evt.getSource() == detailTable) {
                 panelTarea2.this.detailTableMouseReleased(evt);
             }
             else if (evt.getSource() == cbxSeguimiento) {
                 panelTarea2.this.cbxSeguimientoMouseReleased(evt);
-            }
-            else if (evt.getSource() == masterTable) {
-                panelTarea2.this.masterTableMouseReleased(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -497,7 +509,7 @@ public class panelTarea2 extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            
+            valida();
             
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
@@ -513,23 +525,68 @@ public class panelTarea2 extends JPanel {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private boolean valida(){
+        
+        int codigoTarea = 0;
+        int codigoNaturaleza = Integer.parseInt(codigoNaturalezaField.getText());
+        String descripcionTarea = fldDescripcion.getText();
+        
+        comboBox itemCombo;
+        itemCombo = (comboBox) cbxSeguimiento.getSelectedItem();
+        int codigoSeguimiento = itemCombo.getId();
+        
+        Seguimiento s = (Seguimiento) entityManager.find(Seguimiento.class, codigoSeguimiento);
+        Naturaleza n = (Naturaleza) entityManager.find(Naturaleza.class, codigoNaturaleza);
+        Date fechaRecepcionTarea = dchRecepcion.getDate();
+        Date horaRecepcionTarea = (Date) spnHoraRecepcion.getValue();
+        Date fechaEstimadaTarea = dchEstimada.getDate();
+        Date horaEstimadaTarea = (Date) spnHoraEstimada.getValue();
+        String carpetaTarea = carpetaTareaField.getText();
+        String observacionTarea = fldObservacion.getText();
+        Date fechaFinalizacionTarea = dchFinalizacion.getDate();
+        Date horaFinalizacionTarea = (Date) spnHoraFinalizacion.getValue();
+       
+        
+        Tarea t;
+        
+        if(this.isNumeric(codigoTareaField.getText())){
+            codigoTarea = Integer.parseInt(codigoTareaField.getText());
+            t = new Tarea(codigoTarea);
+        }else{
+            t = new Tarea();
+        }
+        
+        t.setCodigoSeguimiento(s);
+        t.setCodigoNaturaleza(n);
+        t.setDescripcionTarea(descripcionTarea);
+        t.setFechaRecepcionTarea(fechaRecepcionTarea);
+        t.setHoraRecepcionTarea(horaRecepcionTarea);
+        t.setFechaEstimadaTarea(fechaEstimadaTarea);
+        t.setHoraEstimadaTarea(horaEstimadaTarea);
+        t.setCarpetaTarea(carpetaTarea);
+        t.setObservacionTarea(observacionTarea);
+        t.setFechaFinalizacionTarea(fechaFinalizacionTarea);
+        t.setHoraFinalizacionTarea(horaFinalizacionTarea);
+        
+        entityManager.merge(t);
+        
+        return true;
+    }
+    
+    
     private void detailTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detailTableMouseReleased
         if(detailTable.getSelectedRow() != -1){
-            
-            
             for (int index = 0; index < cbxSeguimiento.getItemCount(); index++) {
-
                 if(Integer.valueOf(codigoSeguimientoField.getText()) == cbxSeguimiento.getItemAt(index).getId()){
                     cbxSeguimiento.setSelectedIndex(index);
                 }
-               
- }
-           
+            }
+            
+            
+            
         }
     }//GEN-LAST:event_detailTableMouseReleased
-    
-    
-    
+ 
     private void cbxSeguimientoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxSeguimientoMouseReleased
         
     }//GEN-LAST:event_cbxSeguimientoMouseReleased
@@ -539,67 +596,36 @@ public class panelTarea2 extends JPanel {
             comboSeguimiento();
         }
     }//GEN-LAST:event_masterTableMouseReleased
-    private void defaultComboSeguimiento(){
+
+    private void cbxSeguimientoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSeguimientoItemStateChanged
         
+    }//GEN-LAST:event_cbxSeguimientoItemStateChanged
+    private void defaultComboSeguimiento(){
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
         cbxSeguimiento.addItem(ItemCombo);        
-        //ItemCombo = new comboBox(dataSeguimiento.getCodigoSeguimiento(), dataSeguimiento.getDescripcionSeguimiento());
     }
-    /*
-    private void loadCombo(int id, int modulo){
-        
-        cbxSeguimiento.removeAllItems();
-        
-        if(id == 0){
-            comboBox ItemCombo = new comboBox(0, "");
-            cbxSeguimiento.addItem(ItemCombo); 
-        
-        for(Seguimiento entidad : listSeguimiento){
-     
-            cbxSeguimiento.addItem(entidad.getItemComboBox()); 
-        }
-        }
-        
-        comboBox ItemCombo = new comboBox(0, "");
-        cbxSeguimiento.addItem(ItemCombo); 
-        
-        for(Seguimiento entidad : listSeguimiento){
-            if(String.valueOf(entidad.getCodigoNaturaleza().getCodigoInstitucion().getCodigoInstitucion()) == codigoInstitucionField.getText()){
-                cbxSeguimiento.addItem(entidad.getItemComboBox()); 
-            
-                if(id == entidad.getCodigoSeguimiento()){
-                    id = cbxSeguimiento.getSelectedIndex();
-                }
-            }
-        }
-        
-        cbxSeguimiento.setSelectedIndex(id);
-        //ItemCombo = new comboBox(dataSeguimiento.getCodigoSeguimiento(), dataSeguimiento.getDescripcionSeguimiento());
-    }
-    */
+ 
     private void comboSeguimiento(){
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
         cbxSeguimiento.addItem(ItemCombo);   
-        
-        //querySeguimiento = entityManager.createQuery("SELECT s FROM Seguimiento s where s.codigoNaturaleza = " + String.valueOf(masterTable.getValueAt(masterTable.getSelectedRow(), 3)));
-        //querySeguimiento = entityManager.createQuery("SELECT s FROM Seguimiento s where s.codigoNaturaleza = " + "2");
-        
+
         sgiir.Entidades.Naturaleza n = (Naturaleza) entityManager.find(Naturaleza.class, masterTable.getValueAt(masterTable.getSelectedRow(), 3));
         
-        
         for(Seguimiento entidad : n.getSeguimientoCollection()){
-           // if(String.valueOf(entidad.getCodigoNaturaleza().getCodigoInstitucion().getCodigoInstitucion()) == codigoInstitucionField.getText()){
-                cbxSeguimiento.addItem(entidad.getItemComboBox()); 
-            /*
-                if(id == entidad.getCodigoSeguimiento()){
-                    id = cbxSeguimiento.getSelectedIndex();
-                }
-            */
+
+            cbxSeguimiento.addItem(entidad.getItemComboBox()); 
         }
     }
-    
+    private static boolean isNumeric(String cadena){
+	try {
+		Integer.parseInt(cadena);
+		return true;
+	} catch (NumberFormatException nfe){
+		return false;
+	}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField carpetaTareaField;
@@ -612,9 +638,9 @@ public class panelTarea2 extends JPanel {
     private javax.swing.JLabel codigoSeguimientoLabel;
     private javax.swing.JTextField codigoTareaField;
     private javax.swing.JLabel codigoTareaLabel;
+    private com.toedter.calendar.JDateChooser dchEstimada;
+    private com.toedter.calendar.JDateChooser dchFinalizacion;
     private com.toedter.calendar.JDateChooser dchRecepcion;
-    private com.toedter.calendar.JDateChooser dchRecepcion1;
-    private com.toedter.calendar.JDateChooser dchRecepcion2;
     private javax.swing.JButton deleteDetailButton;
     private javax.swing.JTextField descripcionTareaField;
     private javax.swing.JLabel descripcionTareaLabel;
@@ -626,14 +652,11 @@ public class panelTarea2 extends JPanel {
     private javax.swing.JTextField fechaRecepcionTareaField;
     private javax.swing.JLabel fechaRecepcionTareaLabel;
     private javax.swing.JTextArea fldDescripcion;
+    private javax.swing.JTextArea fldObservacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JTextArea jTextArea1;
     private java.util.List<sgiir.Entidades.Naturaleza> list;
     private java.util.List<Seguimiento> listSeguimiento;
     private javax.swing.JScrollPane masterScrollPane;
@@ -644,6 +667,9 @@ public class panelTarea2 extends JPanel {
     private javax.persistence.Query querySeguimiento;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JSpinner spnHoraEstimada;
+    private javax.swing.JSpinner spnHoraFinalizacion;
+    private javax.swing.JSpinner spnHoraRecepcion;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     public static void main(String[] args) {

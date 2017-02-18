@@ -140,19 +140,19 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="dchRecepcion2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="dchFinalizacion" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jSpinner3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="spnHoraFinalizacion" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="dchRecepcion1" max="32767" attributes="0"/>
+                                          <Component id="dchEstimada" max="32767" attributes="0"/>
                                           <Component id="dchRecepcion" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jSpinner2" min="-2" max="-2" attributes="0"/>
+                                          <Component id="spnHoraRecepcion" min="-2" max="-2" attributes="0"/>
+                                          <Component id="spnHoraEstimada" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -218,7 +218,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                              <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
+                              <Component id="spnHoraRecepcion" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -227,8 +227,8 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="fechaEstimadaTareaLabel" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="dchRecepcion1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSpinner2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="dchEstimada" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnHoraEstimada" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -245,8 +245,8 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="fechaFinalizacionTareaLabel" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="dchRecepcion2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSpinner3" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="dchFinalizacion" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnHoraFinalizacion" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -556,10 +556,10 @@
         <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaRecepcionTarea}" target="dchRecepcion" targetPath="date" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="jSpinner1">
+    <Component class="javax.swing.JSpinner" name="spnHoraRecepcion">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
+          <SpinnerModel initial="now" stepSize="10" type="date"/>
         </Property>
         <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
           <SpinnerEditor format="HH:mm:ss" type="1"/>
@@ -589,12 +589,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="com.toedter.calendar.JDateChooser" name="dchRecepcion1">
+    <Component class="com.toedter.calendar.JDateChooser" name="dchEstimada">
       <BindingProperties>
-        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaEstimadaTarea}" target="dchRecepcion1" targetPath="date" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaEstimadaTarea}" target="dchEstimada" targetPath="date" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="jSpinner2">
+    <Component class="javax.swing.JSpinner" name="spnHoraEstimada">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
@@ -607,12 +607,12 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
       </AuxValues>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="dchRecepcion2">
+    <Component class="com.toedter.calendar.JDateChooser" name="dchFinalizacion">
       <BindingProperties>
-        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaFinalizacionTarea}" target="dchRecepcion2" targetPath="date" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaFinalizacionTarea}" target="dchFinalizacion" targetPath="date" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="jSpinner3">
+    <Component class="javax.swing.JSpinner" name="spnHoraFinalizacion">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
@@ -642,13 +642,13 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTextArea1">
+        <Component class="javax.swing.JTextArea" name="fldObservacion">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.observacionTarea}" target="jTextArea1" targetPath="text" updateStrategy="0" immediately="false">
+            <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.observacionTarea}" target="fldObservacion" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
             </BindingProperty>
           </BindingProperties>
@@ -662,6 +662,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbxSeguimientoItemStateChanged"/>
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbxSeguimientoMouseReleased"/>
       </Events>
       <AuxValues>
