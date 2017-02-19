@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import sgiir.Entidades.Area;
 import sgiir.Entidades.Caracteristica;
+import sgiir.Entidades.CaracteristicaPK;
 import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Tarea;
 import sgiir.comboBox;
@@ -25,6 +26,9 @@ import sgiir.comboBox;
  * @author Alfredo Mariño
  */
 public class panelCaracteristica extends JPanel {
+    private int CodigoNaturaleza;
+    private int CodigoTarea;
+    private int CodigoArea;
     
     public panelCaracteristica() {
         
@@ -37,7 +41,8 @@ public class panelCaracteristica extends JPanel {
     }
     
     public void setCaracteristica(int CodigoNaturaleza, int CodigoTarea) {
-        
+        this.CodigoNaturaleza = CodigoNaturaleza;
+        this.CodigoTarea = CodigoTarea;
         
         query = entityManager.createNativeQuery("SELECT * FROM Caracteristica where codigoNaturaleza = ? and codigoTarea = ?", Caracteristica.class);
         
@@ -78,7 +83,7 @@ public class panelCaracteristica extends JPanel {
 
         FormListener formListener = new FormListener();
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.area.descripcionArea}"), areaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.area.codigoArea}"), areaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), areaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
@@ -230,14 +235,7 @@ public class panelCaracteristica extends JPanel {
     
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        entityManager.getTransaction().rollback();
-        entityManager.getTransaction().begin();
-        java.util.Collection data = query.getResultList();
-        for (Object entity : data) {
-            entityManager.refresh(entity);
-        }
-        list.clear();
-        list.addAll(data);
+        refresh();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -253,6 +251,10 @@ public class panelCaracteristica extends JPanel {
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         sgiir.Entidades.Caracteristica c = new sgiir.Entidades.Caracteristica();
+        c.setCaracteristicaPK(new CaracteristicaPK());
+        c.setTarea(new Tarea(CodigoTarea));
+        c.setNaturaleza(new Naturaleza(CodigoNaturaleza));
+        
         entityManager.persist(c);
         list.add(c);
         int row = list.size() - 1;
@@ -262,11 +264,27 @@ public class panelCaracteristica extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            Caracteristica c = new Caracteristica(1, 2, 3);
-            entityManager.merge(c);
+            comboBox itemCombo;
+            itemCombo = (comboBox) cbxArea.getSelectedItem();
+            CodigoArea = itemCombo.getId();
             
+
+            int[] selected = masterTable.getSelectedRows();
+            List<Caracteristica> toMerged = new ArrayList<Caracteristica>(selected.length);
+            for (int idx = 0; idx < selected.length; idx++) {
+                Caracteristica c = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+                c.setCaracteristicaPK(new CaracteristicaPK(CodigoNaturaleza, CodigoTarea, CodigoArea));
+                c.setTarea(new Tarea(CodigoTarea));
+                c.setNaturaleza(new Naturaleza(CodigoNaturaleza));
+                c.setArea(new Area(CodigoArea));
+                toMerged.add(c);
+
+                entityManager.merge(c);
+            }
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
+            
+            refresh();
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
@@ -282,7 +300,16 @@ public class panelCaracteristica extends JPanel {
     private void cbxAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxAreaMouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxAreaMouseReleased
-
+    private void refresh(){
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
+        java.util.Collection data = query.getResultList();
+        for (Object entity : data) {
+            entityManager.refresh(entity);
+        }
+        list.clear();
+        list.addAll(data);
+    }
     private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
         if(masterTable.getSelectedRow() != -1){
             for (int index = 0; index < cbxArea.getItemCount(); index++) {
@@ -309,6 +336,15 @@ public class panelCaracteristica extends JPanel {
             cbxArea.addItem(entidad.getItemComboBox());
         }
 
+    }
+    
+    private static boolean isNumeric(String cadena){
+	try {
+            Integer.parseInt(cadena);
+            return true;
+	} catch (NumberFormatException nfe){
+            return false;
+	}
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
