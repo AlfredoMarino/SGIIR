@@ -138,6 +138,7 @@ public class panelTarea2 extends JPanel {
             masterTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        detailTable.setColumnSelectionAllowed(true);
         detailTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tareaCollection}");
@@ -171,6 +172,7 @@ public class panelTarea2 extends JPanel {
         jTableBinding.bind();
         detailTable.addMouseListener(formListener);
         detailScrollPane.setViewportView(detailTable);
+        detailTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (detailTable.getColumnModel().getColumnCount() > 0) {
             detailTable.getColumnModel().getColumn(0).setResizable(false);
             detailTable.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -232,6 +234,9 @@ public class panelTarea2 extends JPanel {
         spnHoraRecepcion.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
         spnHoraRecepcion.setEditor(new javax.swing.JSpinner.DateEditor(spnHoraRecepcion, "HH:mm:ss"));
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaRecepcionTarea}"), spnHoraRecepcion, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+
         fldDescripcion.setColumns(20);
         fldDescripcion.setRows(5);
 
@@ -243,14 +248,20 @@ public class panelTarea2 extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaEstimadaTarea}"), dchEstimada, org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
-        spnHoraEstimada.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
+        spnHoraEstimada.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
         spnHoraEstimada.setEditor(new javax.swing.JSpinner.DateEditor(spnHoraEstimada, "HH:mm:ss"));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaEstimadaTarea}"), spnHoraEstimada, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaFinalizacionTarea}"), dchFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
-        spnHoraFinalizacion.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1487426349056L), null, null, java.util.Calendar.HOUR));
+        spnHoraFinalizacion.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
         spnHoraFinalizacion.setEditor(new javax.swing.JSpinner.DateEditor(spnHoraFinalizacion, "HH:mm:ss"));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaFinalizacionTarea}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
 
         jLabel1.setText("Naturaleza de la tarea");
 
@@ -477,6 +488,9 @@ public class panelTarea2 extends JPanel {
     }//GEN-LAST:event_deleteDetailButtonActionPerformed
 
     private void newDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDetailButtonActionPerformed
+        try{
+            
+
         int index = masterTable.getSelectedRow();
         sgiir.Entidades.Naturaleza n = list.get(masterTable.convertRowIndexToModel(index));
         Collection<sgiir.Entidades.Tarea> ts = n.getTareaCollection();
@@ -493,6 +507,10 @@ public class panelTarea2 extends JPanel {
         int row = ts.size() - 1;
         detailTable.setRowSelectionInterval(row, row);
         detailTable.scrollRectToVisible(detailTable.getCellRect(row, 0, true));
+        
+        }catch(org.jdesktop.beansbinding.PropertyResolutionException e){
+            System.out.println("se fue al catch");
+        }
     }//GEN-LAST:event_newDetailButtonActionPerformed
     
     @SuppressWarnings("unchecked")
@@ -502,12 +520,18 @@ public class panelTarea2 extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            //valida();
+            if(detailTable.getSelectedRow() != -1){
+                if(detailTable.getValueAt(detailTable.getSelectedRow(), 0) != null){
+                
+           
+                valida();
+      
+                entityManager.getTransaction().commit();
+                entityManager.getTransaction().begin();
+                }
             
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-            
-            refresh();
+            }
+            //refresh();
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
@@ -523,7 +547,7 @@ public class panelTarea2 extends JPanel {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private boolean valida(){
-        int selected = masterTable.getSelectedRow();
+        //int selected = masterTable.getSelectedRow();
         int codigoTarea = 0;
         int codigoNaturaleza = Integer.parseInt(codigoNaturalezaField.getText());
         String descripcionTarea = fldDescripcion.getText();
@@ -565,7 +589,7 @@ public class panelTarea2 extends JPanel {
         t.setFechaFinalizacionTarea(fechaFinalizacionTarea);
         t.setHoraFinalizacionTarea(horaFinalizacionTarea);
         
-        list.set(selected, n);
+        //list.set(selected, n);
         entityManager.merge(t);
         
         return true;

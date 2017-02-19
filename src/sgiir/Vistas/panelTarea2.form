@@ -346,7 +346,7 @@
         <Component class="javax.swing.JTable" name="detailTable">
           <Properties>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
+              <TableColumnModel selectionModel="1">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="0" resizable="false">
                   <Title/>
                   <Editor/>
@@ -379,6 +379,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
               <JTableSelectionModel selectionMode="0"/>
             </Property>
@@ -565,6 +566,9 @@
           <SpinnerEditor format="HH:mm:ss" type="1"/>
         </Property>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaRecepcionTarea}" target="spnHoraRecepcion" targetPath="value" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
       </AuxValues>
@@ -597,12 +601,15 @@
     <Component class="javax.swing.JSpinner" name="spnHoraEstimada">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
+          <SpinnerModel initial="now" stepSize="10" type="date"/>
         </Property>
         <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
           <SpinnerEditor format="HH:mm:ss" type="1"/>
         </Property>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaEstimadaTarea}" target="spnHoraEstimada" targetPath="value" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
       </AuxValues>
@@ -615,12 +622,15 @@
     <Component class="javax.swing.JSpinner" name="spnHoraFinalizacion">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1487426349056" stepSize="10" type="date"/>
+          <SpinnerModel initial="now" stepSize="10" type="date"/>
         </Property>
         <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
           <SpinnerEditor format="HH:mm:ss" type="1"/>
         </Property>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaFinalizacionTarea}" target="spnHoraFinalizacion" targetPath="value" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
       </AuxValues>
