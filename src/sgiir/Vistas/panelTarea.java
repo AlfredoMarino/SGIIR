@@ -331,6 +331,7 @@ public class panelTarea extends JPanel {
         jScrollPane3.setViewportView(jList1);
 
         jButton1.setText("Agregar area:");
+        jButton1.addActionListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -488,6 +489,9 @@ public class panelTarea extends JPanel {
             }
             else if (evt.getSource() == newDetailButton) {
                 panelTarea.this.newDetailButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButton1) {
+                panelTarea.this.jButton1ActionPerformed(evt);
             }
         }
 
@@ -689,6 +693,12 @@ public class panelTarea extends JPanel {
             codigoNaturaleza = 0;
         }
 
+        if(this.isNumeric(codigoTareaField.getText())){
+            codigoTarea = Integer.parseInt(codigoTareaField.getText());
+        }else{
+            codigoTarea = 0;
+        }
+        
         comboBox itemCombo;
         itemCombo = (comboBox) cbxSeguimiento.getSelectedItem();
         codigoSeguimiento = itemCombo.getId();
@@ -720,7 +730,7 @@ public class panelTarea extends JPanel {
                     cbxSeguimiento.setSelectedIndex(index);
                 }
             }
-            
+            seteaCampos();
             
             
         }
@@ -739,12 +749,19 @@ public class panelTarea extends JPanel {
     private void cbxSeguimientoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSeguimientoItemStateChanged
         
     }//GEN-LAST:event_cbxSeguimientoItemStateChanged
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(detailTable.getSelectedRow() != -1){
+            popup vistaCaracteristica = new popup();
+            vistaCaracteristica.pnlCaracteristica.setCaracteristica(codigoNaturaleza, codigoTarea);
+            vistaCaracteristica.showPanel("CARACTERISTICA");
+            vistaCaracteristica.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void defaultComboSeguimiento(){
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
         cbxSeguimiento.addItem(ItemCombo);        
     }
- 
     private void comboSeguimiento(){
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
