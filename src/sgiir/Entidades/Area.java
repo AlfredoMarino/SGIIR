@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import sgiir.comboBox;
 
 /**
  *
@@ -94,6 +95,13 @@ public class Area implements Serializable {
 
     public void setCaracteristicaCollection(Collection<Caracteristica> caracteristicaCollection) {
         this.caracteristicaCollection = caracteristicaCollection;
+    }
+    
+    public comboBox getItemComboBox() {
+        
+        comboBox ItemCombo = new comboBox(codigoArea, (nombreArea + " (" + descripcionArea + ")"));
+        
+        return ItemCombo;
     }
 
     @Override

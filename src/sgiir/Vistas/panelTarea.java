@@ -751,7 +751,7 @@ public class panelTarea extends JPanel {
     }//GEN-LAST:event_cbxSeguimientoItemStateChanged
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(detailTable.getSelectedRow() != -1){
-            popup vistaCaracteristica = new popup();
+            framePopup vistaCaracteristica = new framePopup();
             vistaCaracteristica.pnlCaracteristica.setCaracteristica(codigoNaturaleza, codigoTarea);
             vistaCaracteristica.showPanel("CARACTERISTICA");
             vistaCaracteristica.setVisible(true);
