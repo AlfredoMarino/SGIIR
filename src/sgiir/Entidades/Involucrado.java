@@ -120,7 +120,7 @@ public class Involucrado implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.Involucrado[ involucradoPK=" + involucradoPK + " ]";
+        return involucradoPK.toString();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

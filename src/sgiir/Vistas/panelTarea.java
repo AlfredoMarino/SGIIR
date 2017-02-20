@@ -337,6 +337,12 @@ public class panelTarea extends JPanel {
         jButton1.addActionListener(formListener);
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.involucradoCollection}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, eLProperty, jList1);
+        jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.nombrePersona}"));
+        bindingGroup.addBinding(jListBinding);
+
         jScrollPane4.setViewportView(jList1);
 
         jButton2.setText("jButton2");
@@ -777,7 +783,13 @@ public class panelTarea extends JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        if(detailTable.getSelectedRow() != -1){
+            framePopup vistaInvolucrado = new framePopup();
+            vistaInvolucrado.pnlInvolucrado.setInvolucrado(codigoNaturaleza, codigoTarea, 0);
+            vistaInvolucrado.showPanel("INVOLUCRADO");
+            vistaInvolucrado.setVisible(true);
+            System.out.println("tengo el mando");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
     private void defaultComboSeguimiento(){
         cbxSeguimiento.removeAllItems();

@@ -14,6 +14,7 @@ import java.awt.CardLayout;
 public class framePopup extends javax.swing.JFrame {
     
     public panelCaracteristica pnlCaracteristica = new panelCaracteristica();
+    public panelInvolucrado pnlInvolucrado = new panelInvolucrado();
     CardLayout controladorPaneles;
     
     /**
@@ -28,12 +29,14 @@ public class framePopup extends javax.swing.JFrame {
     public void controlPanel(){
         
         pnlDetails.add(pnlCaracteristica, "CARACTERISTICA");
+        pnlDetails.add(pnlInvolucrado, "INVOLUCRADO");
 
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }
     
     public void showPanel(String panel){
         controladorPaneles.show(pnlDetails, panel);
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

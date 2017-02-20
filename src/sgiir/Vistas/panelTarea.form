@@ -754,6 +754,11 @@
             </Property>
             <Property name="selectionMode" type="int" value="0"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="detailTable" sourcePath="${selectedElement.involucradoCollection}" target="jList1" targetPath="elements" updateStrategy="0" immediately="false">
+              <BindingParameter name="DISPLAY" value="${persona.nombrePersona}"/>
+            </BindingProperty>
+          </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

@@ -24,24 +24,27 @@ import sgiir.comboBox;
  *
  * @author Alfredo Mariño
  */
-public class panenlInvolucrado extends JPanel {
+public class panelInvolucrado extends JPanel {
     private int CodigoNaturaleza;
     private int CodigoTarea;
     private int CodigoInvolucrado;
     private int CodigoPersona;
     
-    public panenlInvolucrado() {
+    public panelInvolucrado() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
         }
+        
+        comboPersona();
     }
 
     public void setInvolucrado(int CodigoNaturaleza, int CodigoTarea, int CodigoInvolucrado) {
         this.CodigoNaturaleza = CodigoNaturaleza;
         this.CodigoTarea = CodigoTarea;
+        this.CodigoInvolucrado = CodigoInvolucrado;
         
-        query = entityManager.createNativeQuery("SELECT * FROM Involucrado where codigoNaturaleza = ? and codigoTarea = ? and codigoInvolucrado", Involucrado.class);
+        query = entityManager.createNativeQuery("SELECT * FROM Involucrado where codigoNaturaleza = ? and codigoTarea = ? and codigoInvolucrado = ?", Involucrado.class);
         
         query.setParameter(1, CodigoNaturaleza);
         query.setParameter(2, CodigoTarea);
@@ -66,14 +69,10 @@ public class panenlInvolucrado extends JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Involucrado i");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
+        personaField = new javax.swing.JTextField();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
-        naturalezaLabel = new javax.swing.JLabel();
-        tareaLabel = new javax.swing.JLabel();
         personaLabel = new javax.swing.JLabel();
-        naturalezaField = new javax.swing.JTextField();
-        tareaField = new javax.swing.JTextField();
-        personaField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
@@ -82,50 +81,38 @@ public class panenlInvolucrado extends JPanel {
 
         FormListener formListener = new FormListener();
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${naturaleza.codigoNaturaleza}"));
-        columnBinding.setColumnName("Naturaleza");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tarea.codigoTarea}"));
-        columnBinding.setColumnName("Tarea");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.codigoPersona}"));
-        columnBinding.setColumnName("Persona");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.codigoCargo.descripcionCargo}"));
-        columnBinding.setColumnName("Cargo");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.codigoCargo.codigoInstitucion.nombreInstitucion}"));
-        columnBinding.setColumnName("Institucion");
-        columnBinding.setColumnClass(String.class);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        masterTable.addMouseListener(formListener);
-        masterScrollPane.setViewportView(masterTable);
-
-        naturalezaLabel.setText("Naturaleza:");
-
-        tareaLabel.setText("Tarea:");
-
-        personaLabel.setText("Persona:");
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.naturaleza.codigoNaturaleza}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.tarea.codigoTarea}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.persona.codigoPersona}"), personaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.persona.codigoPersona}"), personaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), personaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
+
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.nombrePersona}"));
+        columnBinding.setColumnName("Persona");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.codigoCargo.descripcionCargo}"));
+        columnBinding.setColumnName("Cargo");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.codigoCargo.codigoInstitucion.nombreInstitucion}"));
+        columnBinding.setColumnName("Institucion");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        masterTable.addMouseListener(formListener);
+        masterScrollPane.setViewportView(masterTable);
+        if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(0).setResizable(false);
+            masterTable.getColumnModel().getColumn(1).setResizable(false);
+            masterTable.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        personaLabel.setText("Persona:");
 
         saveButton.setText("Save");
         saveButton.addActionListener(formListener);
@@ -162,16 +149,9 @@ public class panenlInvolucrado extends JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(naturalezaLabel)
-                                    .addComponent(tareaLabel)
-                                    .addComponent(personaLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(naturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                                    .addComponent(tareaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(personaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(cbxPersona, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addComponent(personaLabel)
+                                .addGap(17, 17, 17)
+                                .addComponent(cbxPersona, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -181,22 +161,12 @@ public class panenlInvolucrado extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(naturalezaLabel)
-                    .addComponent(naturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tareaLabel)
-                    .addComponent(tareaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(personaLabel)
-                    .addComponent(personaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(personaLabel))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
@@ -214,16 +184,16 @@ public class panenlInvolucrado extends JPanel {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
-                panenlInvolucrado.this.saveButtonActionPerformed(evt);
+                panelInvolucrado.this.saveButtonActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton) {
-                panenlInvolucrado.this.refreshButtonActionPerformed(evt);
+                panelInvolucrado.this.refreshButtonActionPerformed(evt);
             }
             else if (evt.getSource() == newButton) {
-                panenlInvolucrado.this.newButtonActionPerformed(evt);
+                panelInvolucrado.this.newButtonActionPerformed(evt);
             }
             else if (evt.getSource() == deleteButton) {
-                panenlInvolucrado.this.deleteButtonActionPerformed(evt);
+                panelInvolucrado.this.deleteButtonActionPerformed(evt);
             }
         }
 
@@ -241,7 +211,7 @@ public class panenlInvolucrado extends JPanel {
 
         public void mouseReleased(java.awt.event.MouseEvent evt) {
             if (evt.getSource() == masterTable) {
-                panenlInvolucrado.this.masterTableMouseReleased(evt);
+                panelInvolucrado.this.masterTableMouseReleased(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -321,12 +291,12 @@ public class panenlInvolucrado extends JPanel {
             }
         }
     }//GEN-LAST:event_masterTableMouseReleased
-    private void defaultComboArea(){
+    private void defaultComboPersona(){
         cbxPersona.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
         cbxPersona.addItem(ItemCombo);        
     }
-    private void comboArea(){
+    private void comboPersona(){
         cbxPersona.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
         cbxPersona.addItem(ItemCombo);   
@@ -368,16 +338,12 @@ public class panenlInvolucrado extends JPanel {
     private java.util.List<sgiir.Entidades.Involucrado> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
-    private javax.swing.JTextField naturalezaField;
-    private javax.swing.JLabel naturalezaLabel;
     private javax.swing.JButton newButton;
     private javax.swing.JTextField personaField;
     private javax.swing.JLabel personaLabel;
     private javax.persistence.Query query;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
-    private javax.swing.JTextField tareaField;
-    private javax.swing.JLabel tareaLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     public static void main(String[] args) {
@@ -394,21 +360,22 @@ public class panenlInvolucrado extends JPanel {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(panenlInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(panenlInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(panenlInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(panenlInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelInvolucrado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setContentPane(new panenlInvolucrado());
+                frame.setContentPane(new panelInvolucrado());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
