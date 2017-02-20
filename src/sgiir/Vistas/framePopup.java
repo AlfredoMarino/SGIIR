@@ -29,8 +29,6 @@ public class framePopup extends javax.swing.JFrame {
         
         pnlDetails.add(pnlCaracteristica, "CARACTERISTICA");
 
-        
-        
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }
     

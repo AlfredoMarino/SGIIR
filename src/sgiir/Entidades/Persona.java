@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import sgiir.comboBox;
 
 /**
  *
@@ -146,6 +147,14 @@ public class Persona implements Serializable {
         this.involucradoCollection = involucradoCollection;
     }
 
+    
+    public comboBox getItemComboBox() {
+        
+        comboBox ItemCombo = new comboBox(codigoPersona, nombrePersona);
+        
+        return ItemCombo;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

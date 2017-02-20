@@ -87,26 +87,30 @@ public class panelCaracteristica extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), areaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${area.codigoArea}"));
         columnBinding.setColumnName("Area");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${naturaleza}"));
-        columnBinding.setColumnName("Naturaleza");
-        columnBinding.setColumnClass(sgiir.Entidades.Naturaleza.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tarea}"));
-        columnBinding.setColumnName("Tarea");
-        columnBinding.setColumnClass(sgiir.Entidades.Tarea.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${area.nombreArea}"));
         columnBinding.setColumnName("Nombre Area");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${area.descripcionArea}"));
         columnBinding.setColumnName("Descripcion");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
+        if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(0).setResizable(false);
+            masterTable.getColumnModel().getColumn(1).setResizable(false);
+            masterTable.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         areaLabel.setText("Area:");
 
@@ -296,13 +300,7 @@ public class panelCaracteristica extends JPanel {
         list.addAll(data);
     }
     private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
-        if(masterTable.getSelectedRow() != -1){
-            for (int index = 0; index < cbxArea.getItemCount(); index++) {
-                if(Integer.valueOf(areaField.getText()) == cbxArea.getItemAt(index).getId()){
-                    cbxArea.setSelectedIndex(index);
-                }
-            }
-        }
+        
     }//GEN-LAST:event_masterTableMouseReleased
     private void defaultComboArea(){
         cbxArea.removeAllItems();
