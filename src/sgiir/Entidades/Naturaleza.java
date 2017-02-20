@@ -46,10 +46,10 @@ public class Naturaleza implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @Column(name = "TipoNaturaleza")
-    private boolean tipoNaturaleza;
+    private int tipoNaturaleza;
     @Basic(optional = false)
     @Column(name = "PrioridadNaturaleza")
-    private boolean prioridadNaturaleza;
+    private int prioridadNaturaleza;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -68,7 +68,7 @@ public class Naturaleza implements Serializable {
     private Collection<Bitacora> bitacoraCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "naturaleza")
     private Collection<Involucrado> involucradoCollection;
-
+    
     public Naturaleza() {
     }
 
@@ -76,28 +76,28 @@ public class Naturaleza implements Serializable {
         this.codigoNaturaleza = codigoNaturaleza;
     }
 
-    public Naturaleza(Integer codigoNaturaleza, boolean tipoNaturaleza, boolean prioridadNaturaleza) {
+    public Naturaleza(Integer codigoNaturaleza, int tipoNaturaleza, int prioridadNaturaleza) {
         this.codigoNaturaleza = codigoNaturaleza;
         this.tipoNaturaleza = tipoNaturaleza;
         this.prioridadNaturaleza = prioridadNaturaleza;
     }
 
-    public boolean getTipoNaturaleza() {
+    public int getTipoNaturaleza() {
         return tipoNaturaleza;
     }
 
-    public void setTipoNaturaleza(boolean tipoNaturaleza) {
-        boolean oldTipoNaturaleza = this.tipoNaturaleza;
+    public void setTipoNaturaleza(int tipoNaturaleza) {
+        int oldTipoNaturaleza = this.tipoNaturaleza;
         this.tipoNaturaleza = tipoNaturaleza;
         changeSupport.firePropertyChange("tipoNaturaleza", oldTipoNaturaleza, tipoNaturaleza);
     }
 
-    public boolean getPrioridadNaturaleza() {
+    public int getPrioridadNaturaleza() {
         return prioridadNaturaleza;
     }
 
-    public void setPrioridadNaturaleza(boolean prioridadNaturaleza) {
-        boolean oldPrioridadNaturaleza = this.prioridadNaturaleza;
+    public void setPrioridadNaturaleza(int prioridadNaturaleza) {
+        int oldPrioridadNaturaleza = this.prioridadNaturaleza;
         this.prioridadNaturaleza = prioridadNaturaleza;
         changeSupport.firePropertyChange("prioridadNaturaleza", oldPrioridadNaturaleza, prioridadNaturaleza);
     }
@@ -166,6 +166,22 @@ public class Naturaleza implements Serializable {
     public void setInvolucradoCollection(Collection<Involucrado> involucradoCollection) {
         this.involucradoCollection = involucradoCollection;
     }
+    
+  /*  public String getDescripcionTipoNaturaleza(){
+        switch(tipoNaturaleza){
+            case 0:
+                this.descripcionTipoNaturaleza = "Incidencia";
+            break;
+            case 1:
+                this.descripcionTipoNaturaleza = "Requerimiento";
+            break;
+            default:
+                this.descripcionTipoNaturaleza = "Incidencia";
+            break;
+        }
+        return descripcionTipoNaturaleza;
+    }*/
+    
 
     @Override
     public int hashCode() {
