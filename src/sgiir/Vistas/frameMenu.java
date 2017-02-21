@@ -145,7 +145,7 @@ public class frameMenu extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        pnlHead.setPreferredSize(new java.awt.Dimension(0, 50));
+        pnlHead.setPreferredSize(new java.awt.Dimension(0, 35));
 
         javax.swing.GroupLayout pnlHeadLayout = new javax.swing.GroupLayout(pnlHead);
         pnlHead.setLayout(pnlHeadLayout);
@@ -155,7 +155,7 @@ public class frameMenu extends javax.swing.JFrame {
         );
         pnlHeadLayout.setVerticalGroup(
             pnlHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 35, Short.MAX_VALUE)
         );
 
         getContentPane().add(pnlHead, java.awt.BorderLayout.NORTH);
