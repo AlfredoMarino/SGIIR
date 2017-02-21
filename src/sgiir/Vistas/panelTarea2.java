@@ -21,9 +21,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sgiir.Entidades.Institucion;
 import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Seguimiento;
 import sgiir.Entidades.Tarea;
@@ -36,7 +38,7 @@ import sgiir.propiedades.propiedades;
  *
  * @author Alfredo Mariño
  */
-public class panelTarea extends JPanel {
+public class panelTarea2 extends JPanel {
     int codigoSeguimiento;
     Seguimiento s;
     Naturaleza n;
@@ -60,7 +62,7 @@ public class panelTarea extends JPanel {
     private ResultSet rs;
     private int i=0;
     
-    public panelTarea() {
+    public panelTarea2() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -70,6 +72,7 @@ public class panelTarea extends JPanel {
         //Calendar c2 = new GregorianCalendar();
         dchRecepcion.setCalendar(new GregorianCalendar());
         defaultComboSeguimiento();
+        comboInstitucion();
     }
 
     /**
@@ -94,6 +97,11 @@ public class panelTarea extends JPanel {
         codigoInstitucionField = new javax.swing.JTextField();
         codigoSeguimientoField = new javax.swing.JTextField();
         jDialog1 = new javax.swing.JDialog();
+        institucion1 = new sgiir.Entidades.Institucion();
+        queryInstitucion = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Institucion i");
+        listInstitucion = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(queryInstitucion.getResultList());
+        rgrTipo = new javax.swing.ButtonGroup();
+        rgrPrioridad = new javax.swing.ButtonGroup();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         detailScrollPane = new javax.swing.JScrollPane();
@@ -131,6 +139,14 @@ public class panelTarea extends JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        cbxInstitucion = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        rdbPrioridad3 = new javax.swing.JRadioButton();
+        rdbPrioridad2 = new javax.swing.JRadioButton();
+        rdbTipo2 = new javax.swing.JRadioButton();
+        rdbTipo1 = new javax.swing.JRadioButton();
+        rdbPrioridad1 = new javax.swing.JRadioButton();
 
         FormListener formListener = new FormListener();
 
@@ -158,6 +174,13 @@ public class panelTarea extends JPanel {
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
+
+        rgrTipo.add(rdbTipo1);
+        rgrTipo.add(rdbTipo2);
+
+        rgrPrioridad.add(rdbPrioridad1);
+        rgrPrioridad.add(rdbPrioridad2);
+        rgrPrioridad.add(rdbPrioridad3);
 
         masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -348,21 +371,79 @@ public class panelTarea extends JPanel {
         jButton2.setText("Agregar involucrados");
         jButton2.addActionListener(formListener);
 
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${Institucion.CodigoInstitucion}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listInstitucion, eLProperty, cbxInstitucion);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(formListener);
+
+        rdbPrioridad3.setText("Alta");
+        rdbPrioridad3.addActionListener(formListener);
+
+        rdbPrioridad2.setText("Media");
+        rdbPrioridad2.addActionListener(formListener);
+
+        rdbTipo2.setText("Requerimiento");
+
+        rdbTipo1.setSelected(true);
+        rdbTipo1.setText("Incidencia");
+        rdbTipo1.addActionListener(formListener);
+
+        rdbPrioridad1.setSelected(true);
+        rdbPrioridad1.setText("Baja");
+        rdbPrioridad1.addActionListener(formListener);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbTipo1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbTipo2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdbPrioridad1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbPrioridad2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbPrioridad3)
+                .addGap(67, 67, 67)
+                .addComponent(jButton3)
+                .addGap(124, 124, 124))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdbTipo1)
+                        .addComponent(rdbTipo2))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdbPrioridad1)
+                        .addComponent(rdbPrioridad2)
+                        .addComponent(rdbPrioridad3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(detailScrollPane)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(detailScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(masterScrollPane)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(newDetailButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -371,7 +452,7 @@ public class panelTarea extends JPanel {
                         .addComponent(refreshButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveButton))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(codigoTareaLabel)
                             .addComponent(descripcionTareaLabel)
@@ -383,7 +464,7 @@ public class panelTarea extends JPanel {
                             .addComponent(fechaFinalizacionTareaLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
                             .addComponent(cbxSeguimiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(carpetaTareaField)
                             .addComponent(jScrollPane2)
@@ -409,7 +490,12 @@ public class panelTarea extends JPanel {
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2)
                             .addComponent(jButton1))
-                        .addGap(15, 15, 15)))
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(0, 712, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -418,7 +504,9 @@ public class panelTarea extends JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -426,7 +514,7 @@ public class panelTarea extends JPanel {
                 .addComponent(jLabel2)
                 .addGap(6, 6, 6)
                 .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(codigoTareaLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -500,28 +588,43 @@ public class panelTarea extends JPanel {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
-                panelTarea.this.saveButtonActionPerformed(evt);
+                panelTarea2.this.saveButtonActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton) {
-                panelTarea.this.refreshButtonActionPerformed(evt);
+                panelTarea2.this.refreshButtonActionPerformed(evt);
             }
             else if (evt.getSource() == deleteDetailButton) {
-                panelTarea.this.deleteDetailButtonActionPerformed(evt);
+                panelTarea2.this.deleteDetailButtonActionPerformed(evt);
             }
             else if (evt.getSource() == newDetailButton) {
-                panelTarea.this.newDetailButtonActionPerformed(evt);
+                panelTarea2.this.newDetailButtonActionPerformed(evt);
             }
             else if (evt.getSource() == jButton1) {
-                panelTarea.this.jButton1ActionPerformed(evt);
+                panelTarea2.this.jButton1ActionPerformed(evt);
             }
             else if (evt.getSource() == jButton2) {
-                panelTarea.this.jButton2ActionPerformed(evt);
+                panelTarea2.this.jButton2ActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButton3) {
+                panelTarea2.this.jButton3ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad3) {
+                panelTarea2.this.rdbPrioridad3ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad2) {
+                panelTarea2.this.rdbPrioridad2ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbTipo1) {
+                panelTarea2.this.rdbTipo1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad1) {
+                panelTarea2.this.rdbPrioridad1ActionPerformed(evt);
             }
         }
 
         public void itemStateChanged(java.awt.event.ItemEvent evt) {
             if (evt.getSource() == cbxSeguimiento) {
-                panelTarea.this.cbxSeguimientoItemStateChanged(evt);
+                panelTarea2.this.cbxSeguimientoItemStateChanged(evt);
             }
         }
 
@@ -539,13 +642,13 @@ public class panelTarea extends JPanel {
 
         public void mouseReleased(java.awt.event.MouseEvent evt) {
             if (evt.getSource() == masterTable) {
-                panelTarea.this.masterTableMouseReleased(evt);
+                panelTarea2.this.masterTableMouseReleased(evt);
             }
             else if (evt.getSource() == detailTable) {
-                panelTarea.this.detailTableMouseReleased(evt);
+                panelTarea2.this.detailTableMouseReleased(evt);
             }
             else if (evt.getSource() == cbxSeguimiento) {
-                panelTarea.this.cbxSeguimientoMouseReleased(evt);
+                panelTarea2.this.cbxSeguimientoMouseReleased(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -694,7 +797,7 @@ public class panelTarea extends JPanel {
                 refresh();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(panelTarea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(panelTarea2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private java.sql.Date toSqlDate(Date fecha){
@@ -791,6 +894,45 @@ public class panelTarea extends JPanel {
             System.out.println("tengo el mando");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        comboBox combo = (comboBox) cbxInstitucion.getSelectedItem();
+        if(combo.getId() != 0){
+            
+            query = entityManager.createNativeQuery("SELECT * FROM Naturaleza where CodigoInstitucion = ? and TipoNaturaleza = ? and PrioridadNaturaleza = ?", Naturaleza.class);
+        
+            query.setParameter(1, 2);
+            query.setParameter(2, 0);
+            query.setParameter(3, 1);
+
+            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().begin();
+            java.util.Collection data = query.getResultList();
+            for (Object entity : data) {
+                entityManager.refresh(entity);
+            }
+            list.clear();
+            list.addAll(data);
+        }
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void rdbPrioridad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad3ActionPerformed
+
+    private void rdbPrioridad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad2ActionPerformed
+
+    private void rdbTipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbTipo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbTipo1ActionPerformed
+
+    private void rdbPrioridad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad1ActionPerformed
     private void defaultComboSeguimiento(){
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
@@ -808,6 +950,18 @@ public class panelTarea extends JPanel {
             cbxSeguimiento.addItem(entidad.getItemComboBox()); 
         }
     }
+    
+    private void comboInstitucion(){
+        cbxInstitucion.removeAllItems();
+        comboBox ItemCombo = new comboBox(0, "");
+        cbxInstitucion.addItem(ItemCombo);   
+        
+        for(Institucion entidad : listInstitucion){
+
+            cbxInstitucion.addItem(new comboBox(entidad.getCodigoInstitucion(), entidad.getNombreInstitucion()));
+            
+        }
+    }
     private static boolean isNumeric(String cadena){
 	try {
             Integer.parseInt(cadena);
@@ -820,6 +974,7 @@ public class panelTarea extends JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField carpetaTareaField;
     private javax.swing.JLabel carpetaTareaLabel;
+    private javax.swing.JComboBox<comboBox> cbxInstitucion;
     private javax.swing.JComboBox<comboBox> cbxSeguimiento;
     private javax.swing.JTextField codigoInstitucionField;
     private javax.swing.JTextField codigoNaturalezaField;
@@ -843,17 +998,21 @@ public class panelTarea extends JPanel {
     private javax.swing.JLabel fechaRecepcionTareaLabel;
     private javax.swing.JTextArea fldDescripcion;
     private javax.swing.JTextArea fldObservacion;
+    private sgiir.Entidades.Institucion institucion1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private java.util.List<sgiir.Entidades.Naturaleza> list;
+    private java.util.List<Institucion> listInstitucion;
     private java.util.List<Seguimiento> listSeguimiento;
     private javax.swing.JList<String> lstArea;
     private javax.swing.JScrollPane masterScrollPane;
@@ -861,8 +1020,16 @@ public class panelTarea extends JPanel {
     private javax.swing.JButton newDetailButton;
     private javax.swing.JLabel observacionTareaLabel;
     private javax.persistence.Query query;
+    private javax.persistence.Query queryInstitucion;
     private javax.persistence.Query querySeguimiento;
+    private javax.swing.JRadioButton rdbPrioridad1;
+    private javax.swing.JRadioButton rdbPrioridad2;
+    private javax.swing.JRadioButton rdbPrioridad3;
+    private javax.swing.JRadioButton rdbTipo1;
+    private javax.swing.JRadioButton rdbTipo2;
     private javax.swing.JButton refreshButton;
+    private javax.swing.ButtonGroup rgrPrioridad;
+    private javax.swing.ButtonGroup rgrTipo;
     private javax.swing.JButton saveButton;
     private javax.swing.JSpinner spnHoraEstimada;
     private javax.swing.JSpinner spnHoraFinalizacion;
@@ -883,14 +1050,16 @@ public class panelTarea extends JPanel {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(panelTarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(panelTarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(panelTarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(panelTarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -898,7 +1067,7 @@ public class panelTarea extends JPanel {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setContentPane(new panelTarea());
+                frame.setContentPane(new panelTarea2());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

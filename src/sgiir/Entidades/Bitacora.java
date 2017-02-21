@@ -5,6 +5,8 @@
  */
 package sgiir.Entidades;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,6 +40,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bitacora.findByFechaBitacora", query = "SELECT b FROM Bitacora b WHERE b.fechaBitacora = :fechaBitacora"),
     @NamedQuery(name = "Bitacora.findByHoraBitacora", query = "SELECT b FROM Bitacora b WHERE b.horaBitacora = :horaBitacora")})
 public class Bitacora implements Serializable {
+
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -98,7 +104,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setCodigoInvolucrado(int codigoInvolucrado) {
+        int oldCodigoInvolucrado = this.codigoInvolucrado;
         this.codigoInvolucrado = codigoInvolucrado;
+        changeSupport.firePropertyChange("codigoInvolucrado", oldCodigoInvolucrado, codigoInvolucrado);
     }
 
     public String getObservacionBitacora() {
@@ -106,7 +114,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setObservacionBitacora(String observacionBitacora) {
+        String oldObservacionBitacora = this.observacionBitacora;
         this.observacionBitacora = observacionBitacora;
+        changeSupport.firePropertyChange("observacionBitacora", oldObservacionBitacora, observacionBitacora);
     }
 
     public Date getFechaBitacora() {
@@ -114,7 +124,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setFechaBitacora(Date fechaBitacora) {
+        Date oldFechaBitacora = this.fechaBitacora;
         this.fechaBitacora = fechaBitacora;
+        changeSupport.firePropertyChange("fechaBitacora", oldFechaBitacora, fechaBitacora);
     }
 
     public Date getHoraBitacora() {
@@ -122,7 +134,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setHoraBitacora(Date horaBitacora) {
+        Date oldHoraBitacora = this.horaBitacora;
         this.horaBitacora = horaBitacora;
+        changeSupport.firePropertyChange("horaBitacora", oldHoraBitacora, horaBitacora);
     }
 
     public Naturaleza getNaturaleza() {
@@ -130,7 +144,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setNaturaleza(Naturaleza naturaleza) {
+        Naturaleza oldNaturaleza = this.naturaleza;
         this.naturaleza = naturaleza;
+        changeSupport.firePropertyChange("naturaleza", oldNaturaleza, naturaleza);
     }
 
     public Tarea getTarea() {
@@ -138,7 +154,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setTarea(Tarea tarea) {
+        Tarea oldTarea = this.tarea;
         this.tarea = tarea;
+        changeSupport.firePropertyChange("tarea", oldTarea, tarea);
     }
 
     public Estado getCodigoEstado() {
@@ -146,7 +164,9 @@ public class Bitacora implements Serializable {
     }
 
     public void setCodigoEstado(Estado codigoEstado) {
+        Estado oldCodigoEstado = this.codigoEstado;
         this.codigoEstado = codigoEstado;
+        changeSupport.firePropertyChange("codigoEstado", oldCodigoEstado, codigoEstado);
     }
 
     @Override
@@ -172,6 +192,14 @@ public class Bitacora implements Serializable {
     @Override
     public String toString() {
         return "sgiir.Entidades.Bitacora[ bitacoraPK=" + bitacoraPK + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

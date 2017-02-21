@@ -34,8 +34,9 @@ public class frameMenu extends javax.swing.JFrame {
     manejadorDB DataBase = manejadorDB.getInstance(); 
     
     //PANELES
+    //public panelResumen VistaResumen = new panelResumen();
+    public panelTarea2 VistaResumen = new panelTarea2();
     public panelInstitucion VistaInstitucion = new panelInstitucion();
-    public panelResumen VistaResumen = new panelResumen();
     public panelArea VistaArea = new panelArea();
     public panelCargo VistaCargo = new panelCargo();
     public panelPersona VistaPersona = new panelPersona();
@@ -43,6 +44,7 @@ public class frameMenu extends javax.swing.JFrame {
     public panelNaturaleza VistaNaturaleza = new panelNaturaleza();
     public panelSeguimiento2 VistaSeguimiento = new panelSeguimiento2();
     public panelTarea VistaTarea = new panelTarea();
+    public panelBitacora VistaBitacora = new panelBitacora();
     
     
     CardLayout controladorPaneles;
@@ -53,8 +55,10 @@ public class frameMenu extends javax.swing.JFrame {
      */
     public frameMenu() {
         initComponents();
-             
+        
+           
         controlPanel();
+        controladorPaneles.show(pnlDetails, "RESUMEN"); 
     }
     
     public frameMenu(int codigoPersona, Byte nivel){
@@ -62,7 +66,7 @@ public class frameMenu extends javax.swing.JFrame {
         initComponents();
 
         controlPanel();
-
+        controladorPaneles.show(pnlDetails, "RESUMEN");     
         try {
             typeUser(nivel);
         } catch (SQLException ex) {
@@ -199,7 +203,12 @@ public class frameMenu extends javax.swing.JFrame {
         });
         mnuTarea.add(jMenuItem1);
 
-        jMenuItem2.setText("jMenuItem2");
+        jMenuItem2.setText("Bitacora");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         mnuTarea.add(jMenuItem2);
 
         menuBar.add(mnuTarea);
@@ -348,6 +357,10 @@ public class frameMenu extends javax.swing.JFrame {
         controladorPaneles.show(pnlDetails, "SEGUIMIENTO");
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        controladorPaneles.show(pnlDetails, "BITACORA");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -395,6 +408,7 @@ public class frameMenu extends javax.swing.JFrame {
         pnlDetails.add(VistaAutenticacion, "AUTENTICACION");
         pnlDetails.add(VistaNaturaleza, "NATURALEZA");
         pnlDetails.add(VistaSeguimiento, "SEGUIMIENTO");
+        pnlDetails.add(VistaBitacora, "BITACORA");
         
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
