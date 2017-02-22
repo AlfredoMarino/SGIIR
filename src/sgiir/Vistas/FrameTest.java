@@ -11,7 +11,7 @@ package sgiir.Vistas;
  */
 public class FrameTest extends javax.swing.JFrame {
 
-    /**
+    /**a dsfafdsadfasdfadsf
      * Creates new form FrameTest
      */
     public FrameTest() {
