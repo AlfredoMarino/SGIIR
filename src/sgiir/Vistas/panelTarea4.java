@@ -679,6 +679,8 @@ public class panelTarea4 extends JPanel {
 
     private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
         if(masterTable.getSelectedRow() != -1){
+            comboSeguimiento();
+            
             for (int index = 0; index < cbxSeguimiento.getItemCount(); index++) {
                 if(Integer.valueOf(codigoSeguimientoField.getText()) == cbxSeguimiento.getItemAt(index).getId()){
                     cbxSeguimiento.setSelectedIndex(index);
@@ -693,19 +695,15 @@ public class panelTarea4 extends JPanel {
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
         cbxSeguimiento.addItem(ItemCombo);   
-/*
-        querySeguimiento = entityManager.createNativeQuery("SELECT * FROM Tarea WHERE CodigoNaturaleza = ?", Tarea.class);
-            queryNaturaleza.setParameter(1, codigoNaturaleza);
-            
-            java.util.Collection data = query.getResultList();
-        
-        Naturaleza n = (Naturaleza) entityManager.find(Naturaleza.class, masterTable.getValueAt(masterTable.getSelectedRow(), 3));
-        */
-        Tarea.class.get
 
-        for(Seguimiento entidad : n.getSeguimientoCollection()){
+        if(this.isNumeric(codigoNaturalezaField.getText())){
 
-            cbxSeguimiento.addItem(entidad.getItemComboBox()); 
+            sgiir.Entidades.Naturaleza n = (Naturaleza) entityManager.find(Naturaleza.class, Integer.valueOf(codigoNaturalezaField.getText()));
+
+            for(Seguimiento entidad : n.getSeguimientoCollection()){
+
+                cbxSeguimiento.addItem(entidad.getItemComboBox()); 
+            }
         }
     }
     
