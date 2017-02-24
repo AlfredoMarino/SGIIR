@@ -90,6 +90,7 @@ public class panelTarea4 extends JPanel {
         rdbTipo2 = new javax.swing.JRadioButton();
         rdbTipo1 = new javax.swing.JRadioButton();
         rdbPrioridad1 = new javax.swing.JRadioButton();
+        cbtTodos = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         fldDescripcion = new javax.swing.JTextArea();
         cbxSeguimiento = new javax.swing.JComboBox<>();
@@ -230,6 +231,10 @@ public class panelTarea4 extends JPanel {
         rdbPrioridad1.setText("Baja");
         rdbPrioridad1.addActionListener(formListener);
 
+        cbtTodos.setText("Todos");
+        cbtTodos.addItemListener(formListener);
+        cbtTodos.addChangeListener(formListener);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -241,15 +246,17 @@ public class panelTarea4 extends JPanel {
                 .addComponent(rdbTipo1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rdbTipo2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(rdbPrioridad1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rdbPrioridad2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rdbPrioridad3)
-                .addGap(155, 155, 155)
+                .addGap(80, 80, 80)
+                .addComponent(cbtTodos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBuscar)
-                .addGap(36, 36, 36))
+                .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,7 +271,8 @@ public class panelTarea4 extends JPanel {
                         .addComponent(rdbPrioridad1)
                         .addComponent(rdbPrioridad2)
                         .addComponent(rdbPrioridad3)
-                        .addComponent(btnBuscar)))
+                        .addComponent(btnBuscar)
+                        .addComponent(cbtTodos)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -469,7 +477,7 @@ public class panelTarea4 extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener, javax.swing.event.ChangeListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -511,6 +519,9 @@ public class panelTarea4 extends JPanel {
             if (evt.getSource() == cbxSeguimiento) {
                 panelTarea4.this.cbxSeguimientoItemStateChanged(evt);
             }
+            else if (evt.getSource() == cbtTodos) {
+                panelTarea4.this.cbtTodosItemStateChanged(evt);
+            }
         }
 
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -526,11 +537,17 @@ public class panelTarea4 extends JPanel {
         }
 
         public void mouseReleased(java.awt.event.MouseEvent evt) {
-            if (evt.getSource() == cbxSeguimiento) {
+            if (evt.getSource() == masterTable) {
+                panelTarea4.this.masterTableMouseReleased(evt);
+            }
+            else if (evt.getSource() == cbxSeguimiento) {
                 panelTarea4.this.cbxSeguimientoMouseReleased(evt);
             }
-            else if (evt.getSource() == masterTable) {
-                panelTarea4.this.masterTableMouseReleased(evt);
+        }
+
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            if (evt.getSource() == cbtTodos) {
+                panelTarea4.this.cbtTodosStateChanged(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -570,6 +587,29 @@ public class panelTarea4 extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
+            
+            
+            comboBox itemCombo;
+            itemCombo = (comboBox) cbxSeguimiento.getSelectedItem();
+            codigoSeguimiento = itemCombo.getId();
+            
+
+            int[] selected = masterTable.getSelectedRows();
+            List<Tarea> toMerged = new ArrayList<Tarea>(selected.length);
+            for (int idx = 0; idx < selected.length; idx++) {
+                Tarea t = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+                /*i.setInvolucradoPK(new InvolucradoPK(CodigoNaturaleza, CodigoTarea, CodigoInvolucrado, CodigoPersona));
+                i.setTarea(new Tarea(CodigoTarea));
+                i.setNaturaleza(new Naturaleza(CodigoNaturaleza));
+                i.setPersona(new Persona(CodigoPersona));
+                */
+                toMerged.add(t);
+
+                entityManager.merge(t);
+            }
+            
+            
+            
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
@@ -585,40 +625,12 @@ public class panelTarea4 extends JPanel {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        comboBox combo = (comboBox) cbxInstitucion.getSelectedItem();
-        if(combo.getId() != 0){
-            this.codigoInstitucion = combo.getId();
-            if(rdbTipo1.isSelected()){
-                this.tipoNaturaleza = 1; //INCIDENCIA
-            }else{
-                this.tipoNaturaleza = 0; //REQUERIMIENTO
-            }
+        try{
+        
+            if(cbtTodos.isSelected()){
 
-            if(rdbPrioridad1.isSelected()){
-                this.prioridadNaturaleza = 1; //Baja
-            }else{
-                if(rdbPrioridad2.isSelected()){
-                    this.prioridadNaturaleza = 2; //Media
-                }else{
-                    this.prioridadNaturaleza = 3; //Alta
-                }
-            }
-            try{
-                javax.persistence.Query queryNaturaleza = entityManager.createNativeQuery("SELECT * FROM Naturaleza where CodigoInstitucion = ? and TipoNaturaleza = ? and PrioridadNaturaleza = ?", Naturaleza.class);
-
-                queryNaturaleza.setParameter(1, codigoInstitucion);
-                queryNaturaleza.setParameter(2, tipoNaturaleza);
-                queryNaturaleza.setParameter(3, prioridadNaturaleza);
-
-                entityManager.getTransaction().rollback();
-                entityManager.getTransaction().begin();
-
-                this.n = (Naturaleza) queryNaturaleza.getSingleResult();
-                this.codigoNaturaleza = n.getCodigoNaturaleza();
-
-                query = entityManager.createNativeQuery("SELECT * FROM Tarea WHERE CodigoNaturaleza = ?", Tarea.class);
-                query.setParameter(1, codigoNaturaleza);
-
+                query = entityManager.createNamedQuery("Tarea.findAll");
+                        
                 java.util.Collection data = query.getResultList();
                 for (Object entity : data) {
                     entityManager.refresh(entity);
@@ -627,11 +639,59 @@ public class panelTarea4 extends JPanel {
                 list.addAll(data);
 
                 comboSeguimiento();
-            }catch(javax.persistence.NoResultException nre){
-                System.out.println("No se encontraron tareas");
-            }
-        }
+                
+            }else{
+                comboBox combo = (comboBox) cbxInstitucion.getSelectedItem();
+                if(combo.getId() != 0){
+                    this.codigoInstitucion = combo.getId();
+                    if(rdbTipo1.isSelected()){
+                        this.tipoNaturaleza = 1; //INCIDENCIA
+                    }else{
+                        this.tipoNaturaleza = 0; //REQUERIMIENTO
+                    }
 
+                    if(rdbPrioridad1.isSelected()){
+                        this.prioridadNaturaleza = 1; //Baja
+                    }else{
+                        if(rdbPrioridad2.isSelected()){
+                            this.prioridadNaturaleza = 2; //Media
+                        }else{
+                            this.prioridadNaturaleza = 3; //Alta
+                        }
+                    }
+
+                        javax.persistence.Query queryNaturaleza = entityManager.createNativeQuery("SELECT * FROM Naturaleza where CodigoInstitucion = ? and TipoNaturaleza = ? and PrioridadNaturaleza = ?", Naturaleza.class);
+
+                        queryNaturaleza.setParameter(1, codigoInstitucion);
+                        queryNaturaleza.setParameter(2, tipoNaturaleza);
+                        queryNaturaleza.setParameter(3, prioridadNaturaleza);
+
+                        entityManager.getTransaction().rollback();
+                        entityManager.getTransaction().begin();
+
+                        this.n = (Naturaleza) queryNaturaleza.getSingleResult();
+                        this.codigoNaturaleza = n.getCodigoNaturaleza();
+
+                        query = entityManager.createNativeQuery("SELECT * FROM Tarea WHERE CodigoNaturaleza = ?", Tarea.class);
+                        query.setParameter(1, codigoNaturaleza);
+
+                        java.util.Collection data = query.getResultList();
+                        for (Object entity : data) {
+                            entityManager.refresh(entity);
+                        }
+                        list.clear();
+                        list.addAll(data);
+
+                        comboSeguimiento();
+
+                }else{
+                    System.out.println("Debe seleccionar una institución");
+                }
+            }
+        }catch(javax.persistence.NoResultException nre){
+            System.out.println("No se encontraron tareas");
+            list.clear();
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void rdbPrioridad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad3ActionPerformed
@@ -691,6 +751,56 @@ public class panelTarea4 extends JPanel {
             
         }
     }//GEN-LAST:event_masterTableMouseReleased
+
+    private void cbtTodosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbtTodosStateChanged
+       
+    }//GEN-LAST:event_cbtTodosStateChanged
+
+    private void cbtTodosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbtTodosItemStateChanged
+         cbxInstitucion.setSelectedIndex(0);
+        
+        if(cbtTodos.isSelected()){
+            
+            cbxInstitucion.setEnabled(false);
+            
+            rdbTipo1.setSelected(false);
+            rdbTipo1.setEnabled(false);
+            
+            rdbTipo2.setSelected(false);
+            rdbTipo2.setEnabled(false);
+            
+            rdbPrioridad1.setSelected(false);
+            rdbPrioridad1.setEnabled(false);
+            
+            rdbPrioridad2.setSelected(false);
+            rdbPrioridad2.setEnabled(false);
+            
+            rdbPrioridad3.setSelected(false);
+            rdbPrioridad3.setEnabled(false);
+            
+            newButton.setEnabled(false);
+                      
+        }else{
+            cbxInstitucion.setEnabled(true);
+            
+            rdbTipo1.setSelected(true);
+            rdbTipo1.setEnabled(true);
+            
+            rdbTipo2.setSelected(false);
+            rdbTipo2.setEnabled(true);
+            
+            rdbPrioridad1.setSelected(true);
+            rdbPrioridad1.setEnabled(true);
+            
+            rdbPrioridad2.setSelected(false);
+            rdbPrioridad2.setEnabled(true);
+            
+            rdbPrioridad3.setSelected(false);
+            rdbPrioridad3.setEnabled(true);
+            
+            newButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_cbtTodosItemStateChanged
     private void comboSeguimiento(){
         cbxSeguimiento.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
@@ -761,6 +871,7 @@ public class panelTarea4 extends JPanel {
     private javax.swing.JButton btnInvolucrado;
     private javax.swing.JTextField carpetaTareaField;
     private javax.swing.JLabel carpetaTareaLabel;
+    private javax.swing.JCheckBox cbtTodos;
     private javax.swing.JComboBox<comboBox> cbxInstitucion;
     private javax.swing.JComboBox<comboBox> cbxSeguimiento;
     private javax.swing.JTextField codigoNaturalezaField;

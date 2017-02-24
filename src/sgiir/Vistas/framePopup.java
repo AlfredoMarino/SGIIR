@@ -48,6 +48,8 @@ public class framePopup extends javax.swing.JFrame {
         setLocation(new java.awt.Point(500, 250));
         setSize(new java.awt.Dimension(500, 500));
 
+        pnlDetails.setOpaque(false);
+        pnlDetails.setPreferredSize(new java.awt.Dimension(500, 350));
         pnlDetails.setLayout(new java.awt.CardLayout());
         getContentPane().add(pnlDetails, java.awt.BorderLayout.CENTER);
 
