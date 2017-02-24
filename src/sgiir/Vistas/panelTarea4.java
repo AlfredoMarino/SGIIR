@@ -18,6 +18,7 @@ import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Seguimiento;
 import sgiir.Entidades.Tarea;
 import sgiir.comboBox;
+import sgiir.statusBar;
 
 /**
  *
@@ -50,6 +51,8 @@ public class panelTarea4 extends JPanel {
         }
         
         comboInstitucion();
+        
+        list.clear();
     }
 
     @SuppressWarnings("unchecked")
@@ -130,6 +133,8 @@ public class panelTarea4 extends JPanel {
         rgrTipo.add(rdbTipo1);
         rgrTipo.add(rdbTipo2);
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoSeguimiento.codigoSeguimiento}"));
         columnBinding.setColumnName("Codigo Seguimiento");
@@ -183,6 +188,8 @@ public class panelTarea4 extends JPanel {
         observacionTareaLabel.setText("Observacion Tarea:");
 
         fechaFinalizacionTareaLabel.setText("Fecha Finalizacion Tarea:");
+
+        codigoTareaField.setEditable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoTarea}"), codigoTareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("null");
@@ -685,11 +692,11 @@ public class panelTarea4 extends JPanel {
                         comboSeguimiento();
 
                 }else{
-                    System.out.println("Debe seleccionar una institución");
+                    statusBar.getInstance().setMsg("Debe selecionar una institución");
                 }
             }
         }catch(javax.persistence.NoResultException nre){
-            System.out.println("No se encontraron tareas");
+            statusBar.getInstance().setMsg("No se encontraron tareas");
             list.clear();
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -827,6 +834,26 @@ public class panelTarea4 extends JPanel {
             cbxInstitucion.addItem(new comboBox(entidad.getCodigoInstitucion(), entidad.getNombreInstitucion()));
             
         }
+    }
+    
+    private void clearAll(){
+        
+        statusBar.getInstance().clrMsg();
+        list.clear(); 
+        cbxSeguimiento.setSelectedIndex(0);
+        
+        fldDescripcion.setText("");
+        
+        codigoSeguimiento = 0;
+        descripcionTarea = fldDescripcion.getText();
+        fechaRecepcionTarea = dchRecepcion.getDate();
+        horaRecepcionTarea = (Date) spnHoraRecepcion.getValue();
+        fechaEstimadaTarea = dchEstimada.getDate();
+        horaEstimadaTarea = (Date) spnHoraEstimada.getValue();
+        carpetaTarea = carpetaTareaField.getText();
+        observacionTarea = fldObservacion.getText();
+        fechaFinalizacionTarea = dchFinalizacion.getDate();
+        horaFinalizacionTarea = (Date) spnHoraFinalizacion.getValue();
     }
     
     private void seteaCampos(){

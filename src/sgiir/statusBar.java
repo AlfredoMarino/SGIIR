@@ -30,4 +30,14 @@ public class statusBar extends JLabel {
         setText("");        
     }   
     
+    
+    //////////////SINGLETON
+    public static statusBar getInstance() {
+        return statusBarHolder.INSTANCE;
+    }
+    
+    private static class statusBarHolder {
+        private static final statusBar INSTANCE = new statusBar();
+    }
+    ////////////////////////
 }

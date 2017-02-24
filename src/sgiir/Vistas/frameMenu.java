@@ -122,7 +122,7 @@ public class frameMenu extends javax.swing.JFrame {
         pnlHead = new javax.swing.JPanel();
         pnlDetails = new javax.swing.JPanel();
         pnlFoot = new javax.swing.JPanel();
-        StatusBar = new statusBar();
+        StatusBar = statusBar.getInstance();
         menuBar = new javax.swing.JMenuBar();
         mnuInicio = new javax.swing.JMenu();
         mnuTarea = new javax.swing.JMenu();

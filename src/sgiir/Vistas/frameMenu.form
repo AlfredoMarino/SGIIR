@@ -234,7 +234,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new statusBar()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="statusBar.getInstance()"/>
           </AuxValues>
         </Component>
       </SubComponents>
