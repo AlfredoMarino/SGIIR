@@ -702,9 +702,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.caracteristicaCollection}" target="lstArea" targetPath="elements" updateStrategy="0" immediately="false">
-              <BindingParameter name="DISPLAY" value="${area.nombreArea}"/>
-            </BindingProperty>
+            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.caracteristicaCollection}" target="lstArea" targetPath="elements" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
