@@ -46,7 +46,7 @@ public class login extends javax.swing.JFrame {
         initComponents();
         
         if(!"".equals(DataBase.status)){
-            StatusBar.setText(DataBase.status);
+            statusBar.getInstance().setMsg(DataBase.status);
             btnIngresar.setEnabled(false);
         }
         
@@ -64,16 +64,16 @@ public class login extends javax.swing.JFrame {
         fldUsuario = new javax.swing.JTextField();
         fldContraseña = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
-        StatusBar = new statusBar();
+        StatusBar = statusBar.getInstance();
         lblUsuario = new javax.swing.JLabel();
         lblContraseña = new javax.swing.JLabel();
-        jPanel1 = new panelImagen(imagenLogo.getImage());
+        panelImagenLogo = new panelImagen(imagenLogo.getImage());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login SGIIR");
         setIconImage(imagenLogo.getImage());
         setLocation(new java.awt.Point(500, 250));
-        setPreferredSize(new java.awt.Dimension(322, 243));
+        setPreferredSize(new java.awt.Dimension(322, 265));
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -112,21 +112,20 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        StatusBar.setText("");
         StatusBar.setPreferredSize(new java.awt.Dimension(64, 14));
 
         lblUsuario.setText(msgFile.getProperty("lbl0002"));
 
         lblContraseña.setText(msgFile.getProperty("lbl0003"));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelImagenLogoLayout = new javax.swing.GroupLayout(panelImagenLogo);
+        panelImagenLogo.setLayout(panelImagenLogoLayout);
+        panelImagenLogoLayout.setHorizontalGroup(
+            panelImagenLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelImagenLogoLayout.setVerticalGroup(
+            panelImagenLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
@@ -151,14 +150,14 @@ public class login extends javax.swing.JFrame {
                         .addComponent(btnIngresar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(111, 111, 111)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addComponent(panelImagenLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelImagenLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsuario))
@@ -168,7 +167,7 @@ public class login extends javax.swing.JFrame {
                     .addComponent(lblContraseña))
                 .addGap(18, 18, 18)
                 .addComponent(btnIngresar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StatusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -198,7 +197,7 @@ public class login extends javax.swing.JFrame {
                     VistaMenu.setVisible(true);
                     
                 }else{
-                    StatusBar.setText(msgFile.getProperty("msg0001"));   
+                    statusBar.getInstance().setMsg(msgFile.getProperty("msg0001"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,7 +205,7 @@ public class login extends javax.swing.JFrame {
             
         }else{
 
-            StatusBar.setText(msgFile.getProperty("msg0001"));
+            statusBar.getInstance().setMsg(msgFile.getProperty("msg0001"));
         }
     }
     
@@ -284,9 +283,9 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton btnIngresar;
     private javax.swing.JPasswordField fldContraseña;
     private javax.swing.JTextField fldUsuario;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblContraseña;
     private javax.swing.JLabel lblUsuario;
+    private javax.swing.JPanel panelImagenLogo;
     // End of variables declaration//GEN-END:variables
 }
 

@@ -20,9 +20,9 @@ import sgiir.comboBox;
  *
  * @author Alfredo Mariño
  */
-public class panelSeguimientoOld extends JPanel {
+public class panelSeguimiento1 extends JPanel {
     
-    public panelSeguimientoOld() {
+    public panelSeguimiento1() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -242,19 +242,19 @@ public class panelSeguimientoOld extends JPanel {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
-                panelSeguimientoOld.this.saveButtonActionPerformed(evt);
+                panelSeguimiento1.this.saveButtonActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton) {
-                panelSeguimientoOld.this.refreshButtonActionPerformed(evt);
+                panelSeguimiento1.this.refreshButtonActionPerformed(evt);
             }
             else if (evt.getSource() == newButton) {
-                panelSeguimientoOld.this.newButtonActionPerformed(evt);
+                panelSeguimiento1.this.newButtonActionPerformed(evt);
             }
             else if (evt.getSource() == deleteButton) {
-                panelSeguimientoOld.this.deleteButtonActionPerformed(evt);
+                panelSeguimiento1.this.deleteButtonActionPerformed(evt);
             }
             else if (evt.getSource() == cbxNaturaleza) {
-                panelSeguimientoOld.this.cbxNaturalezaActionPerformed(evt);
+                panelSeguimiento1.this.cbxNaturalezaActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -360,14 +360,16 @@ public class panelSeguimientoOld extends JPanel {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(panelSeguimientoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelSeguimiento1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(panelSeguimientoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelSeguimiento1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(panelSeguimientoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelSeguimiento1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(panelSeguimientoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelSeguimiento1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -375,7 +377,7 @@ public class panelSeguimientoOld extends JPanel {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setContentPane(new panelSeguimientoOld());
+                frame.setContentPane(new panelSeguimiento1());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

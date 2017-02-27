@@ -21,7 +21,7 @@ public class statusBar extends JLabel {
         super.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         super.setPreferredSize(new Dimension(100, 16));
         super.setFont(new Font("Tahoma", Font.BOLD, 11));
-        setMsg("Ready");
+        clrMsg();
     }
 
     public void setMsg(String message) {

@@ -36,7 +36,7 @@ import sgiir.propiedades.propiedades;
  *
  * @author Alfredo Mariño
  */
-public class panelTareaOld extends JPanel {
+public class panelTarea1 extends JPanel {
     int codigoSeguimiento;
     Seguimiento s;
     Naturaleza n;
@@ -60,7 +60,7 @@ public class panelTareaOld extends JPanel {
     private ResultSet rs;
     private int i=0;
     
-    public panelTareaOld() {
+    public panelTarea1() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -500,28 +500,28 @@ public class panelTareaOld extends JPanel {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
-                panelTareaOld.this.saveButtonActionPerformed(evt);
+                panelTarea1.this.saveButtonActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton) {
-                panelTareaOld.this.refreshButtonActionPerformed(evt);
+                panelTarea1.this.refreshButtonActionPerformed(evt);
             }
             else if (evt.getSource() == deleteDetailButton) {
-                panelTareaOld.this.deleteDetailButtonActionPerformed(evt);
+                panelTarea1.this.deleteDetailButtonActionPerformed(evt);
             }
             else if (evt.getSource() == newDetailButton) {
-                panelTareaOld.this.newDetailButtonActionPerformed(evt);
+                panelTarea1.this.newDetailButtonActionPerformed(evt);
             }
             else if (evt.getSource() == jButton1) {
-                panelTareaOld.this.jButton1ActionPerformed(evt);
+                panelTarea1.this.jButton1ActionPerformed(evt);
             }
             else if (evt.getSource() == jButton2) {
-                panelTareaOld.this.jButton2ActionPerformed(evt);
+                panelTarea1.this.jButton2ActionPerformed(evt);
             }
         }
 
         public void itemStateChanged(java.awt.event.ItemEvent evt) {
             if (evt.getSource() == cbxSeguimiento) {
-                panelTareaOld.this.cbxSeguimientoItemStateChanged(evt);
+                panelTarea1.this.cbxSeguimientoItemStateChanged(evt);
             }
         }
 
@@ -539,13 +539,13 @@ public class panelTareaOld extends JPanel {
 
         public void mouseReleased(java.awt.event.MouseEvent evt) {
             if (evt.getSource() == masterTable) {
-                panelTareaOld.this.masterTableMouseReleased(evt);
+                panelTarea1.this.masterTableMouseReleased(evt);
             }
             else if (evt.getSource() == detailTable) {
-                panelTareaOld.this.detailTableMouseReleased(evt);
+                panelTarea1.this.detailTableMouseReleased(evt);
             }
             else if (evt.getSource() == cbxSeguimiento) {
-                panelTareaOld.this.cbxSeguimientoMouseReleased(evt);
+                panelTarea1.this.cbxSeguimientoMouseReleased(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -694,7 +694,7 @@ public class panelTareaOld extends JPanel {
                 refresh();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(panelTareaOld.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(panelTarea1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private java.sql.Date toSqlDate(Date fecha){
@@ -883,14 +883,18 @@ public class panelTareaOld extends JPanel {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(panelTareaOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(panelTareaOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(panelTareaOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(panelTareaOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panelTarea1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -900,7 +904,7 @@ public class panelTareaOld extends JPanel {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setContentPane(new panelTareaOld());
+                frame.setContentPane(new panelTarea1());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
