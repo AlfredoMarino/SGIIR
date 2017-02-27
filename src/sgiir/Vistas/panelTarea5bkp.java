@@ -8,12 +8,15 @@ package sgiir.Vistas;
 import java.awt.EventQueue;
 import java.beans.Beans;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -497,9 +500,8 @@ public class panelTarea5bkp extends JPanel {
                                         .addComponent(carpetaTareaField)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnRutaCarpeta))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-                                        .addComponent(codigoTareaField, javax.swing.GroupLayout.Alignment.LEADING)))
+                                    .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                                    .addComponent(codigoTareaField))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -964,8 +966,9 @@ public class panelTarea5bkp extends JPanel {
     }//GEN-LAST:event_masterTableCaretPositionChanged
 
     private void btnRutaCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRutaCarpetaActionPerformed
-        //JFileChooser fileChooser = new JFileChooser();
-        //fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int rutaInstitucion = n.getCodigoInstitucion().getCodigoInstitucion();
+        String ruta =fchCarpetaTarea.getCurrentDirectory().getAbsolutePath() + msgFile.getProperty("msg0003") + rutaInstitucion + "\\";
+        fchCarpetaTarea.setCurrentDirectory(new File(ruta));
         int seleccion = fchCarpetaTarea.showOpenDialog(this.getParent());
     }//GEN-LAST:event_btnRutaCarpetaActionPerformed
 

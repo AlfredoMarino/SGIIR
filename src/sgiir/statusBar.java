@@ -6,6 +6,7 @@
 package sgiir;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.JLabel;
 
 /**
@@ -19,6 +20,7 @@ public class statusBar extends JLabel {
         super();
         super.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         super.setPreferredSize(new Dimension(100, 16));
+        super.setFont(new Font("Tahoma", Font.BOLD, 11));
         setMsg("Ready");
     }
 
