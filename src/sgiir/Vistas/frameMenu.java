@@ -5,6 +5,7 @@
  */
 package sgiir.Vistas;
 
+import imagenes.panelImagen;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import sgiir.statusBar;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import sgiir.manejadorDB;
 import sgiir.propiedades.propiedades;
@@ -45,6 +47,7 @@ public class frameMenu extends javax.swing.JFrame {
     public panelSeguimiento VistaSeguimiento = new panelSeguimiento();
     public panelTarea VistaTarea = new panelTarea();
     public panelBitacora VistaBitacora = new panelBitacora();
+    public ImageIcon imagenBanner = new ImageIcon(getClass().getResource("/imagenes/banner.png")); 
     
     
     CardLayout controladorPaneles;
@@ -119,7 +122,7 @@ public class frameMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlHead = new javax.swing.JPanel();
+        pnlHead = new panelImagen(imagenBanner.getImage());
         pnlDetails = new javax.swing.JPanel();
         pnlFoot = new javax.swing.JPanel();
         StatusBar = statusBar.getInstance();

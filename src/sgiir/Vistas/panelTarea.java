@@ -1074,10 +1074,10 @@ public class panelTarea extends JPanel {
         dchFinalizacion.setDate(dateDefault);
         dchEstimada.setDate(dateDefault);
         fldObservacion.setText("");
-        cbxSeguimiento.setSelectedIndex(0);
-        
-        //lstArea.setModel(lstArea.getModel().);
-        //lstArea.removeAll();
+        if(cbxSeguimiento.getItemCount() > 0){
+            cbxSeguimiento.setSelectedIndex(0);
+        }
+
     }
     
     private static boolean isNotNull(Object objeto){
