@@ -8,13 +8,13 @@ package sgiir.Vistas;
 import java.awt.EventQueue;
 import java.beans.Beans;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import sgiir.Entidades.Naturaleza;
-import sgiir.Entidades.Seguimiento;
-import sgiir.comboBox;
 
 /**
  *
@@ -40,34 +40,49 @@ public class panelSeguimiento extends JPanel {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
-        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Seguimiento s");
+        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT n FROM Naturaleza n");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
-        codigoNaturalezaLabel = new javax.swing.JLabel();
-        codigoSeguimientoLabel = new javax.swing.JLabel();
-        descripcionSeguimientoLabel = new javax.swing.JLabel();
-        diasSeguimientoLabel = new javax.swing.JLabel();
-        horasSeguimientoLabel = new javax.swing.JLabel();
-        maximoSeguimientoLabel = new javax.swing.JLabel();
-        codigoNaturalezaField = new javax.swing.JTextField();
-        codigoSeguimientoField = new javax.swing.JTextField();
-        descripcionSeguimientoField = new javax.swing.JTextField();
-        diasSeguimientoField = new javax.swing.JTextField();
-        horasSeguimientoField = new javax.swing.JTextField();
-        maximoSeguimientoField = new javax.swing.JTextField();
+        detailScrollPane = new javax.swing.JScrollPane();
+        detailTable = new javax.swing.JTable();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
-        newButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        cbxNaturaleza = new javax.swing.JComboBox<>();
+        deleteDetailButton = new javax.swing.JButton();
+        newDetailButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         FormListener formListener = new FormListener();
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoInstitucion.nombreInstitucion}"));
+        columnBinding.setColumnName("Codigo Institucion");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipoNaturaleza}"));
+        columnBinding.setColumnName("Tipo Naturaleza");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${prioridadNaturaleza}"));
+        columnBinding.setColumnName("Prioridad Naturaleza");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza}"));
         columnBinding.setColumnName("Codigo Naturaleza");
-        columnBinding.setColumnClass(sgiir.Entidades.Naturaleza.class);
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        masterScrollPane.setViewportView(masterTable);
+        if (masterTable.getColumnModel().getColumnCount() > 0) {
+            masterTable.getColumnModel().getColumn(0).setResizable(false);
+            masterTable.getColumnModel().getColumn(1).setResizable(false);
+            masterTable.getColumnModel().getColumn(2).setResizable(false);
+            masterTable.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.seguimientoCollection}");
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, detailTable);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoSeguimiento}"));
         columnBinding.setColumnName("Codigo Seguimiento");
         columnBinding.setColumnClass(Integer.class);
@@ -83,57 +98,10 @@ public class panelSeguimiento extends JPanel {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maximoSeguimiento}"));
         columnBinding.setColumnName("Maximo Seguimiento");
         columnBinding.setColumnClass(Integer.class);
+        jTableBinding.setSourceUnreadableValue(java.util.Collections.emptyList());
         bindingGroup.addBinding(jTableBinding);
-
-        masterScrollPane.setViewportView(masterTable);
-
-        codigoNaturalezaLabel.setText("Codigo Naturaleza:");
-
-        codigoSeguimientoLabel.setText("Codigo Seguimiento:");
-
-        descripcionSeguimientoLabel.setText("Descripcion Seguimiento:");
-
-        diasSeguimientoLabel.setText("Dias Seguimiento:");
-
-        horasSeguimientoLabel.setText("Horas Seguimiento:");
-
-        maximoSeguimientoLabel.setText("Maximo Seguimiento:");
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cbxNaturaleza, org.jdesktop.beansbinding.ELProperty.create("${selectedItem}"), codigoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoNaturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoSeguimiento}"), codigoSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.descripcionSeguimiento}"), descripcionSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), descripcionSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.diasSeguimiento}"), diasSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), diasSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horasSeguimiento}"), horasSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), horasSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.maximoSeguimiento}"), maximoSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), maximoSeguimientoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
+        jTableBinding.bind();
+        detailScrollPane.setViewportView(detailTable);
 
         saveButton.setText("Save");
         saveButton.addActionListener(formListener);
@@ -141,95 +109,63 @@ public class panelSeguimiento extends JPanel {
         refreshButton.setText("Refresh");
         refreshButton.addActionListener(formListener);
 
-        newButton.setText("New");
-        newButton.addActionListener(formListener);
+        deleteDetailButton.setText("Delete");
 
-        deleteButton.setText("Delete");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteDetailButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        deleteButton.addActionListener(formListener);
+        deleteDetailButton.addActionListener(formListener);
 
-        cbxNaturaleza.addActionListener(formListener);
+        newDetailButton.setText("New");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), newDetailButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        newDetailButton.addActionListener(formListener);
+
+        jLabel1.setText("Parametros del Seguimiento de las tareas:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(newButton)
+                        .addGap(0, 70, Short.MAX_VALUE)
+                        .addComponent(newDetailButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
+                        .addComponent(deleteDetailButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveButton))
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoNaturalezaLabel)
-                                    .addComponent(codigoSeguimientoLabel)
-                                    .addComponent(descripcionSeguimientoLabel)
-                                    .addComponent(diasSeguimientoLabel)
-                                    .addComponent(horasSeguimientoLabel)
-                                    .addComponent(maximoSeguimientoLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(codigoSeguimientoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(descripcionSeguimientoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(diasSeguimientoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(horasSeguimientoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(maximoSeguimientoField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(cbxNaturaleza, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {deleteButton, newButton, refreshButton, saveButton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {deleteDetailButton, newDetailButton, refreshButton, saveButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbxNaturaleza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(codigoNaturalezaLabel)
-                    .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(codigoSeguimientoLabel)
-                    .addComponent(codigoSeguimientoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(descripcionSeguimientoLabel)
-                    .addComponent(descripcionSeguimientoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(diasSeguimientoLabel)
-                    .addComponent(diasSeguimientoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(horasSeguimientoLabel)
-                    .addComponent(horasSeguimientoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(maximoSeguimientoLabel)
-                    .addComponent(maximoSeguimientoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(3, 3, 3)
+                .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
-                    .addComponent(deleteButton)
-                    .addComponent(newButton))
+                    .addComponent(deleteDetailButton)
+                    .addComponent(newDetailButton))
                 .addContainerGap())
         );
 
@@ -247,18 +183,56 @@ public class panelSeguimiento extends JPanel {
             else if (evt.getSource() == refreshButton) {
                 panelSeguimiento.this.refreshButtonActionPerformed(evt);
             }
-            else if (evt.getSource() == newButton) {
-                panelSeguimiento.this.newButtonActionPerformed(evt);
+            else if (evt.getSource() == deleteDetailButton) {
+                panelSeguimiento.this.deleteDetailButtonActionPerformed(evt);
             }
-            else if (evt.getSource() == deleteButton) {
-                panelSeguimiento.this.deleteButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == cbxNaturaleza) {
-                panelSeguimiento.this.cbxNaturalezaActionPerformed(evt);
+            else if (evt.getSource() == newDetailButton) {
+                panelSeguimiento.this.newDetailButtonActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void deleteDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDetailButtonActionPerformed
+        int index = masterTable.getSelectedRow();
+        sgiir.Entidades.Naturaleza n = list.get(masterTable.convertRowIndexToModel(index));
+        Collection<sgiir.Entidades.Seguimiento> ss = n.getSeguimientoCollection();
+        int[] selected = detailTable.getSelectedRows();
+        List<sgiir.Entidades.Seguimiento> toRemove = new ArrayList<sgiir.Entidades.Seguimiento>(selected.length);
+        for (int idx = 0; idx < selected.length; idx++) {
+            selected[idx] = detailTable.convertRowIndexToModel(selected[idx]);
+            int count = 0;
+            Iterator<sgiir.Entidades.Seguimiento> iter = ss.iterator();
+            while (count++ < selected[idx]) {
+                iter.next();
+            }
+            sgiir.Entidades.Seguimiento s = iter.next();
+            toRemove.add(s);
+            entityManager.remove(s);
+        }
+        ss.removeAll(toRemove);
+        masterTable.clearSelection();
+        masterTable.setRowSelectionInterval(index, index);
+    }//GEN-LAST:event_deleteDetailButtonActionPerformed
+
+    private void newDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDetailButtonActionPerformed
+        int index = masterTable.getSelectedRow();
+        sgiir.Entidades.Naturaleza n = list.get(masterTable.convertRowIndexToModel(index));
+        Collection<sgiir.Entidades.Seguimiento> ss = n.getSeguimientoCollection();
+        if (ss == null) {
+            ss = new LinkedList<sgiir.Entidades.Seguimiento>();
+            n.setSeguimientoCollection((List) ss);
+        }
+        sgiir.Entidades.Seguimiento s = new sgiir.Entidades.Seguimiento();
+        entityManager.persist(s);
+        s.setCodigoNaturaleza(n);
+        ss.add(s);
+        masterTable.clearSelection();
+        masterTable.setRowSelectionInterval(index, index);
+        int row = ss.size() - 1;
+        detailTable.setRowSelectionInterval(row, row);
+        detailTable.scrollRectToVisible(detailTable.getCellRect(row, 0, true));
+    }//GEN-LAST:event_newDetailButtonActionPerformed
     
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
@@ -271,76 +245,34 @@ public class panelSeguimiento extends JPanel {
         list.clear();
         list.addAll(data);
     }//GEN-LAST:event_refreshButtonActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int[] selected = masterTable.getSelectedRows();
-        List<sgiir.Entidades.Seguimiento> toRemove = new ArrayList<sgiir.Entidades.Seguimiento>(selected.length);
-        for (int idx = 0; idx < selected.length; idx++) {
-            sgiir.Entidades.Seguimiento s = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-            toRemove.add(s);
-            entityManager.remove(s);
-        }
-        list.removeAll(toRemove);
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        sgiir.Entidades.Seguimiento s = new sgiir.Entidades.Seguimiento();
-        entityManager.persist(s);
-        list.add(s);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            int selected = masterTable.getSelectedRow();
-            sgiir.Entidades.Seguimiento s = new Seguimiento(5, "hola", 1, 1, 1);
-            sgiir.Entidades.Naturaleza n = (Naturaleza) entityManager.find(Naturaleza.class, 1);
-            
-            s.setCodigoNaturaleza(n);
-            list.set(selected, s);
-            entityManager.merge(s);
-                       
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
             rex.printStackTrace();
             entityManager.getTransaction().begin();
-            List<sgiir.Entidades.Seguimiento> merged = new ArrayList<sgiir.Entidades.Seguimiento>(list.size());
-            for (sgiir.Entidades.Seguimiento s : list) {
-                merged.add(entityManager.merge(s));
+            List<sgiir.Entidades.Naturaleza> merged = new ArrayList<sgiir.Entidades.Naturaleza>(list.size());
+            for (sgiir.Entidades.Naturaleza n : list) {
+                merged.add(entityManager.merge(n));
             }
             list.clear();
             list.addAll(merged);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void cbxNaturalezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNaturalezaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxNaturalezaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<comboBox> cbxNaturaleza;
-    private javax.swing.JTextField codigoNaturalezaField;
-    private javax.swing.JLabel codigoNaturalezaLabel;
-    private javax.swing.JTextField codigoSeguimientoField;
-    private javax.swing.JLabel codigoSeguimientoLabel;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JTextField descripcionSeguimientoField;
-    private javax.swing.JLabel descripcionSeguimientoLabel;
-    private javax.swing.JTextField diasSeguimientoField;
-    private javax.swing.JLabel diasSeguimientoLabel;
+    private javax.swing.JButton deleteDetailButton;
+    private javax.swing.JScrollPane detailScrollPane;
+    private javax.swing.JTable detailTable;
     private javax.persistence.EntityManager entityManager;
-    private javax.swing.JTextField horasSeguimientoField;
-    private javax.swing.JLabel horasSeguimientoLabel;
-    private java.util.List<sgiir.Entidades.Seguimiento> list;
+    private javax.swing.JLabel jLabel1;
+    private java.util.List<sgiir.Entidades.Naturaleza> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
-    private javax.swing.JTextField maximoSeguimientoField;
-    private javax.swing.JLabel maximoSeguimientoLabel;
-    private javax.swing.JButton newButton;
+    private javax.swing.JButton newDetailButton;
     private javax.persistence.Query query;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
@@ -368,6 +300,7 @@ public class panelSeguimiento extends JPanel {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(panelSeguimiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

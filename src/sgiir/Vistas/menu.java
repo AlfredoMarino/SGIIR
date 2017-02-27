@@ -41,8 +41,8 @@ public class menu extends javax.swing.JFrame {
     public panelPersona VistaPersona = new panelPersona();
     public panelAutenticacion VistaAutenticacion = new panelAutenticacion();
     public panelNaturaleza VistaNaturaleza = new panelNaturaleza();
-    public panelSeguimiento2 VistaSeguimiento = new panelSeguimiento2();
-    public panelTarea VistaTarea = new panelTarea();
+    public panelSeguimiento VistaSeguimiento = new panelSeguimiento();
+    public panelTareaOld VistaTarea = new panelTareaOld();
     
     
     CardLayout controladorPaneles;
