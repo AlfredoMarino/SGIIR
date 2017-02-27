@@ -15,18 +15,31 @@ import java.util.List;
 import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sgiir.Entidades.Estado;
+import sgiir.Entidades.Naturaleza;
+import sgiir.Entidades.Tarea;
+import sgiir.comboBox;
+import sgiir.statusBar;
 
 /**
  *
  * @author Alfredo Mariño
  */
 public class panelBitacora extends JPanel {
+
+    private Naturaleza n;
+    private int codigoInstitucion;
+    private int tipoNaturaleza;
+    private int prioridadNaturaleza;
+    private Integer codigoNaturaleza;
     
     public panelBitacora() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
         }
+        
+        comboEstado();
     }
 
     /**
@@ -42,16 +55,41 @@ public class panelBitacora extends JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("SGIIRPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT t FROM Tarea t");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
+        queryEstado = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Estado e");
+        listEstado = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(queryEstado.getResultList());
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
-        newButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
         detailScrollPane = new javax.swing.JScrollPane();
         detailTable = new javax.swing.JTable();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         deleteDetailButton = new javax.swing.JButton();
         newDetailButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        cbxInstitucion = new javax.swing.JComboBox<>();
+        btnBuscar = new javax.swing.JButton();
+        rdbPrioridad3 = new javax.swing.JRadioButton();
+        rdbPrioridad2 = new javax.swing.JRadioButton();
+        rdbTipo2 = new javax.swing.JRadioButton();
+        rdbTipo1 = new javax.swing.JRadioButton();
+        rdbPrioridad1 = new javax.swing.JRadioButton();
+        cbtTodos = new javax.swing.JCheckBox();
+        naturalezaLabel = new javax.swing.JLabel();
+        naturalezaField = new javax.swing.JTextField();
+        tareaField = new javax.swing.JTextField();
+        codigoEstadoLabel = new javax.swing.JLabel();
+        codigoEstadoField = new javax.swing.JTextField();
+        tareaLabel = new javax.swing.JLabel();
+        codigoInvolucradoLabel = new javax.swing.JLabel();
+        codigoInvolucradoField = new javax.swing.JTextField();
+        observacionBitacoraLabel = new javax.swing.JLabel();
+        fechaBitacoraLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        fldObservacion = new javax.swing.JTextArea();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jSpinner1 = new javax.swing.JSpinner();
+        fldCorrelativo = new javax.swing.JTextField();
+        cbxEstado = new javax.swing.JComboBox<>();
 
         FormListener formListener = new FormListener();
 
@@ -90,27 +128,14 @@ public class panelBitacora extends JPanel {
             masterTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        newButton.setText("New");
-        newButton.addActionListener(formListener);
-
-        deleteButton.setText("Delete");
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        deleteButton.addActionListener(formListener);
-
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraCollection}");
         jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, detailTable);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${naturaleza}"));
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${naturaleza.codigoNaturaleza}"));
         columnBinding.setColumnName("Naturaleza");
-        columnBinding.setColumnClass(sgiir.Entidades.Naturaleza.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoEstado}"));
-        columnBinding.setColumnName("Codigo Estado");
-        columnBinding.setColumnClass(sgiir.Entidades.Estado.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoInvolucrado}"));
-        columnBinding.setColumnName("Codigo Involucrado");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoEstado.descripcionEstado}"));
+        columnBinding.setColumnName("Codigo Estado");
+        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${observacionBitacora}"));
         columnBinding.setColumnName("Observacion Bitacora");
         columnBinding.setColumnClass(String.class);
@@ -120,9 +145,13 @@ public class panelBitacora extends JPanel {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${horaBitacora}"));
         columnBinding.setColumnName("Hora Bitacora");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bitacoraPK.correlativoBitacora}"));
+        columnBinding.setColumnName("Codigo Bitacora");
+        columnBinding.setColumnClass(Integer.class);
         jTableBinding.setSourceUnreadableValue(java.util.Collections.emptyList());
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        detailTable.addMouseListener(formListener);
         detailScrollPane.setViewportView(detailTable);
 
         saveButton.setText("Save");
@@ -133,7 +162,7 @@ public class panelBitacora extends JPanel {
 
         deleteDetailButton.setText("Delete");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteDetailButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteDetailButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         deleteDetailButton.addActionListener(formListener);
@@ -145,49 +174,200 @@ public class panelBitacora extends JPanel {
 
         newDetailButton.addActionListener(formListener);
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(formListener);
+
+        rdbPrioridad3.setText("Alta");
+        rdbPrioridad3.addActionListener(formListener);
+
+        rdbPrioridad2.setText("Media");
+        rdbPrioridad2.addActionListener(formListener);
+
+        rdbTipo2.setText("Requerimiento");
+
+        rdbTipo1.setSelected(true);
+        rdbTipo1.setText("Incidencia");
+        rdbTipo1.addActionListener(formListener);
+
+        rdbPrioridad1.setSelected(true);
+        rdbPrioridad1.setText("Baja");
+        rdbPrioridad1.addActionListener(formListener);
+
+        cbtTodos.setText("Todos");
+        cbtTodos.addItemListener(formListener);
+        cbtTodos.addChangeListener(formListener);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbTipo1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbTipo2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdbPrioridad1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbPrioridad2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdbPrioridad3)
+                .addGap(80, 80, 80)
+                .addComponent(cbtTodos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBuscar)
+                .addGap(24, 24, 24))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdbTipo1)
+                        .addComponent(rdbTipo2))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdbPrioridad1)
+                        .addComponent(rdbPrioridad2)
+                        .addComponent(rdbPrioridad3)
+                        .addComponent(btnBuscar)
+                        .addComponent(cbtTodos)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        naturalezaLabel.setText("Naturaleza:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.codigoNaturaleza}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.codigoTarea}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        codigoEstadoLabel.setText("Codigo Estado:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoEstado.codigoEstado}"), codigoEstadoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        tareaLabel.setText("Tarea:");
+
+        codigoInvolucradoLabel.setText("Codigo Involucrado:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoInvolucrado}"), codigoInvolucradoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        observacionBitacoraLabel.setText("Observacion Bitacora:");
+
+        fechaBitacoraLabel.setText("Fecha Bitacora:");
+
+        fldObservacion.setColumns(20);
+        fldObservacion.setRows(5);
+        jScrollPane1.setViewportView(fldObservacion);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaBitacora}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
+        jSpinner1.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner1, "HH:mm:ss"));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaBitacora}"), jSpinner1, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.correlativoBitacora}"), fldCorrelativo, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        fldCorrelativo.addActionListener(formListener);
+
+        cbxEstado.addItemListener(formListener);
+        cbxEstado.addMouseListener(formListener);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(detailScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(newDetailButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteDetailButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 70, Short.MAX_VALUE)
-                                .addComponent(newDetailButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteDetailButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(refreshButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(saveButton))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                            .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))))
+                            .addComponent(naturalezaLabel)
+                            .addComponent(tareaLabel)
+                            .addComponent(codigoEstadoLabel)
+                            .addComponent(codigoInvolucradoLabel)
+                            .addComponent(observacionBitacoraLabel)
+                            .addComponent(fechaBitacoraLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(naturalezaField)
+                            .addComponent(tareaField)
+                            .addComponent(codigoEstadoField)
+                            .addComponent(codigoInvolucradoField)
+                            .addComponent(fldCorrelativo)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cbxEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {deleteButton, newButton});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {deleteDetailButton, newDetailButton, refreshButton, saveButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addGap(7, 7, 7)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(detailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(naturalezaLabel)
+                    .addComponent(naturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteButton)
-                    .addComponent(newButton))
+                    .addComponent(tareaLabel)
+                    .addComponent(tareaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(fldCorrelativo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(codigoEstadoLabel)
+                    .addComponent(codigoEstadoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(detailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(codigoInvolucradoLabel)
+                    .addComponent(codigoInvolucradoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(observacionBitacoraLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fechaBitacoraLabel)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
@@ -201,16 +381,10 @@ public class panelBitacora extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener, javax.swing.event.ChangeListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == newButton) {
-                panelBitacora.this.newButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == deleteButton) {
-                panelBitacora.this.deleteButtonActionPerformed(evt);
-            }
-            else if (evt.getSource() == saveButton) {
+            if (evt.getSource() == saveButton) {
                 panelBitacora.this.saveButtonActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton) {
@@ -221,6 +395,60 @@ public class panelBitacora extends JPanel {
             }
             else if (evt.getSource() == newDetailButton) {
                 panelBitacora.this.newDetailButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == btnBuscar) {
+                panelBitacora.this.btnBuscarActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad3) {
+                panelBitacora.this.rdbPrioridad3ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad2) {
+                panelBitacora.this.rdbPrioridad2ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbTipo1) {
+                panelBitacora.this.rdbTipo1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == rdbPrioridad1) {
+                panelBitacora.this.rdbPrioridad1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == fldCorrelativo) {
+                panelBitacora.this.fldCorrelativoActionPerformed(evt);
+            }
+        }
+
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            if (evt.getSource() == cbtTodos) {
+                panelBitacora.this.cbtTodosItemStateChanged(evt);
+            }
+            else if (evt.getSource() == cbxEstado) {
+                panelBitacora.this.cbxEstadoItemStateChanged(evt);
+            }
+        }
+
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseReleased(java.awt.event.MouseEvent evt) {
+            if (evt.getSource() == cbxEstado) {
+                panelBitacora.this.cbxEstadoMouseReleased(evt);
+            }
+            else if (evt.getSource() == detailTable) {
+                panelBitacora.this.detailTableMouseReleased(evt);
+            }
+        }
+
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            if (evt.getSource() == cbtTodos) {
+                panelBitacora.this.cbtTodosStateChanged(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -278,26 +506,6 @@ public class panelBitacora extends JPanel {
         list.clear();
         list.addAll(data);
     }//GEN-LAST:event_refreshButtonActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int[] selected = masterTable.getSelectedRows();
-        List<sgiir.Entidades.Tarea> toRemove = new ArrayList<sgiir.Entidades.Tarea>(selected.length);
-        for (int idx = 0; idx < selected.length; idx++) {
-            sgiir.Entidades.Tarea t = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-            toRemove.add(t);
-            entityManager.remove(t);
-        }
-        list.removeAll(toRemove);
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        sgiir.Entidades.Tarea t = new sgiir.Entidades.Tarea();
-        entityManager.persist(t);
-        list.add(t);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
-    }//GEN-LAST:event_newButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
@@ -315,21 +523,249 @@ public class panelBitacora extends JPanel {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        statusBar.getInstance().clrMsg();
+        int noResult = 0;
+
+        try{
+            //BUSCA TODAS LAS TAREAS, INHABILTA LA CREACION PORQUE DEBE ESPECIFICAR LA NATURALEZA
+            if(cbtTodos.isSelected()){
+
+                query = entityManager.createNamedQuery("Tarea.findAll");
+
+                java.util.Collection data = query.getResultList();
+                for (Object entity : data) {
+                    entityManager.refresh(entity);
+                }
+                list.clear();
+                list.addAll(data);
+
+                //comboSeguimiento();
+
+            }else{
+                comboBox combo = (comboBox) cbxInstitucion.getSelectedItem();
+                if(combo.getId() != 0){
+                    this.codigoInstitucion = combo.getId();
+                    if(rdbTipo1.isSelected()){
+                        this.tipoNaturaleza = 1; //INCIDENCIA
+                    }else{
+                        this.tipoNaturaleza = 0; //REQUERIMIENTO
+                    }
+
+                    if(rdbPrioridad1.isSelected()){
+                        this.prioridadNaturaleza = 1; //Baja
+                    }else{
+                        if(rdbPrioridad2.isSelected()){
+                            this.prioridadNaturaleza = 2; //Media
+                        }else{
+                            this.prioridadNaturaleza = 3; //Alta
+                        }
+                    }
+
+                    noResult = 1;
+                    javax.persistence.Query queryNaturaleza = entityManager.createNativeQuery("SELECT * FROM Naturaleza where CodigoInstitucion = ? and TipoNaturaleza = ? and PrioridadNaturaleza = ?", Naturaleza.class);
+
+                    queryNaturaleza.setParameter(1, codigoInstitucion);
+                    queryNaturaleza.setParameter(2, tipoNaturaleza);
+                    queryNaturaleza.setParameter(3, prioridadNaturaleza);
+
+                    entityManager.getTransaction().rollback();
+                    entityManager.getTransaction().begin();
+
+                    this.n = (Naturaleza) queryNaturaleza.getSingleResult();
+                    this.codigoNaturaleza = n.getCodigoNaturaleza();
+                    naturalezaField.setText(String.valueOf(codigoNaturaleza));
+
+                    noResult = 2;
+                    query = entityManager.createNativeQuery("SELECT * FROM Tarea WHERE CodigoNaturaleza = ?", Tarea.class);
+                    query.setParameter(1, codigoNaturaleza);
+
+                    java.util.Collection data = query.getResultList();
+                    for (Object entity : data) {
+                        entityManager.refresh(entity);
+                    }
+                    list.clear();
+                    list.addAll(data);
+
+                }else{
+                    statusBar.getInstance().setMsg("Debe selecionar una institución");
+                }
+            }
+
+        }catch(javax.persistence.NoResultException nre){
+            if(noResult == 1){
+                statusBar.getInstance().setMsg("Naturaleza invalida");
+            }else{
+                statusBar.getInstance().setMsg("No se encontraron tareas");
+            }
+
+            list.clear();
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void rdbPrioridad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad3ActionPerformed
+
+    private void rdbPrioridad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad2ActionPerformed
+
+    private void rdbTipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbTipo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbTipo1ActionPerformed
+
+    private void rdbPrioridad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbPrioridad1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbPrioridad1ActionPerformed
+
+    private void cbtTodosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbtTodosItemStateChanged
+        cbxInstitucion.setSelectedIndex(0);
+        statusBar.getInstance().clrMsg();
+
+        if(cbtTodos.isSelected()){
+
+            cbxInstitucion.setEnabled(false);
+
+            rdbTipo1.setSelected(false);
+            rdbTipo1.setEnabled(false);
+
+            rdbTipo2.setSelected(false);
+            rdbTipo2.setEnabled(false);
+
+            rdbPrioridad1.setSelected(false);
+            rdbPrioridad1.setEnabled(false);
+
+            rdbPrioridad2.setSelected(false);
+            rdbPrioridad2.setEnabled(false);
+
+            rdbPrioridad3.setSelected(false);
+            rdbPrioridad3.setEnabled(false);
+
+        }else{
+            cbxInstitucion.setEnabled(true);
+
+            rdbTipo1.setSelected(true);
+            rdbTipo1.setEnabled(true);
+
+            rdbTipo2.setSelected(false);
+            rdbTipo2.setEnabled(true);
+
+            rdbPrioridad1.setSelected(true);
+            rdbPrioridad1.setEnabled(true);
+
+            rdbPrioridad2.setSelected(false);
+            rdbPrioridad2.setEnabled(true);
+
+            rdbPrioridad3.setSelected(false);
+            rdbPrioridad3.setEnabled(true);
+
+        }
+
+        //defaultField();
+
+        list.clear();
+    }//GEN-LAST:event_cbtTodosItemStateChanged
+
+    private void cbtTodosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbtTodosStateChanged
+
+    }//GEN-LAST:event_cbtTodosStateChanged
+
+    private void fldCorrelativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fldCorrelativoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fldCorrelativoActionPerformed
+
+    private void cbxEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxEstadoItemStateChanged
+
+    }//GEN-LAST:event_cbxEstadoItemStateChanged
+
+    private void cbxEstadoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxEstadoMouseReleased
+
+    }//GEN-LAST:event_cbxEstadoMouseReleased
+
+    private void detailTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detailTableMouseReleased
+        if(detailTable.getSelectedRow() != -1){
+            
+            
+            posicionaComboEstado();
+            
+            //seteaCampos();
+        }
+    }//GEN-LAST:event_detailTableMouseReleased
+    
+    private void comboEstado(){
+        cbxEstado.removeAllItems();
+        comboBox ItemCombo = new comboBox(0, "");
+        cbxEstado.addItem(ItemCombo);   
+
+        //sgiir.Entidades.Naturaleza n = (Naturaleza) entityManager.find(Naturaleza.class, codigo);
+        //Estado e = (Estado) entityManager.find(Estado.class, codigo)
+
+        for(Estado entidad : listEstado){
+
+            cbxEstado.addItem(entidad.getItemComboBox()); 
+        }
+        
+    }
+    
+    private void posicionaComboEstado(){
+        if(isNumeric(codigoEstadoField.getText())){
+            for (int index = 0; index < cbxEstado.getItemCount(); index++) {
+                if(Integer.valueOf(codigoEstadoField.getText()) == cbxEstado.getItemAt(index).getId()){
+                    cbxEstado.setSelectedIndex(index);
+                }
+            }
+        }
+    }
+    
+    private static boolean isNumeric(String cadena){
+	try {
+            Integer.parseInt(cadena);
+            return true;
+	} catch (NumberFormatException nfe){
+            return false;
+	}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JCheckBox cbtTodos;
+    private javax.swing.JComboBox<comboBox> cbxEstado;
+    private javax.swing.JComboBox<comboBox> cbxInstitucion;
+    private javax.swing.JTextField codigoEstadoField;
+    private javax.swing.JLabel codigoEstadoLabel;
+    private javax.swing.JTextField codigoInvolucradoField;
+    private javax.swing.JLabel codigoInvolucradoLabel;
     private javax.swing.JButton deleteDetailButton;
     private javax.swing.JScrollPane detailScrollPane;
     private javax.swing.JTable detailTable;
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JLabel fechaBitacoraLabel;
+    private javax.swing.JTextField fldCorrelativo;
+    private javax.swing.JTextArea fldObservacion;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
     private java.util.List<sgiir.Entidades.Tarea> list;
+    private java.util.List<Estado> listEstado;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
-    private javax.swing.JButton newButton;
+    private javax.swing.JTextField naturalezaField;
+    private javax.swing.JLabel naturalezaLabel;
     private javax.swing.JButton newDetailButton;
+    private javax.swing.JLabel observacionBitacoraLabel;
     private javax.persistence.Query query;
+    private javax.persistence.Query queryEstado;
+    private javax.swing.JRadioButton rdbPrioridad1;
+    private javax.swing.JRadioButton rdbPrioridad2;
+    private javax.swing.JRadioButton rdbPrioridad3;
+    private javax.swing.JRadioButton rdbTipo1;
+    private javax.swing.JRadioButton rdbTipo2;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JTextField tareaField;
+    private javax.swing.JLabel tareaLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     public static void main(String[] args) {

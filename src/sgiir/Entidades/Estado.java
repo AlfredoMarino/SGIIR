@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import sgiir.comboBox;
 
 /**
  *
@@ -82,6 +83,13 @@ public class Estado implements Serializable {
     public void setBitacoraCollection(Collection<Bitacora> bitacoraCollection) {
         this.bitacoraCollection = bitacoraCollection;
     }
+    
+    public comboBox getItemComboBox() {
+        
+        comboBox ItemCombo = new comboBox(codigoEstado, (descripcionEstado + " (" + codigoEstado.toString() + ")"));
+        
+        return ItemCombo;
+    }
 
     @Override
     public int hashCode() {
@@ -105,7 +113,7 @@ public class Estado implements Serializable {
 
     @Override
     public String toString() {
-        return "sgiir.Entidades.Estado[ codigoEstado=" + codigoEstado + " ]";
+        return codigoEstado.toString();
     }
     
 }
