@@ -134,7 +134,7 @@ public class panelTarea5bkp extends JPanel {
         btnCaracteristica = new javax.swing.JButton();
         btnInvolucrado = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        lstInvolucrado = new javax.swing.JList<>();
         btnRutaCarpeta = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
@@ -386,6 +386,7 @@ public class panelTarea5bkp extends JPanel {
         bindingGroup.addBinding(binding);
 
         fldObservacion.setColumns(20);
+        fldObservacion.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         fldObservacion.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.observacionTarea}"), fldObservacion, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -406,7 +407,7 @@ public class panelTarea5bkp extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaFinalizacionTarea}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(dateDefault);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFinalizacion, org.jdesktop.beansbinding.ELProperty.create("${date != null}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFinalizacion, org.jdesktop.beansbinding.ELProperty.create("${date != null && enable == true}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         lstArea.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -434,16 +435,16 @@ public class panelTarea5bkp extends JPanel {
 
         btnInvolucrado.addActionListener(formListener);
 
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstInvolucrado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.involucradoCollection}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, jList1);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, lstInvolucrado);
         jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.nombrePersona}"));
         bindingGroup.addBinding(jListBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), jList1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), lstInvolucrado, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane4.setViewportView(jList1);
+        jScrollPane4.setViewportView(lstInvolucrado);
 
         btnRutaCarpeta.setText("Seleccionar");
 
@@ -500,8 +501,9 @@ public class panelTarea5bkp extends JPanel {
                                         .addComponent(carpetaTareaField)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnRutaCarpeta))
-                                    .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-                                    .addComponent(codigoTareaField))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(codigoTareaField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                        .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.Alignment.LEADING)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -702,14 +704,17 @@ public class panelTarea5bkp extends JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-   
-        sgiir.Entidades.Tarea t = new sgiir.Entidades.Tarea();
-        t.setCodigoNaturaleza(n);
-        entityManager.persist(t);
-        list.add(t);
-        int row = list.size() - 1;
-        masterTable.setRowSelectionInterval(row, row);
-        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+        if(cbtTodos.isSelected()){
+            statusBar.getInstance().setMsg("Debe seleccionar una naturaleza");
+        }else{    
+            sgiir.Entidades.Tarea t = new sgiir.Entidades.Tarea();
+            t.setCodigoNaturaleza(n);
+            entityManager.persist(t);
+            list.add(t);
+            int row = list.size() - 1;
+            masterTable.setRowSelectionInterval(row, row);
+            masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+        }
     }//GEN-LAST:event_newButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -824,12 +829,13 @@ public class panelTarea5bkp extends JPanel {
                     list.clear();
                     list.addAll(data);
 
-                    //comboSeguimiento();
+                    
 
                 }else{
                     statusBar.getInstance().setMsg("Debe selecionar una institución");
                 }
             }
+            
         }catch(javax.persistence.NoResultException nre){
             if(noResult == 1){
                 statusBar.getInstance().setMsg("Naturaleza invalida");
@@ -879,8 +885,6 @@ public class panelTarea5bkp extends JPanel {
             rdbPrioridad3.setSelected(false);
             rdbPrioridad3.setEnabled(false);
 
-            newButton.setEnabled(false);
-
         }else{
             cbxInstitucion.setEnabled(true);
 
@@ -899,9 +903,11 @@ public class panelTarea5bkp extends JPanel {
             rdbPrioridad3.setSelected(false);
             rdbPrioridad3.setEnabled(true);
 
-            newButton.setEnabled(true);
         }
         
+        this.defaultField();
+        lstInvolucrado.removeAll();
+        lstArea.removeAll();
         list.clear();
     }//GEN-LAST:event_cbtTodosItemStateChanged
 
@@ -1057,6 +1063,12 @@ public class panelTarea5bkp extends JPanel {
         fechaFinalizacionTarea = dchFinalizacion.getDate();
         horaFinalizacionTarea = (Date) spnHoraFinalizacion.getValue();
     }
+    private void defaultField(){
+        fldDescripcion.setText("");
+        spnHoraRecepcion.setValue(dateDefault);
+        dchRecepcion.setDate(dateDefault);
+        fldObservacion.setText("");
+    }
     
     private static boolean isNotNull(Object objeto){
         if(objeto == null){
@@ -1107,7 +1119,6 @@ public class panelTarea5bkp extends JPanel {
     private javax.swing.JTextArea fldDescripcion;
     private javax.swing.JTextArea fldObservacion;
     private javax.swing.JTextField horaRecepcionTareaField;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1116,6 +1127,7 @@ public class panelTarea5bkp extends JPanel {
     private java.util.List<sgiir.Entidades.Tarea> list;
     private java.util.List<Institucion> listInstitucion;
     private javax.swing.JList<String> lstArea;
+    private javax.swing.JList<String> lstInvolucrado;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JButton newButton;
