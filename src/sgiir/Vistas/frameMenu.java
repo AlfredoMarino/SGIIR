@@ -35,7 +35,7 @@ public class frameMenu extends javax.swing.JFrame {
     
     //PANELES
     //public panelResumen VistaResumen = new panelResumen();
-    public panelTarea5 VistaResumen = new panelTarea5();
+    public panelTarea5bkp VistaResumen = new panelTarea5bkp();
     public panelInstitucion VistaInstitucion = new panelInstitucion();
     public panelArea VistaArea = new panelArea();
     public panelCargo VistaCargo = new panelCargo();
