@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -49,8 +50,16 @@ public class panelBitacora extends JPanel {
     private Date horaBitacora;
     private int correlativoBitacora;
     private int codigoInvolucrado;
+    private Date dateDefault;
     
     public panelBitacora() {
+        //prepara una fecha en cero
+        Calendar calendarDefault = Calendar.getInstance();
+        calendarDefault.set(Calendar.HOUR_OF_DAY, 0);
+        calendarDefault.set(Calendar.MINUTE, 0);
+        calendarDefault.set(Calendar.SECOND, 0);
+        dateDefault = calendarDefault.getTime();
+        
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -110,18 +119,20 @@ public class panelBitacora extends JPanel {
 
         FormListener formListener = new FormListener();
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoNaturaleza}"));
         columnBinding.setColumnName("Codigo Naturaleza");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoInstitucion.nombreInstitucion}"));
-        columnBinding.setColumnName("Institución");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoTarea}"));
         columnBinding.setColumnName("Codigo Tarea");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoInstitucion.nombreInstitucion}"));
+        columnBinding.setColumnName("Institución");
+        columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descripcionTarea}"));
         columnBinding.setColumnName("Descripcion Tarea");
@@ -141,6 +152,8 @@ public class panelBitacora extends JPanel {
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        masterTable.addAncestorListener(formListener);
+        masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
         if (masterTable.getColumnModel().getColumnCount() > 0) {
             masterTable.getColumnModel().getColumn(0).setResizable(false);
@@ -152,14 +165,19 @@ public class panelBitacora extends JPanel {
             masterTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
+        detailTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraCollection}");
         jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, detailTable);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${naturaleza.codigoNaturaleza}"));
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bitacoraPK.codigoNaturaleza}"));
         columnBinding.setColumnName("Naturaleza");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoEstado.descripcionEstado}"));
-        columnBinding.setColumnName("Codigo Estado");
-        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bitacoraPK.codigoTarea}"));
+        columnBinding.setColumnName("Tarea");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bitacoraPK.correlativoBitacora}"));
+        columnBinding.setColumnName("Codigo bitacora");
+        columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${observacionBitacora}"));
         columnBinding.setColumnName("Observacion Bitacora");
         columnBinding.setColumnClass(String.class);
@@ -169,14 +187,15 @@ public class panelBitacora extends JPanel {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${horaBitacora}"));
         columnBinding.setColumnName("Hora Bitacora");
         columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bitacoraPK.correlativoBitacora}"));
-        columnBinding.setColumnName("Codigo Bitacora");
-        columnBinding.setColumnClass(Integer.class);
         jTableBinding.setSourceUnreadableValue(java.util.Collections.emptyList());
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         detailTable.addMouseListener(formListener);
         detailScrollPane.setViewportView(detailTable);
+        if (detailTable.getColumnModel().getColumnCount() > 0) {
+            detailTable.getColumnModel().getColumn(0).setResizable(false);
+            detailTable.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         saveButton.setText("Save");
         saveButton.addActionListener(formListener);
@@ -264,10 +283,10 @@ public class panelBitacora extends JPanel {
 
         naturalezaLabel.setText("Naturaleza:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.codigoNaturaleza}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoNaturaleza.codigoNaturaleza}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.codigoTarea}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoTarea}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         codigoEstadoLabel.setText("Codigo Estado:");
@@ -288,7 +307,13 @@ public class panelBitacora extends JPanel {
 
         fldObservacion.setColumns(20);
         fldObservacion.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.observacionBitacora}"), fldObservacion, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jScrollPane1.setViewportView(fldObservacion);
+
+        dchFecha.setDate(dateDefault);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaBitacora}"), dchFecha, org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
@@ -299,8 +324,10 @@ public class panelBitacora extends JPanel {
         spnHora.setEditor(new javax.swing.JSpinner.DateEditor(spnHora, "HH:mm:ss"));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaBitacora}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(dateDefault);
+        binding.setSourceUnreadableValue(dateDefault);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFecha, org.jdesktop.beansbinding.ELProperty.create("${date != null && enable == true}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFecha, org.jdesktop.beansbinding.ELProperty.create("${date != null}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.correlativoBitacora}"), fldCorrelativo, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -409,7 +436,7 @@ public class panelBitacora extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener, javax.swing.event.ChangeListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener, java.awt.event.MouseListener, javax.swing.event.AncestorListener, javax.swing.event.ChangeListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -472,6 +499,21 @@ public class panelBitacora extends JPanel {
             else if (evt.getSource() == detailTable) {
                 panelBitacora.this.detailTableMouseReleased(evt);
             }
+            else if (evt.getSource() == masterTable) {
+                panelBitacora.this.masterTableMouseReleased(evt);
+            }
+        }
+
+        public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            if (evt.getSource() == masterTable) {
+                panelBitacora.this.masterTableAncestorAdded(evt);
+            }
+        }
+
+        public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+        }
+
+        public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
         }
 
         public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -563,15 +605,16 @@ public class panelBitacora extends JPanel {
                         b.setFechaBitacora(fechaBitacora);
                         b.setHoraBitacora(horaBitacora);
                         b.setObservacionBitacora(observacionBitacora);
-                        toMerged.add(b);
+                        //toMerged.add(b);
+                        entityManager.merge(b);
                     }
                     i++;
                 }
  
                 
-                t.setBitacoraCollection(toMerged);
+                //t.setBitacoraCollection(toMerged);
                 
-                entityManager.merge(t);
+                //entityManager.merge(t);
             }
             
             
@@ -758,6 +801,21 @@ public class panelBitacora extends JPanel {
             //seteaCampos();
         }
     }//GEN-LAST:event_detailTableMouseReleased
+
+    private void masterTableAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_masterTableAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_masterTableAncestorAdded
+
+    private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
+        Tarea t = list.get(masterTable.getSelectedRow());
+        
+        for(int i = 0; i < detailTable.getRowCount(); i++){
+            if(detailTable.getValueAt(i, 0) != t.getCodigoNaturaleza().getCodigoNaturaleza()){
+                detailTable.remove(i);
+            }
+        }
+            
+    }//GEN-LAST:event_masterTableMouseReleased
     
     private void seteaCampos(){
         

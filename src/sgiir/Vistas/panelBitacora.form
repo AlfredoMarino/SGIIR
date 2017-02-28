@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Component class="javax.persistence.EntityManager" name="entityManager">
       <Properties>
@@ -223,6 +223,9 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -234,14 +237,14 @@
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
-              <Subbinding sourcePath="${codigoNaturaleza.codigoInstitucion.nombreInstitucion}">
-                <BindingParameter name="NAME" value="Instituci&#xf3;n"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-              </Subbinding>
               <Subbinding sourcePath="${codigoTarea}">
                 <BindingParameter name="NAME" value="Codigo Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
+              <Subbinding sourcePath="${codigoNaturaleza.codigoInstitucion.nombreInstitucion}">
+                <BindingParameter name="NAME" value="Instituci&#xf3;n"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${descripcionTarea}">
@@ -266,6 +269,10 @@
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
+          <Events>
+            <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="masterTableAncestorAdded"/>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="masterTableMouseReleased"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
@@ -284,12 +291,12 @@
           <Properties>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -316,6 +323,9 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -325,13 +335,17 @@
               <Property name="incompletePathValue" type="java.util.List" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="java.util.Collections.emptyList()" type="code"/>
               </Property>
-              <Subbinding sourcePath="${naturaleza.codigoNaturaleza}">
+              <Subbinding sourcePath="${bitacoraPK.codigoNaturaleza}">
                 <BindingParameter name="NAME" value="Naturaleza"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${codigoEstado.descripcionEstado}">
-                <BindingParameter name="NAME" value="Codigo Estado"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+              <Subbinding sourcePath="${bitacoraPK.codigoTarea}">
+                <BindingParameter name="NAME" value="Tarea"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${bitacoraPK.correlativoBitacora}">
+                <BindingParameter name="NAME" value="Codigo bitacora"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
               <Subbinding sourcePath="${observacionBitacora}">
                 <BindingParameter name="NAME" value="Observacion Bitacora"/>
@@ -344,10 +358,6 @@
               <Subbinding sourcePath="${horaBitacora}">
                 <BindingParameter name="NAME" value="Hora Bitacora"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${bitacoraPK.correlativoBitacora}">
-                <BindingParameter name="NAME" value="Codigo Bitacora"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
@@ -540,14 +550,14 @@
     </Component>
     <Component class="javax.swing.JTextField" name="naturalezaField">
       <BindingProperties>
-        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.bitacoraPK.codigoNaturaleza}" target="naturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoNaturaleza.codigoNaturaleza}" target="naturalezaField" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
         </BindingProperty>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JTextField" name="tareaField">
       <BindingProperties>
-        <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.bitacoraPK.codigoTarea}" target="tareaField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoTarea}" target="tareaField" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
         </BindingProperty>
       </BindingProperties>
@@ -603,10 +613,20 @@
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="detailTable" sourcePath="${selectedElement.observacionBitacora}" target="fldObservacion" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>
     <Component class="com.toedter.calendar.JDateChooser" name="dchFecha">
+      <Properties>
+        <Property name="date" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="dateDefault" type="code"/>
+        </Property>
+      </Properties>
       <BindingProperties>
         <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaBitacora}" target="dchFecha" targetPath="date" updateStrategy="0" immediately="false"/>
         <BindingProperty name="enabled" source="detailTable" sourcePath="${selectedElement != null}" target="dchFecha" targetPath="enabled" updateStrategy="0" immediately="false"/>
@@ -622,8 +642,15 @@
         </Property>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaBitacora}" target="spnHora" targetPath="value" updateStrategy="0" immediately="false"/>
-        <BindingProperty name="enabled" source="dchFecha" sourcePath="${date != null &amp;&amp; enable == true}" target="spnHora" targetPath="enabled" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaBitacora}" target="spnHora" targetPath="value" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+            <Connection code="dateDefault" type="code"/>
+          </Property>
+          <Property name="incompletePathValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+            <Connection code="dateDefault" type="code"/>
+          </Property>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="dchFecha" sourcePath="${date != null}" target="spnHora" targetPath="enabled" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JTextField" name="fldCorrelativo">
