@@ -7,18 +7,27 @@ package sgiir.Vistas;
 
 import java.awt.EventQueue;
 import java.beans.Beans;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sgiir.Entidades.Bitacora;
+import sgiir.Entidades.BitacoraPK;
 import sgiir.Entidades.Estado;
 import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Tarea;
 import sgiir.comboBox;
+import static sgiir.manejadorDB.Conexion;
 import sgiir.statusBar;
 
 /**
@@ -31,7 +40,15 @@ public class panelBitacora extends JPanel {
     private int codigoInstitucion;
     private int tipoNaturaleza;
     private int prioridadNaturaleza;
-    private Integer codigoNaturaleza;
+    private int codigoNaturaleza;
+    private Short codigoEstado;
+    private int codigoTarea;
+    private Estado e;
+    private String observacionBitacora;
+    private Date fechaBitacora;
+    private Date horaBitacora;
+    private int correlativoBitacora;
+    private int codigoInvolucrado;
     
     public panelBitacora() {
         initComponents();
@@ -86,8 +103,8 @@ public class panelBitacora extends JPanel {
         fechaBitacoraLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         fldObservacion = new javax.swing.JTextArea();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jSpinner1 = new javax.swing.JSpinner();
+        dchFecha = new com.toedter.calendar.JDateChooser();
+        spnHora = new javax.swing.JSpinner();
         fldCorrelativo = new javax.swing.JTextField();
         cbxEstado = new javax.swing.JComboBox<>();
 
@@ -97,6 +114,10 @@ public class panelBitacora extends JPanel {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoNaturaleza}"));
         columnBinding.setColumnName("Codigo Naturaleza");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoInstitucion.nombreInstitucion}"));
+        columnBinding.setColumnName("Institución");
+        columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoTarea}"));
         columnBinding.setColumnName("Codigo Tarea");
@@ -113,9 +134,11 @@ public class panelBitacora extends JPanel {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fechaEstimadaTarea}"));
         columnBinding.setColumnName("Fecha Estimada Tarea");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fechaFinalizacionTarea}"));
         columnBinding.setColumnName("Fecha Finalizacion Tarea");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         masterScrollPane.setViewportView(masterTable);
@@ -126,6 +149,7 @@ public class panelBitacora extends JPanel {
             masterTable.getColumnModel().getColumn(3).setResizable(false);
             masterTable.getColumnModel().getColumn(4).setResizable(false);
             masterTable.getColumnModel().getColumn(5).setResizable(false);
+            masterTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraCollection}");
@@ -266,13 +290,17 @@ public class panelBitacora extends JPanel {
         fldObservacion.setRows(5);
         jScrollPane1.setViewportView(fldObservacion);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaBitacora}"), jDateChooser1, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaBitacora}"), dchFecha, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), dchFecha, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
-        jSpinner1.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner1, "HH:mm:ss"));
+        spnHora.setModel(new javax.swing.SpinnerDateModel());
+        spnHora.setEditor(new javax.swing.JSpinner.DateEditor(spnHora, "HH:mm:ss"));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaBitacora}"), jSpinner1, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaBitacora}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFecha, org.jdesktop.beansbinding.ELProperty.create("${date != null && enable == true}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.correlativoBitacora}"), fldCorrelativo, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -319,9 +347,9 @@ public class panelBitacora extends JPanel {
                             .addComponent(codigoInvolucradoField)
                             .addComponent(fldCorrelativo)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dchFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(spnHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(cbxEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -365,8 +393,8 @@ public class panelBitacora extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fechaBitacoraLabel)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dchFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -509,6 +537,44 @@ public class panelBitacora extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
+            
+            comboBox itemCombo;
+            itemCombo = (comboBox) cbxEstado.getSelectedItem();
+            codigoEstado = (short) itemCombo.getId();
+            
+            seteaCampos();
+
+            int[] selected = masterTable.getSelectedRows();
+            
+            for (int idx = 0; idx < selected.length; idx++) {
+                Tarea t = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+                Collection<Bitacora> bitacoraCollection =  t.getBitacoraCollection();
+                int[] selectedDetail = detailTable.getSelectedRows();
+                List<Bitacora> toMerged = new ArrayList<Bitacora>(selectedDetail.length);
+                
+                int i = 0;
+                for(Bitacora b : bitacoraCollection){
+                    if(i == detailTable.getSelectedRow()){
+                        b.setBitacoraPK(new BitacoraPK(codigoNaturaleza, codigoTarea, correlativoBitacora));
+                        b.setCodigoEstado(e);
+                        b.setCodigoInvolucrado(codigoInvolucrado);
+                        b.setTarea(t);
+                        b.setNaturaleza(n);
+                        b.setFechaBitacora(fechaBitacora);
+                        b.setHoraBitacora(horaBitacora);
+                        b.setObservacionBitacora(observacionBitacora);
+                        toMerged.add(b);
+                    }
+                    i++;
+                }
+ 
+                
+                t.setBitacoraCollection(toMerged);
+                
+                entityManager.merge(t);
+            }
+            
+            
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
         } catch (RollbackException rex) {
@@ -693,6 +759,39 @@ public class panelBitacora extends JPanel {
         }
     }//GEN-LAST:event_detailTableMouseReleased
     
+    private void seteaCampos(){
+        
+        if(this.isNumeric(naturalezaField.getText())){
+            codigoNaturaleza = Integer.parseInt(naturalezaField.getText());
+        }else{
+            codigoNaturaleza = 0;
+        }
+
+        if(this.isNumeric(tareaField.getText())){
+            codigoTarea = Integer.parseInt(tareaField.getText());
+        }else{
+            codigoTarea = 0;
+        }
+        
+        comboBox itemCombo = (comboBox) cbxEstado.getSelectedItem();
+        codigoEstado = (short) itemCombo.getId();
+        
+        e = (Estado) entityManager.find(Estado.class, codigoEstado);
+        n = (Naturaleza) entityManager.find(Naturaleza.class, codigoNaturaleza);
+        
+        observacionBitacora = fldObservacion.getText();
+        fechaBitacora = dchFecha.getDate();
+        horaBitacora = (Date) spnHora.getValue();
+        
+        correlativoBitacora = asignaCorrelativo(codigoNaturaleza, codigoTarea);
+        if(correlativoBitacora == 0){
+            System.out.println("error asignando correlativo");
+        }else{
+            codigoInvolucrado = correlativoBitacora;
+        }
+        
+    }
+    
     private void comboEstado(){
         cbxEstado.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
@@ -718,6 +817,25 @@ public class panelBitacora extends JPanel {
         }
     }
     
+    private static int asignaCorrelativo(int Naturaleza, int tarea){
+        try {
+            String Query = "SELECT CorrelativoBitacora FROM bitacora WHERE CodigoNaturaleza = ? and CodigoTarea = ? ORDER BY CorrelativoBitacora DESC LIMIT 1";
+            PreparedStatement ps = Conexion.prepareCall(Query);
+            ps.setInt(1, Naturaleza);
+            ps.setInt(2, tarea);
+          
+            ResultSet rs = ps.executeQuery();
+            if(rs.absolute(1)){
+                return (rs.getInt("CorrelativoBitacora") + 1);
+            }else{
+                return 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(panelBitacora.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+    
     private static boolean isNumeric(String cadena){
 	try {
             Integer.parseInt(cadena);
@@ -736,6 +854,7 @@ public class panelBitacora extends JPanel {
     private javax.swing.JLabel codigoEstadoLabel;
     private javax.swing.JTextField codigoInvolucradoField;
     private javax.swing.JLabel codigoInvolucradoLabel;
+    private com.toedter.calendar.JDateChooser dchFecha;
     private javax.swing.JButton deleteDetailButton;
     private javax.swing.JScrollPane detailScrollPane;
     private javax.swing.JTable detailTable;
@@ -743,10 +862,8 @@ public class panelBitacora extends JPanel {
     private javax.swing.JLabel fechaBitacoraLabel;
     private javax.swing.JTextField fldCorrelativo;
     private javax.swing.JTextArea fldObservacion;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
     private java.util.List<sgiir.Entidades.Tarea> list;
     private java.util.List<Estado> listEstado;
     private javax.swing.JScrollPane masterScrollPane;
@@ -764,6 +881,7 @@ public class panelBitacora extends JPanel {
     private javax.swing.JRadioButton rdbTipo2;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JSpinner spnHora;
     private javax.swing.JTextField tareaField;
     private javax.swing.JLabel tareaLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

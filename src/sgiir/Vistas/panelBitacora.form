@@ -105,9 +105,9 @@
                           <Component id="codigoInvolucradoField" alignment="0" max="32767" attributes="0"/>
                           <Component id="fldCorrelativo" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jDateChooser1" min="-2" pref="143" max="-2" attributes="0"/>
+                              <Component id="dchFecha" min="-2" pref="143" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
+                              <Component id="spnHora" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="cbxEstado" alignment="0" max="32767" attributes="0"/>
@@ -159,8 +159,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="fechaBitacoraLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
+                  <Component id="dchFecha" min="-2" max="-2" attributes="0"/>
+                  <Component id="spnHora" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -216,6 +216,11 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -227,6 +232,11 @@
               <Subbinding sourcePath="${codigoNaturaleza.codigoNaturaleza}">
                 <BindingParameter name="NAME" value="Codigo Naturaleza"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
+              <Subbinding sourcePath="${codigoNaturaleza.codigoInstitucion.nombreInstitucion}">
+                <BindingParameter name="NAME" value="Instituci&#xf3;n"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${codigoTarea}">
@@ -247,10 +257,12 @@
               <Subbinding sourcePath="${fechaEstimadaTarea}">
                 <BindingParameter name="NAME" value="Fecha Estimada Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${fechaFinalizacionTarea}">
                 <BindingParameter name="NAME" value="Fecha Finalizacion Tarea"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
@@ -594,12 +606,13 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    <Component class="com.toedter.calendar.JDateChooser" name="dchFecha">
       <BindingProperties>
-        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaBitacora}" target="jDateChooser1" targetPath="date" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaBitacora}" target="dchFecha" targetPath="date" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="enabled" source="detailTable" sourcePath="${selectedElement != null}" target="dchFecha" targetPath="enabled" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="jSpinner1">
+    <Component class="javax.swing.JSpinner" name="spnHora">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="now" stepSize="5" type="date"/>
@@ -609,7 +622,8 @@
         </Property>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaBitacora}" target="jSpinner1" targetPath="value" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="value" source="detailTable" sourcePath="${selectedElement.horaBitacora}" target="spnHora" targetPath="value" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="enabled" source="dchFecha" sourcePath="${date != null &amp;&amp; enable == true}" target="spnHora" targetPath="enabled" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JTextField" name="fldCorrelativo">

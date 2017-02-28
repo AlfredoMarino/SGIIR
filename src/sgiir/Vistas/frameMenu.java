@@ -37,7 +37,7 @@ public class frameMenu extends javax.swing.JFrame {
     
     //PANELES
     //public panelResumen VistaResumen = new panelResumen();
-    public panelTarea VistaResumen = new panelTarea();
+    public panelBitacora VistaResumen = new panelBitacora();
     public panelInstitucion VistaInstitucion = new panelInstitucion();
     public panelArea VistaArea = new panelArea();
     public panelCargo VistaCargo = new panelCargo();
@@ -47,6 +47,7 @@ public class frameMenu extends javax.swing.JFrame {
     public panelSeguimiento VistaSeguimiento = new panelSeguimiento();
     public panelTarea VistaTarea = new panelTarea();
     public panelBitacora VistaBitacora = new panelBitacora();
+    
     public ImageIcon imagenBanner = new ImageIcon(getClass().getResource("/imagenes/banner.png")); 
     
     
