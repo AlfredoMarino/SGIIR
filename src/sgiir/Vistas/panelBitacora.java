@@ -66,6 +66,7 @@ public class panelBitacora extends JPanel {
         }
         
         comboEstado();
+        
     }
 
     /**
@@ -579,10 +580,10 @@ public class panelBitacora extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            
+            /*
             comboBox itemCombo;
             itemCombo = (comboBox) cbxEstado.getSelectedItem();
-            codigoEstado = (short) itemCombo.getId();
+            codigoEstado = (short) itemCombo.getId();*/
             
             seteaCampos();
 
@@ -807,13 +808,13 @@ public class panelBitacora extends JPanel {
     }//GEN-LAST:event_masterTableAncestorAdded
 
     private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
-        Tarea t = list.get(masterTable.getSelectedRow());
+       /* Tarea t = list.get(masterTable.getSelectedRow());
         
         for(int i = 0; i < detailTable.getRowCount(); i++){
             if(detailTable.getValueAt(i, 0) != t.getCodigoNaturaleza().getCodigoNaturaleza()){
                 detailTable.remove(i);
             }
-        }
+        }*/
             
     }//GEN-LAST:event_masterTableMouseReleased
     

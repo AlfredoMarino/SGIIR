@@ -622,11 +622,6 @@
       </SubComponents>
     </Container>
     <Component class="com.toedter.calendar.JDateChooser" name="dchFecha">
-      <Properties>
-        <Property name="date" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="dateDefault" type="code"/>
-        </Property>
-      </Properties>
       <BindingProperties>
         <BindingProperty name="date" source="detailTable" sourcePath="${selectedElement.fechaBitacora}" target="dchFecha" targetPath="date" updateStrategy="0" immediately="false"/>
         <BindingProperty name="enabled" source="detailTable" sourcePath="${selectedElement != null}" target="dchFecha" targetPath="enabled" updateStrategy="0" immediately="false"/>
