@@ -18,13 +18,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import sgiir.Entidades.Bitacora;
 import sgiir.Entidades.BitacoraPK;
 import sgiir.Entidades.Estado;
 import sgiir.Entidades.Institucion;
+import sgiir.Entidades.Involucrado;
 import sgiir.Entidades.Naturaleza;
+import sgiir.Entidades.Persona;
 import sgiir.statusBar;
 import sgiir.Entidades.Tarea;
 import sgiir.comboBox;
@@ -91,15 +94,14 @@ public class panelBitacora extends JPanel {
         codigoInvolucradoField = new javax.swing.JTextField();
         rgrTipo = new javax.swing.ButtonGroup();
         rgrPrioridad = new javax.swing.ButtonGroup();
+        tareaField = new javax.swing.JTextField();
+        naturalezaField = new javax.swing.JTextField();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
-        naturalezaLabel = new javax.swing.JLabel();
-        tareaLabel = new javax.swing.JLabel();
+        correlativoLabel = new javax.swing.JLabel();
         codigoEstadoLabel = new javax.swing.JLabel();
         observacionBitacoraLabel = new javax.swing.JLabel();
         fechaBitacoraLabel = new javax.swing.JLabel();
-        naturalezaField = new javax.swing.JTextField();
-        tareaField = new javax.swing.JTextField();
         correlativoBitacoraField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
@@ -125,6 +127,7 @@ public class panelBitacora extends JPanel {
         lstArea = new javax.swing.JList<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         lstInvolucrado = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -146,6 +149,18 @@ public class panelBitacora extends JPanel {
         rgrPrioridad.add(rdbPrioridad1);
         rgrPrioridad.add(rdbPrioridad2);
         rgrPrioridad.add(rdbPrioridad3);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoTarea}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoNaturaleza.codigoNaturaleza}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
 
         masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -171,9 +186,7 @@ public class panelBitacora extends JPanel {
         masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
 
-        naturalezaLabel.setText("Naturaleza:");
-
-        tareaLabel.setText("Tarea:");
+        correlativoLabel.setText("Correlativo");
 
         codigoEstadoLabel.setText("Codigo Estado:");
 
@@ -181,22 +194,10 @@ public class panelBitacora extends JPanel {
 
         fechaBitacoraLabel.setText("Fecha Bitacora:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoNaturaleza.codigoNaturaleza}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), naturalezaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoTarea}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), tareaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
+        correlativoBitacoraField.setEditable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.bitacoraPK.correlativoBitacora}"), correlativoBitacoraField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), correlativoBitacoraField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         saveButton.setText("Save");
@@ -330,6 +331,7 @@ public class panelBitacora extends JPanel {
         jScrollPane2.setViewportView(fldObservacion);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaBitacora}"), dchFecha, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setSourceNullValue(new Date());
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), dchFecha, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -338,7 +340,7 @@ public class panelBitacora extends JPanel {
         spnHora.setEditor(new javax.swing.JSpinner.DateEditor(spnHora, "HH:mm:ss"));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaBitacora}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(dateDefault);
+        binding.setSourceNullValue(new Date());
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFecha, org.jdesktop.beansbinding.ELProperty.create("${date != null}"), spnHora, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -350,10 +352,19 @@ public class panelBitacora extends JPanel {
         cbxEstado.addMouseListener(formListener);
 
         lstArea.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.caracteristicaCollection}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, eLProperty, lstArea);
+        jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${area.nombreArea}"));
+        bindingGroup.addBinding(jListBinding);
+
         jScrollPane3.setViewportView(lstArea);
 
         lstInvolucrado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane4.setViewportView(lstInvolucrado);
+
+        jButton1.setText("Agregar involucrados");
+        jButton1.addActionListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -361,14 +372,14 @@ public class panelBitacora extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(newButton)
@@ -378,28 +389,28 @@ public class panelBitacora extends JPanel {
                                         .addComponent(refreshButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(saveButton))
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(naturalezaLabel)
-                                        .addComponent(tareaLabel)
+                                        .addComponent(correlativoLabel)
                                         .addComponent(codigoEstadoLabel)
                                         .addComponent(fechaBitacoraLabel))
                                     .addComponent(observacionBitacoraLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(correlativoBitacoraField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbxEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(dchFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(31, 31, 31)
                                         .addComponent(spnHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(naturalezaField, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tareaField, javax.swing.GroupLayout.Alignment.LEADING))))))
+                                    .addComponent(correlativoBitacoraField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
 
@@ -412,18 +423,12 @@ public class panelBitacora extends JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(naturalezaLabel)
-                            .addComponent(naturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tareaLabel)
-                            .addComponent(tareaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(correlativoBitacoraField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(correlativoBitacoraField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(correlativoLabel))
                         .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -431,18 +436,21 @@ public class panelBitacora extends JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(dchFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(spnHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(fechaBitacoraLabel)))
                             .addComponent(observacionBitacoraLabel)))
-                    .addComponent(masterScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(masterScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 19, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -486,6 +494,9 @@ public class panelBitacora extends JPanel {
             }
             else if (evt.getSource() == rdbPrioridad1) {
                 panelBitacora.this.rdbPrioridad1ActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButton1) {
+                panelBitacora.this.jButton1ActionPerformed(evt);
             }
         }
 
@@ -549,6 +560,21 @@ public class panelBitacora extends JPanel {
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         sgiir.Entidades.Bitacora b = new sgiir.Entidades.Bitacora();
         entityManager.persist(b);
+        
+        ////////
+        //ASIGNA CORRELATIVO
+        correlativoBitacora = asignaCorrelativo(codigoNaturaleza, codigoTarea);
+        if(correlativoBitacora == 0){
+            System.out.println("error asignando correlativo");
+        }else{
+            codigoInvolucrado = correlativoBitacora;
+        }
+        
+        b.setBitacoraPK(new BitacoraPK(codigoNaturaleza, codigoTarea, correlativoBitacora));
+        b.setCodigoInvolucrado(codigoInvolucrado);
+        
+        /////
+        
         list.add(b);
         int row = list.size() - 1;
         masterTable.setRowSelectionInterval(row, row);
@@ -794,8 +820,54 @@ public class panelBitacora extends JPanel {
         if(masterTable.getSelectedRow() != -1){
     
             posicionaComboEstado();
+            
+            
+            if(isNumeric(codigoInvolucradoField.getText())){
+                codigoInvolucrado = Integer.valueOf(codigoInvolucradoField.getText());
+            }
+            
+            cargaInvolucrados(codigoNaturaleza, codigoTarea, codigoInvolucrado);
+            
+            
         }
     }//GEN-LAST:event_masterTableMouseReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(masterTable.getSelectedRow() != -1){
+            framePopup vistaInvolucrado = new framePopup();
+            vistaInvolucrado.pnlInvolucrado.setInvolucrado(codigoNaturaleza, codigoTarea, codigoInvolucrado);
+            vistaInvolucrado.showPanel("INVOLUCRADO");
+            vistaInvolucrado.setVisible(true);
+
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void cargaInvolucrados(int naturaleza, int tarea, int involucrado){
+        DefaultListModel<String> listPersona = new DefaultListModel<>();
+        
+        try{
+            Query queryInvolucrado = entityManager.createNativeQuery("SELECT * FROM Involucrado where CodigoNaturaleza = ? and CodigoTarea = ? and CodigoInvolucrado = ?", Involucrado.class);
+
+            queryInvolucrado.setParameter(1, naturaleza);
+            queryInvolucrado.setParameter(2, tarea);
+            queryInvolucrado.setParameter(3, involucrado);
+
+            List<Involucrado> data = queryInvolucrado.getResultList();;
+            for (Involucrado i : data) {
+                listPersona.addElement(i.getPersona().getNombrePersona());
+            }
+            
+        }catch(javax.persistence.NoResultException nre){
+            statusBar.getInstance().setMsg("No se encontraron involucrados");
+            listPersona.clear();
+        }
+        
+        lstInvolucrado.setModel(listPersona);
+        if((listPersona.isEmpty()) && (involucrado > 0)){
+            cargaInvolucrados(naturaleza, tarea, (involucrado -1 ));
+        }
+    }
+    
     private void refresh(){
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
@@ -820,6 +892,7 @@ public class panelBitacora extends JPanel {
         fechaBitacora = dchFecha.getDate();
         horaBitacora = (Date) spnHora.getValue();
         
+        /*
         //SI NO TIENE ASIGINADO UN CORRELATIVO, SE LO ASIGNA
         if(! isNumeric(correlativoBitacoraField.getText())){
             correlativoBitacora = asignaCorrelativo(codigoNaturaleza, (int) codigoTarea);
@@ -828,7 +901,7 @@ public class panelBitacora extends JPanel {
             }else{
                 codigoInvolucrado = correlativoBitacora;
             }
-        }
+        }*/
     }
     private void comboInstitucion(){
         cbxInstitucion.removeAllItems();
@@ -903,11 +976,13 @@ public class panelBitacora extends JPanel {
     private javax.swing.JLabel codigoEstadoLabel;
     private javax.swing.JTextField codigoInvolucradoField;
     private javax.swing.JTextField correlativoBitacoraField;
+    private javax.swing.JLabel correlativoLabel;
     private com.toedter.calendar.JDateChooser dchFecha;
     private javax.swing.JButton deleteButton;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel fechaBitacoraLabel;
     private javax.swing.JTextArea fldObservacion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -922,7 +997,6 @@ public class panelBitacora extends JPanel {
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JTextField naturalezaField;
-    private javax.swing.JLabel naturalezaLabel;
     private javax.swing.JButton newButton;
     private javax.swing.JLabel observacionBitacoraLabel;
     private javax.persistence.Query query;
@@ -940,7 +1014,6 @@ public class panelBitacora extends JPanel {
     private javax.swing.JButton saveButton;
     private javax.swing.JSpinner spnHora;
     private javax.swing.JTextField tareaField;
-    private javax.swing.JLabel tareaLabel;
     private javax.swing.JTable tareaTable;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

@@ -123,6 +123,24 @@
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rgrPrioridad.add(rdbPrioridad1);&#xa;rgrPrioridad.add(rdbPrioridad2);&#xa;rgrPrioridad.add(rdbPrioridad3);"/>
       </AuxValues>
     </Component>
+    <Component class="javax.swing.JTextField" name="tareaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="tareaTable" sourcePath="${selectedElement.codigoTarea}" target="tareaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="incompletePathValue" type="java.lang.String" value=""/>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="tareaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="naturalezaField">
+      <BindingProperties>
+        <BindingProperty name="text" source="tareaTable" sourcePath="${selectedElement.codigoNaturaleza.codigoNaturaleza}" target="naturalezaField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="incompletePathValue" type="java.lang.String" value=""/>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="naturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+      </BindingProperties>
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -141,14 +159,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel1" alignment="1" pref="0" max="32767" attributes="0"/>
+                  <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jScrollPane3" min="-2" pref="324" max="-2" attributes="0"/>
-                              <EmptySpace pref="66" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="newButton" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -159,7 +177,11 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="saveButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane4" alignment="1" min="-2" pref="281" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jScrollPane4" min="-2" pref="276" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -167,8 +189,7 @@
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="naturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="tareaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="correlativoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="codigoEstadoLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="fechaBitacoraLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -176,7 +197,6 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="correlativoBitacoraField" alignment="0" max="32767" attributes="0"/>
                                   <Component id="cbxEstado" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
@@ -184,8 +204,7 @@
                                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                       <Component id="spnHora" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="naturalezaField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="tareaField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="correlativoBitacoraField" alignment="0" min="-2" pref="86" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -202,20 +221,13 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="124" max="-2" attributes="0"/>
-              <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="naturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="naturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="correlativoBitacoraField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="correlativoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tareaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tareaField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="correlativoBitacoraField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cbxEstado" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -224,7 +236,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jScrollPane2" min="-2" pref="63" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="130" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="dchFecha" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -235,12 +247,16 @@
                           <Component id="observacionBitacoraLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="masterScrollPane" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                  <Component id="masterScrollPane" alignment="1" min="-2" pref="215" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane3" pref="83" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane4" pref="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="19" max="32767" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -329,14 +345,9 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="naturalezaLabel">
+    <Component class="javax.swing.JLabel" name="correlativoLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Naturaleza:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="tareaLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Tarea:"/>
+        <Property name="text" type="java.lang.String" value="Correlativo"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="codigoEstadoLabel">
@@ -354,31 +365,15 @@
         <Property name="text" type="java.lang.String" value="Fecha Bitacora:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="naturalezaField">
-      <BindingProperties>
-        <BindingProperty name="text" source="tareaTable" sourcePath="${selectedElement.codigoNaturaleza.codigoNaturaleza}" target="naturalezaField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-          <Property name="incompletePathValue" type="java.lang.String" value=""/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="naturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="tareaField">
-      <BindingProperties>
-        <BindingProperty name="text" source="tareaTable" sourcePath="${selectedElement.codigoTarea}" target="tareaField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-          <Property name="incompletePathValue" type="java.lang.String" value=""/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="tareaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-    </Component>
     <Component class="javax.swing.JTextField" name="correlativoBitacoraField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <BindingProperties>
         <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.bitacoraPK.correlativoBitacora}" target="correlativoBitacoraField" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
           <Property name="incompletePathValue" type="java.lang.String" value=""/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="correlativoBitacoraField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JButton" name="saveButton">
@@ -676,7 +671,11 @@
     </Container>
     <Component class="com.toedter.calendar.JDateChooser" name="dchFecha">
       <BindingProperties>
-        <BindingProperty name="date" source="masterTable" sourcePath="${selectedElement.fechaBitacora}" target="dchFecha" targetPath="date" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="date" source="masterTable" sourcePath="${selectedElement.fechaBitacora}" target="dchFecha" targetPath="date" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+            <Connection code="new Date()" type="code"/>
+          </Property>
+        </BindingProperty>
         <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="dchFecha" targetPath="enabled" updateStrategy="0" immediately="false"/>
       </BindingProperties>
     </Component>
@@ -692,7 +691,7 @@
       <BindingProperties>
         <BindingProperty name="value" source="masterTable" sourcePath="${selectedElement.horaBitacora}" target="spnHora" targetPath="value" updateStrategy="0" immediately="false">
           <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-            <Connection code="dateDefault" type="code"/>
+            <Connection code="new Date()" type="code"/>
           </Property>
         </BindingProperty>
         <BindingProperty name="enabled" source="dchFecha" sourcePath="${date != null}" target="spnHora" targetPath="enabled" updateStrategy="0" immediately="false"/>
@@ -729,6 +728,11 @@
             </Property>
             <Property name="selectionMode" type="int" value="0"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="tareaTable" sourcePath="${selectedElement.caracteristicaCollection}" target="lstArea" targetPath="elements" updateStrategy="0" immediately="false">
+              <BindingParameter name="DISPLAY" value="${area.nombreArea}"/>
+            </BindingProperty>
+          </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -755,5 +759,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Agregar involucrados"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

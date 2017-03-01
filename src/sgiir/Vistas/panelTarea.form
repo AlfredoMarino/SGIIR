@@ -796,9 +796,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.caracteristicaCollection}" target="lstArea" targetPath="elements" updateStrategy="0" immediately="false">
-              <BindingParameter name="DISPLAY" value="${area.nombreArea}"/>
-            </BindingProperty>
+            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.caracteristicaCollection}" target="lstArea" targetPath="elements" updateStrategy="0" immediately="false"/>
             <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="lstArea" targetPath="enabled" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
