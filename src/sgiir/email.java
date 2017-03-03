@@ -87,6 +87,21 @@ public class email {
     public boolean sendEmail(String subject, String to, String text){
         
         try {
+            props = new Properties();
+        props.put("mail.smtp.user", userEmail);
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.starttls.enable","true");
+        props.put("mail.smtp.debug", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.socketFactory.port", port);
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        SMTPAuthenticator auth = new SMTPAuthenticator();
+        Session session = Session.getInstance(props, auth);
+        session.setDebug(true);
+        msg = new MimeMessage(session);
+            
             msg.setText(text);
             msg.setSubject(subject);
             msg.setFrom(new InternetAddress(userEmail));
@@ -111,6 +126,7 @@ public class email {
             msg.setFrom(new InternetAddress(userEmail));
             for(String destinatario : to){
                 msg.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+                System.out.println(destinatario);
             }
 
             Transport.send(msg);
@@ -118,9 +134,17 @@ public class email {
             return true;
         } catch (MessagingException ex) {
             Logger.getLogger(email.class.getName()).log(Level.SEVERE, null, ex);
-            
+            System.out.println("se fue al catch");
             return false;
         }
     }
     
+    
+    public void mensaje(){
+        
+        System.out.println("llego al otro lado");
+        System.out.println("llego al otro lado");
+        System.out.println("llego al otro lado");
+        System.out.println("llego al otro lado");
+    }
 }

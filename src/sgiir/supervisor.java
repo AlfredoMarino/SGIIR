@@ -31,6 +31,7 @@ import static sgiir.manejadorDB.Conexion;
 public class supervisor implements Job {
 
     private ResultSet rs, rsBitacora, rsInvolucrado;
+    private email despachadorEmail  = new email();
     
     //Metodo que se ejecutara cada cierto tiempo que lo programemos despues
     public void execute(JobExecutionContext jec) throws JobExecutionException {
@@ -49,6 +50,7 @@ public class supervisor implements Job {
     public boolean seguimiento(){
         Date fechaRecepcion, fechaFinalizacion;
         int diasSeguimiento, codigoNaturaleza, codigoTarea, maximoSeguimiento, codigoBitacora;
+        
 
         
         try {
@@ -74,15 +76,17 @@ public class supervisor implements Job {
                 
                 codigoBitacora = getCodigoBitacora(fechaRecepcion, diasSeguimiento);
                 
-                System.out.println("si existe una bitacora: " + String.valueOf(codigoBitacora) + " para la tarea " + rs.getInt("CodigoTarea") + " con un maximo de " + maximoSeguimiento);
+                //System.out.println("si existe una bitacora: " + String.valueOf(codigoBitacora) + " para la tarea " + rs.getInt("CodigoTarea") + " con un maximo de " + maximoSeguimiento);
                 
                 //SI EL NUMERO DE SEGUIMIENTOS TODAVIA NO HA SOBREPASADO AL MAXIMO ENVIA
                 if((codigoBitacora <= maximoSeguimiento) && (codigoBitacora > 0)){
                     
                     //SI NO CONSIGUE UNA BITACORA ENVIA MENSAJE
                     if(!fetchBitacora(codigoNaturaleza, codigoTarea, codigoBitacora)){
-                        System.out.println("se envia la bitacora " + String.valueOf(codigoBitacora) + " para la tarea " + rs.getInt("CodigoTarea") + " con un maximo de " + maximoSeguimiento);
+                        //System.out.println("se envia la bitacora " + String.valueOf(codigoBitacora) + " para la tarea " + rs.getInt("CodigoTarea") + " con un maximo de " + maximoSeguimiento);
                         fetchInvolucrados(codigoNaturaleza, codigoTarea);
+                        
+                        
                         
                     }
                     
@@ -100,6 +104,7 @@ public class supervisor implements Job {
     //BUSCA ULTIMOS INVOLUCRADOS DE USH EN LA TAREA
     private void fetchInvolucrados(int naturaleza, int tarea){
         int involucrado;
+        String[] DestinoEmail = new String[15];
         
         try {
             //BUSCA LOS ULTIMOS INVOLUCRADOS EN LA TAREA
@@ -131,12 +136,23 @@ public class supervisor implements Job {
                 ps.setInt(3, involucrado);
 
                 rsInvolucrado = ps.executeQuery();
+                int i = 0;
                 while(rsInvolucrado.next()){
-                    System.out.println("Naturaleza: " + naturaleza + " Tarea: " + tarea + " involucrado: " + involucrado + " se envia a" + rsInvolucrado.getString("NombrePersona") + " a su email: " + rsInvolucrado.getString("EmailPersona"));
+                    System.out.println("Naturaleza: " + naturaleza + " Tarea: " 
+                            + tarea + " involucrado: " + involucrado 
+                            + " se envia a" + rsInvolucrado.getString("NombrePersona") 
+                            + " a su email: " + rsInvolucrado.getString("EmailPersona"));
+                    DestinoEmail[i] = rsInvolucrado.getString("EmailPersona");
                     
-                    
+                    i++;
                 }
-            
+                
+                System.out.println(i);
+                if(i > 0){
+                    despachadorEmail.mensaje();
+                    boolean resultado = despachadorEmail.sendEmail("asunto prueba", DestinoEmail, "marico el que lo lea");
+                    System.out.println("el resultado fue " + resultado);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(supervisor.class.getName()).log(Level.SEVERE, null, ex);
