@@ -74,6 +74,7 @@ public class supervisor {
         return true;
     }
     
+    //BUSCA ULTIMOS INVOLUCRADOS DE USH EN LA TAREA
     private void fetchInvolucrados(int naturaleza, int tarea){
         int involucrado;
         
