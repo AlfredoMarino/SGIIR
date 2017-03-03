@@ -9,20 +9,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import static sgiir.manejadorDB.Conexion;
 
 /**
  *
  * @author Alfredo Mariño
  */
-public class supervisor {
+
+//La clase que tiene la tarea debe de implementar de la clase Job de Quartz
+//ya que el programador de la tarea va a buscar una clase que implemente de ella
+//y buscara el metodo execute para ejecutar la tarea
+public class supervisor implements Job {
 
     private ResultSet rs, rsBitacora, rsInvolucrado;
+    
+    //Metodo que se ejecutara cada cierto tiempo que lo programemos despues
+    public void execute(JobExecutionContext jec) throws JobExecutionException {
+        //Aca pueden poner la tarea o el job que desean automatizar
+        //Por ejemplo enviar correo, revisar ciertos datos, etc
+        SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss");
+        System.out.println( "Tarea invocada a la hora: " + formato.format(new Date()));
+
+        if(seguimiento()){
+            System.out.println( "Tarea finalizo con exito a las: " + formato.format(new Date()));
+        }else{
+            System.out.println( "Tarea finalizo con problemas a las: " + formato.format(new Date()));
+        }
+    }
 
     public boolean seguimiento(){
         Date fechaRecepcion, fechaFinalizacion;
@@ -67,11 +89,12 @@ public class supervisor {
                 }
             }
             
+            return true;
+            
         } catch (SQLException ex) {
             Logger.getLogger(supervisor.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
-        return true;
     }
     
     //BUSCA ULTIMOS INVOLUCRADOS DE USH EN LA TAREA

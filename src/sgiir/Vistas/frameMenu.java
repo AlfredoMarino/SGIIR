@@ -15,8 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import org.quartz.SchedulerException;
 import sgiir.manejadorDB;
 import sgiir.propiedades.propiedades;
+import sgiir.scheduler;
 
 /**
  *
@@ -87,6 +89,17 @@ public class frameMenu extends javax.swing.JFrame {
         switch(TypeUser){
             //Master
             case 1:
+                {
+                    try {
+                        //levanta Scheduler
+                        new scheduler().iniciarTarea();
+                    } catch (SchedulerException ex) {
+                        Logger.getLogger(frameMenu.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(frameMenu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
                 Query = qryFile.getProperty("qry0001");
                                
                 rs = DataBase.executeQuery(Query);
