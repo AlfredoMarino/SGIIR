@@ -24,11 +24,11 @@ import static sgiir.manejadorDB.Conexion;
 //ya que el programador de la tarea va a buscar una clase que implemente de ella
 //y buscara el metodo execute para ejecutar la tarea
 public class supervisor implements Job {
-
+    private Calendar calendario = new GregorianCalendar();
     private ResultSet rs, rsBitacora, rsInvolucrado;
-    private int hora;
+    private int hora = calendario.get(Calendar.HOUR_OF_DAY);
     public String[] destinatariosEmail;
-       
+           
     //Metodo que se ejecutara cada cierto tiempo que lo programemos despues
     public void execute(JobExecutionContext jec) throws JobExecutionException {
         //Aca pueden poner la tarea o el job que desean automatizar
@@ -36,8 +36,7 @@ public class supervisor implements Job {
         SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss");
         System.out.println( "Tarea invocada a la hora: " + formato.format(new Date()));
         
-        Calendar calendario = new GregorianCalendar();
-        this.hora = calendario.get(Calendar.HOUR_OF_DAY);
+        
 
         if(seguimiento()){
             System.out.println( "Tarea finalizo con exito a las: " + formato.format(new Date()));
@@ -58,7 +57,15 @@ public class supervisor implements Job {
                     + "t.HoraFinalizacionTarea "
                     + "FROM seguimiento s INNER JOIN tarea t "
                     + "ON s.CodigoSeguimiento = t.CodigoSeguimiento "
-                    + "WHERE t.FechaFinalizacionTarea IS NULL and s.HoraSeguimiento = " + hora;
+                    + "WHERE t.FechaFinalizacionTarea IS NULL and s.HorasSeguimiento = " + 9; //cambiar ese nueve por la variable hora
+            
+//            String Query = "SELECT t.CodigoNaturaleza, t.CodigoTarea, t.CodigoSeguimiento, "
+//                    + "s.DiasSeguimiento, s.HorasSeguimiento, s.MaximoSeguimiento, "
+//                    + "t.FechaRecepcionTarea, t.HoraRecepcionTarea, t.FechaFinalizacionTarea, "
+//                    + "t.HoraFinalizacionTarea "
+//                    + "FROM seguimiento s INNER JOIN tarea t "
+//                    + "ON s.CodigoSeguimiento = t.CodigoSeguimiento "
+//                    + "WHERE t.FechaFinalizacionTarea IS NULL";
             
             Statement st = Conexion.prepareCall(Query);
 
@@ -84,14 +91,14 @@ public class supervisor implements Job {
                         fetchInvolucrados(codigoNaturaleza, codigoTarea);
                         
                         if(destinatariosEmail != null){
-                            enviaEmailRecordatorio();
+                            enviaEmailRecordatorio(codigoNaturaleza, codigoTarea);
                         }
                     }
                     
                     //ENVIA INFORMES DE ALERTA AL DIRECTOR
-                    if(codigoBitacora == maximoSeguimiento){
-                        
-                    }
+                    //if(codigoBitacora == maximoSeguimiento){
+                        enviaEmailInforme(codigoNaturaleza, codigoTarea);
+                    //}
                     
                 }
             }
@@ -160,9 +167,9 @@ public class supervisor implements Job {
        
     }
     
-    public void enviaEmailRecordatorio(){
+    public void enviaEmailRecordatorio(int naturaleza, int tarea){
         String Asunto = "Tarea pendiente";
-        String Texto = "No se actualizado el estado de la tarea ";
+        String Texto = "No se actualizado el estado de la tarea " + tarea + " de naturaleza " + naturaleza;
                     
         email despachadorEmail  = new email();          
         if(despachadorEmail.sendEmail(Asunto, destinatariosEmail, Texto)){
@@ -171,6 +178,35 @@ public class supervisor implements Job {
             System.out.println("El envio de emails ha fallado");
         }
                     
+    }
+    
+    public void enviaEmailInforme(int naturaleza, int tarea) throws SQLException{
+        String Asunto = "Tarea no cumple con los tiempos";
+        String Texto = "La tarea" + tarea + " de naturaleza " + naturaleza;
+        
+        String Query = "SELECT p.EmailPersona FROM persona p INNER JOIN cargo c ON p.CodigoCargo = c.CodigoCargo WHERE c.InformeCargo = 1";
+            
+        Statement st = Conexion.prepareCall(Query);
+
+        ResultSet rsInforme = st.executeQuery(Query);
+
+        String[] DestinoEmail = new String[(resultSetSize(rsInforme) + 1)];
+        int i = 0;
+        rsInforme.first();
+        while(rsInforme.next()){
+            DestinoEmail[i] = rsInforme.getString("EmailPersona");
+
+                i++;
+        }
+        if(i>0){
+            email despachadorEmail  = new email();          
+            if(despachadorEmail.sendEmail(Asunto, DestinoEmail, Texto)){
+                System.out.println("El envio de emails se ha realizado con exito");
+            }else{
+                System.out.println("El envio de emails ha fallado");
+            }
+        }        
+        
     }
     
     //BUSCA LA BITACORA

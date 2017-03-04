@@ -42,7 +42,6 @@ public class email {
     //INICIALIZA EL ENVIO DE MENSAJES
     public email(){
         
-        System.out.println("entro en el constructor");
         this.userEmail = configuracionEmail.getProperty("userEmail");
         this.passEmail = configuracionEmail.getProperty("passEmail");
         this.host = configuracionEmail.getProperty("hostEmail");
@@ -81,6 +80,10 @@ public class email {
             return true;
         } catch (MessagingException ex) {
             Logger.getLogger(email.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("error al enviar mensaje");
+            return false;
+        } catch (java.lang.NullPointerException npe){
+            Logger.getLogger(email.class.getName()).log(Level.SEVERE, null, npe);
             System.out.println("error al enviar mensaje");
             return false;
         }

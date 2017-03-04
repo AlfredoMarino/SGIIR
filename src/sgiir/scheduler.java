@@ -55,7 +55,7 @@ public class scheduler {
         //ejecuta cada 5 segundos
         Trigger trigger = newTrigger()
                 .withIdentity("trigger1", "group1")
-                .withSchedule(cronSchedule("0 0/1 * * * ?")).build();
+                .withSchedule(cronSchedule("5 1 * * * ?")).build();
         
         
         
