@@ -144,7 +144,11 @@ public class supervisor implements Job {
                 ps.setInt(3, involucrado);
 
                 rsInvolucrado = ps.executeQuery();
-                String[] DestinoEmail = new String[(resultSetSize(rs) + 1)];
+                String[] DestinoEmail = new String[(resultSetSize(rsInvolucrado))];
+                
+                //POSICIONA RESULTSET ANTES DEL PRIMERO PARA QUE CUANDO HAGA .NEXT SE PARE EN EL PRIMERO
+                rsInvolucrado.beforeFirst();
+                
                 int i = 0;
                 while(rsInvolucrado.next()){
                     System.out.println("Naturaleza: " + naturaleza + " Tarea: " 
@@ -184,15 +188,20 @@ public class supervisor implements Job {
         String Asunto = "Tarea no cumple con los tiempos";
         String Texto = "La tarea" + tarea + " de naturaleza " + naturaleza;
         
-        String Query = "SELECT p.EmailPersona FROM persona p INNER JOIN cargo c ON p.CodigoCargo = c.CodigoCargo WHERE c.InformeCargo = 1";
+        String Query = "SELECT p.EmailPersona FROM persona p INNER JOIN cargo c "
+                + "ON p.CodigoCargo = c.CodigoCargo WHERE c.InformeCargo = 1";
             
         Statement st = Conexion.prepareCall(Query);
 
         ResultSet rsInforme = st.executeQuery(Query);
-
-        String[] DestinoEmail = new String[(resultSetSize(rsInforme) + 1)];
+        
+        //EL ARREGLO TOMA EL TAMAÑO DEL RESULTSET        
+        String[] DestinoEmail = new String[(resultSetSize(rsInforme))];
+        
+        //POSICIONA RESULTSET ANTES DEL PRIMERO PARA QUE CUANDO HAGA .NEXT SE PARE EN EL PRIMERO
+        rsInforme.beforeFirst();
+        
         int i = 0;
-        rsInforme.first();
         while(rsInforme.next()){
             DestinoEmail[i] = rsInforme.getString("EmailPersona");
 
@@ -260,6 +269,7 @@ public class supervisor implements Job {
     //Retorna el numero de registros en el resultSet
     private int resultSetSize(ResultSet rs) throws SQLException{
         int i = 0;
+        
         while(rs.next()){
             i++;
         }
