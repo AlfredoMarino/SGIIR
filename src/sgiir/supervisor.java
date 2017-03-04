@@ -35,8 +35,6 @@ public class supervisor implements Job {
         //Por ejemplo enviar correo, revisar ciertos datos, etc
         SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss");
         System.out.println( "Tarea invocada a la hora: " + formato.format(new Date()));
-        
-        
 
         if(seguimiento()){
             System.out.println( "Tarea finalizo con exito a las: " + formato.format(new Date()));
@@ -117,7 +115,9 @@ public class supervisor implements Job {
                 
         try {
             //BUSCA LOS ULTIMOS INVOLUCRADOS EN LA TAREA
-            String Query = "SELECT CodigoInvolucrado FROM Involucrado WHERE CodigoNaturaleza = ? and CodigoTarea = ?  ORDER BY CodigoInvolucrado desc LIMIT 1";
+            String Query = "SELECT CodigoInvolucrado FROM Involucrado "
+                    + "WHERE CodigoNaturaleza = ? and CodigoTarea = ?  "
+                    + "ORDER BY CodigoInvolucrado desc LIMIT 1";
             
             PreparedStatement ps = Conexion.prepareCall(Query);
             ps.setInt(1, naturaleza);

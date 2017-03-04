@@ -53,15 +53,15 @@ public class scheduler {
         
         
         //ejecuta cada 5 segundos
-        Trigger trigger = newTrigger()
-                .withIdentity("trigger1", "group1")
-                .withSchedule(cronSchedule("5 1 * * * ?")).build();
-        
-        
-        
 //        Trigger trigger = newTrigger()
 //                .withIdentity("trigger1", "group1")
-//                .withSchedule(cronSchedule("0 0/59 09-18 ? * MON-FRI")).build();
+//                .withSchedule(cronSchedule("0/40 * * * * ?")).build();
+        
+        
+        
+        Trigger trigger = newTrigger()
+                .withIdentity("trigger1", "group1")
+                .withSchedule(cronSchedule("0 0 09-18 ? * MON-FRI")).build();
         
         
         //////////////////////////////////////////
