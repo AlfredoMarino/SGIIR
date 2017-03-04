@@ -70,6 +70,34 @@
         <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="prioridadNaturalezaFieldCaretUpdate"/>
       </Events>
     </Component>
+    <Component class="javax.persistence.Query" name="queryInstitucion">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT i FROM Institucion i"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="listInstitucion">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="queryInstitucion"/>
+        </Property>
+        <Property name="observable" type="boolean" value="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Institucion&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="codigoInstitucionField">
+      <BindingProperties>
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoInstitucion.codigoInstitucion}" target="codigoInstitucionField" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="incompletePathValue" type="java.lang.String" value=""/>
+        </BindingProperty>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoInstitucionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+      </BindingProperties>
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -108,10 +136,8 @@
                                   <Component id="prioridadNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="codigoNaturalezaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="codigoInstitucionField" alignment="0" pref="315" max="32767" attributes="0"/>
-                                  <Component id="codigoNaturalezaField" alignment="0" pref="315" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="rdbTipo1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -126,9 +152,11 @@
                                               <Component id="rdbPrioridad3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="cbxInstitucion" max="32767" attributes="0"/>
+                                  <Component id="codigoNaturalezaField" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="0" pref="95" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -141,11 +169,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="138" max="32767" attributes="0"/>
+              <Component id="masterScrollPane" pref="135" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="codigoNaturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codigoNaturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="codigoInstitucionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="codigoInstitucionField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbxInstitucion" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -161,11 +194,6 @@
                   <Component id="rdbPrioridad3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="codigoNaturalezaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="codigoNaturalezaField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="1"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -189,22 +217,22 @@
           <Properties>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -220,28 +248,31 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
-              <Subbinding sourcePath="${codigoInstitucion.nombreInstitucion}">
-                <BindingParameter name="NAME" value="Codigo Institucion"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-              </Subbinding>
-              <Subbinding sourcePath="${tipoNaturaleza}">
-                <BindingParameter name="NAME" value="Tipo Naturaleza"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-              </Subbinding>
-              <Subbinding sourcePath="${prioridadNaturaleza}">
-                <BindingParameter name="NAME" value="Prioridad Naturaleza"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-              </Subbinding>
               <Subbinding sourcePath="${codigoNaturaleza}">
                 <BindingParameter name="NAME" value="Codigo Naturaleza"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
+              <Subbinding sourcePath="${prioridadNaturaleza == 1 ? &apos;Baja&apos; : (prioridadNaturaleza == 2 ?  &apos;Media&apos; : &apos;Alta&apos;)}">
+                <BindingParameter name="NAME" value="Prioridad"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
+              <Subbinding sourcePath="${tipoNaturaleza == 0? &apos;Requerimiento&apos; : &apos;Incidencia&apos;}">
+                <BindingParameter name="NAME" value="Tipo"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
+              <Subbinding sourcePath="${codigoInstitucion.nombreInstitucion}">
+                <BindingParameter name="NAME" value="Instituci&#xf3;n"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
             </BindingProperty>
           </BindingProperties>
+          <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="masterTableMouseReleased"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
@@ -269,21 +300,15 @@
         <Property name="text" type="java.lang.String" value="Codigo Naturaleza:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="codigoInstitucionField">
-      <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoInstitucion.nombreInstitucion}" target="codigoInstitucionField" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoInstitucionField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
-    </Component>
     <Component class="javax.swing.JTextField" name="codigoNaturalezaField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <BindingProperties>
         <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.codigoNaturaleza}" target="codigoNaturalezaField" targetPath="text" updateStrategy="0" immediately="false">
-          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="incompletePathValue" type="java.lang.String" value=""/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="codigoNaturalezaField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JButton" name="saveButton">
@@ -341,6 +366,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Incidencia"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="codigoNaturalezaField" sourcePath="${text == &apos;&apos;}" target="rdbTipo1" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdbTipo1ActionPerformed"/>
       </Events>
@@ -349,11 +377,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Requerimiento"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="codigoNaturalezaField" sourcePath="${text == &apos;&apos;}" target="rdbTipo2" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rdbPrioridad1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Baja"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="codigoNaturalezaField" sourcePath="${text == &apos;&apos;}" target="rdbPrioridad1" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdbPrioridad1ActionPerformed"/>
       </Events>
@@ -362,6 +396,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Media"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="codigoNaturalezaField" sourcePath="${text == &apos;&apos;}" target="rdbPrioridad2" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdbPrioridad2ActionPerformed"/>
       </Events>
@@ -370,9 +407,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Alta"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="codigoNaturalezaField" sourcePath="${text == &apos;&apos;}" target="rdbPrioridad3" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdbPrioridad3ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbxInstitucion">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="codigoNaturalezaField" sourcePath="${text == &apos;&apos;}" target="cbxInstitucion" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;comboBox&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
