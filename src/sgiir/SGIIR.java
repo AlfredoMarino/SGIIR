@@ -29,14 +29,14 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        login VistaLogin = new login();
-        VistaLogin.setVisible(true);
+        //login VistaLogin = new login();
+        //VistaLogin.setVisible(true);
         
 //        FrameTest VistaCargo = new FrameTest();
 //        VistaCargo.setVisible(true);
 
-        //supervisor Supervisor = new supervisor();
-        //System.out.println(Supervisor.seguimiento());
+        supervisor Supervisor = new supervisor();
+        System.out.println(Supervisor.seguimiento());
         
     }
     

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sgiir;
 
 import java.sql.PreparedStatement;
@@ -31,14 +26,18 @@ import static sgiir.manejadorDB.Conexion;
 public class supervisor implements Job {
 
     private ResultSet rs, rsBitacora, rsInvolucrado;
-    private email despachadorEmail  = new email();
-    
+    private int hora;
+    public String[] destinatariosEmail;
+       
     //Metodo que se ejecutara cada cierto tiempo que lo programemos despues
     public void execute(JobExecutionContext jec) throws JobExecutionException {
         //Aca pueden poner la tarea o el job que desean automatizar
         //Por ejemplo enviar correo, revisar ciertos datos, etc
         SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss");
         System.out.println( "Tarea invocada a la hora: " + formato.format(new Date()));
+        
+        Calendar calendario = new GregorianCalendar();
+        this.hora = calendario.get(Calendar.HOUR_OF_DAY);
 
         if(seguimiento()){
             System.out.println( "Tarea finalizo con exito a las: " + formato.format(new Date()));
@@ -51,8 +50,6 @@ public class supervisor implements Job {
         Date fechaRecepcion, fechaFinalizacion;
         int diasSeguimiento, codigoNaturaleza, codigoTarea, maximoSeguimiento, codigoBitacora;
         
-
-        
         try {
 
             String Query = "SELECT t.CodigoNaturaleza, t.CodigoTarea, t.CodigoSeguimiento, "
@@ -61,7 +58,7 @@ public class supervisor implements Job {
                     + "t.HoraFinalizacionTarea "
                     + "FROM seguimiento s INNER JOIN tarea t "
                     + "ON s.CodigoSeguimiento = t.CodigoSeguimiento "
-                    + "WHERE t.FechaFinalizacionTarea IS NULL";
+                    + "WHERE t.FechaFinalizacionTarea IS NULL and s.HoraSeguimiento = " + hora;
             
             Statement st = Conexion.prepareCall(Query);
 
@@ -86,7 +83,13 @@ public class supervisor implements Job {
                         //System.out.println("se envia la bitacora " + String.valueOf(codigoBitacora) + " para la tarea " + rs.getInt("CodigoTarea") + " con un maximo de " + maximoSeguimiento);
                         fetchInvolucrados(codigoNaturaleza, codigoTarea);
                         
-                        
+                        if(destinatariosEmail != null){
+                            enviaEmailRecordatorio();
+                        }
+                    }
+                    
+                    //ENVIA INFORMES DE ALERTA AL DIRECTOR
+                    if(codigoBitacora == maximoSeguimiento){
                         
                     }
                     
@@ -104,8 +107,7 @@ public class supervisor implements Job {
     //BUSCA ULTIMOS INVOLUCRADOS DE USH EN LA TAREA
     private void fetchInvolucrados(int naturaleza, int tarea){
         int involucrado;
-        String[] DestinoEmail = new String[15];
-        
+                
         try {
             //BUSCA LOS ULTIMOS INVOLUCRADOS EN LA TAREA
             String Query = "SELECT CodigoInvolucrado FROM Involucrado WHERE CodigoNaturaleza = ? and CodigoTarea = ?  ORDER BY CodigoInvolucrado desc LIMIT 1";
@@ -113,8 +115,7 @@ public class supervisor implements Job {
             PreparedStatement ps = Conexion.prepareCall(Query);
             ps.setInt(1, naturaleza);
             ps.setInt(2, tarea);
-            //ps.setInt(3, involucrado);
-            
+           
             rsInvolucrado = ps.executeQuery();
             if(rsInvolucrado.absolute(1)){
                 
@@ -123,10 +124,10 @@ public class supervisor implements Job {
                 Query = "SELECT i.CodigoNaturaleza, i.CodigoTarea, i.CodigoInvolucrado, "
                         + "p.NombrePersona, p.EmailPersona, p.RecordatorioPersona, "
                         + "b.ClienteInstitucion, c.CodigoCargo, b.CodigoInstitucion "
-                        + "FROM involucrado i INNER JOIN persona p "
-                        + "ON i.CodigoPersona = p.CodigoPersona INNER JOIN cargo c "
-                        + "ON p.CodigoCargo = c.CodigoCargo INNER JOIN institucion b "
-                        + "ON c.CodigoInstitucion = b.CodigoInstitucion "
+                        + "FROM involucrado i "
+                        + "INNER JOIN persona p ON i.CodigoPersona = p.CodigoPersona "
+                        + "INNER JOIN cargo c ON p.CodigoCargo = c.CodigoCargo "
+                        + "INNER JOIN institucion b ON c.CodigoInstitucion = b.CodigoInstitucion "
                         + "WHERE b.ClienteInstitucion = 0 and p.RecordatorioPersona = 1 and "
                         + "i.CodigoNaturaleza = ? and i.CodigoTarea = ? and i.CodigoInvolucrado = ?";
 
@@ -136,6 +137,7 @@ public class supervisor implements Job {
                 ps.setInt(3, involucrado);
 
                 rsInvolucrado = ps.executeQuery();
+                String[] DestinoEmail = new String[(resultSetSize(rs) + 1)];
                 int i = 0;
                 while(rsInvolucrado.next()){
                     System.out.println("Naturaleza: " + naturaleza + " Tarea: " 
@@ -147,16 +149,28 @@ public class supervisor implements Job {
                     i++;
                 }
                 
-                System.out.println(i);
+                
                 if(i > 0){
-                    despachadorEmail.mensaje();
-                    boolean resultado = despachadorEmail.sendEmail("asunto prueba", DestinoEmail, "marico el que lo lea");
-                    System.out.println("el resultado fue " + resultado);
+                    this.destinatariosEmail = DestinoEmail;
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(supervisor.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
+    }
+    
+    public void enviaEmailRecordatorio(){
+        String Asunto = "Tarea pendiente";
+        String Texto = "No se actualizado el estado de la tarea ";
+                    
+        email despachadorEmail  = new email();          
+        if(despachadorEmail.sendEmail(Asunto, destinatariosEmail, Texto)){
+            System.out.println("El envio de emails se ha realizado con exito");
+        }else{
+            System.out.println("El envio de emails ha fallado");
+        }
+                    
     }
     
     //BUSCA LA BITACORA
@@ -207,4 +221,12 @@ public class supervisor implements Job {
         return difd;
     }
 
+    //Retorna el numero de registros en el resultSet
+    private int resultSetSize(ResultSet rs) throws SQLException{
+        int i = 0;
+        while(rs.next()){
+            i++;
+        }
+        return i;
+    }
 }
