@@ -7,7 +7,9 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<queryString language="SQL">
+	<parameter name="FECHA_DESDE" class="java.lang.String"/>
+	<parameter name="FECHA_HASTA" class="java.lang.String"/>
+	<queryString>
 		<![CDATA[SELECT
      tarea.`CodigoTarea` AS tarea_CodigoTarea,
      tarea.`DescripcionTarea` AS tarea_DescripcionTarea,
@@ -22,19 +24,19 @@ FROM
      `naturaleza` naturaleza INNER JOIN `tarea` tarea ON naturaleza.`CodigoNaturaleza` = tarea.`CodigoNaturaleza`
      INNER JOIN `institucion` institucion ON naturaleza.`CodigoInstitucion` = institucion.`CodigoInstitucion`
 WHERE
-    tarea.FechaFinalizacionTarea is not null]]>
+    tarea.FechaFinalizacionTarea is not null AND tarea.FechaFinalizacionTarea >= $P{FECHA_DESDE} AND tarea.FechaFinalizacionTarea <= $P{FECHA_HASTA}]]>
 	</queryString>
 	<field name="tarea_CodigoTarea" class="java.lang.Integer"/>
 	<field name="tarea_DescripcionTarea" class="java.lang.String"/>
 	<field name="tarea_FechaRecepcionTarea" class="java.sql.Date"/>
 	<field name="tarea_FechaEstimadaTarea" class="java.sql.Date"/>
 	<field name="tarea_FechaFinalizacionTarea" class="java.sql.Date"/>
-	<field name="naturaleza_TipoNaturaleza" class="java.lang.Integer"/>
-	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Integer"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Boolean"/>
 	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
 	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
 	<variable name="TIPO_NATURALEZA" class="java.lang.String">
-		<variableExpression><![CDATA[($F{naturaleza_TipoNaturaleza} == 1 ? "Incidencia" : "Requerimiento") ]]></variableExpression>
+		<variableExpression><![CDATA[($F{naturaleza_TipoNaturaleza} == 1 ? "Incidencia" : "Requerimiento")]]></variableExpression>
 	</variable>
 	<variable name="PRIORIDAD_NATURALEZA" class="java.lang.String">
 		<variableExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza} == 1 ? "Baja" : ($F{naturaleza_PrioridadNaturaleza} == 2 ? "Media" : "Alta")]]></variableExpression>

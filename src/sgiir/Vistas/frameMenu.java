@@ -147,6 +147,7 @@ public class frameMenu extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         mnuPersonas = new javax.swing.JMenu();
         mitPersona = new javax.swing.JMenuItem();
         mitAutenticacion = new javax.swing.JMenuItem();
@@ -233,6 +234,15 @@ public class frameMenu extends javax.swing.JFrame {
         menuBar.add(mnuTarea);
 
         jMenu2.setText("Reportes");
+
+        jMenuItem4.setText("Tareas Finalizadas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
         menuBar.add(jMenu2);
 
         mnuPersonas.setText(msgFile.getProperty("lbl0006"));
@@ -380,6 +390,12 @@ public class frameMenu extends javax.swing.JFrame {
         controladorPaneles.show(pnlDetails, "BITACORA");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        framePopup vistaInvolucrado = new framePopup();
+        vistaInvolucrado.showPanel("REPORTE");
+        vistaInvolucrado.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -439,6 +455,7 @@ public class frameMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
     private javax.swing.JMenuItem mitAutenticacion;
