@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0625d2ef-5d37-4a66-a2cb-f456235f46be">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tarea.`CodigoTarea` AS tarea_CodigoTarea,
+     tarea.`FechaFinalizacionTarea` AS tarea_FechaFinalizacionTarea,
+     naturaleza.`TipoNaturaleza` AS naturaleza_TipoNaturaleza,
+     naturaleza.`PrioridadNaturaleza` AS naturaleza_PrioridadNaturaleza,
+     naturaleza.`CodigoNaturaleza` AS naturaleza_CodigoNaturaleza,
+     bitacora.`CorrelativoBitacora` AS bitacora_CorrelativoBitacora,
+     bitacora.`FechaBitacora` AS bitacora_FechaBitacora,
+     persona.`CodigoPersona` AS persona_CodigoPersona,
+     persona.`NombrePersona` AS persona_NombrePersona,
+     involucrado.`CodigoNaturaleza` AS involucrado_CodigoNaturaleza,
+     involucrado.`CodigoTarea` AS involucrado_CodigoTarea,
+     involucrado.`CodigoInvolucrado` AS involucrado_CodigoInvolucrado,
+     institucion.`CodigoInstitucion` AS institucion_CodigoInstitucion,
+     institucion.`NombreInstitucion` AS institucion_NombreInstitucion,
+     tarea.`DescripcionTarea` AS tarea_DescripcionTarea,
+     tarea.`FechaRecepcionTarea` AS tarea_FechaRecepcionTarea,
+     estado.`DescripcionEstado` AS estado_DescripcionEstado,
+     bitacora.`ObservacionBitacora` AS bitacora_ObservacionBitacora
+FROM
+     `naturaleza` naturaleza INNER JOIN `tarea` tarea ON naturaleza.`CodigoNaturaleza` = tarea.`CodigoNaturaleza`
+     INNER JOIN `bitacora` bitacora ON naturaleza.`CodigoNaturaleza` = bitacora.`CodigoNaturaleza`
+     AND tarea.`CodigoTarea` = bitacora.`CodigoTarea`
+     INNER JOIN `involucrado` involucrado ON bitacora.`CodigoInvolucrado` = involucrado.`CodigoPersona`
+     INNER JOIN `estado` estado ON bitacora.`CodigoEstado` = estado.`CodigoEstado`
+     AND tarea.`CodigoTarea` = involucrado.`CodigoTarea`
+     AND naturaleza.`CodigoNaturaleza` = involucrado.`CodigoNaturaleza`
+     INNER JOIN `persona` persona ON involucrado.`CodigoPersona` = persona.`CodigoPersona`
+     INNER JOIN `institucion` institucion ON naturaleza.`CodigoInstitucion` = institucion.`CodigoInstitucion`]]>
+	</queryString>
+	<field name="tarea_CodigoTarea" class="java.lang.Integer"/>
+	<field name="tarea_FechaFinalizacionTarea" class="java.sql.Date"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
+	<field name="bitacora_CorrelativoBitacora" class="java.lang.Integer"/>
+	<field name="bitacora_FechaBitacora" class="java.sql.Date"/>
+	<field name="persona_CodigoPersona" class="java.lang.Integer"/>
+	<field name="persona_NombrePersona" class="java.lang.String"/>
+	<field name="involucrado_CodigoNaturaleza" class="java.lang.Integer"/>
+	<field name="involucrado_CodigoTarea" class="java.lang.Integer"/>
+	<field name="involucrado_CodigoInvolucrado" class="java.lang.Integer"/>
+	<field name="institucion_CodigoInstitucion" class="java.lang.Integer"/>
+	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
+	<field name="tarea_DescripcionTarea" class="java.lang.String"/>
+	<field name="tarea_FechaRecepcionTarea" class="java.sql.Date"/>
+	<field name="estado_DescripcionEstado" class="java.lang.String"/>
+	<field name="bitacora_ObservacionBitacora" class="java.lang.String"/>
+	<group name="institucion_NombreInstitucion">
+		<groupExpression><![CDATA[$F{institucion_NombreInstitucion}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField>
+					<reportElement style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#333333" uuid="367864aa-8b89-4e2b-be97-eab0ffd2aebe"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{institucion_NombreInstitucion}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="25b82e54-3bba-451e-a2eb-fe2a8cc0583e"/>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="naturaleza_TipoNaturaleza">
+		<groupExpression><![CDATA[$F{naturaleza_TipoNaturaleza}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="4" width="460" height="20" uuid="0f63432d-363c-42c3-80cf-89706da5b5c4"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{naturaleza_TipoNaturaleza}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="naturaleza_PrioridadNaturaleza">
+		<groupExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza}]]></groupExpression>
+	</group>
+	<group name="tarea_CodigoTarea">
+		<groupExpression><![CDATA[$F{tarea_CodigoTarea}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="-20" y="0" width="595" height="64" uuid="2909d40b-f746-42e2-b43f-341e6a8878f9"/>
+				<imageExpression><![CDATA["wood.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="5" width="263" height="33" uuid="3b98a410-f1c4-4754-8bee-3215bcb4f696"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Wood Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF" uuid="a0a3db88-2ca3-4418-ba41-82e86226263f"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Wood SubTitle]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="8f5c61b5-53be-4fef-8bed-e1bb4ae87d51"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="39" height="15" uuid="a856a53d-a173-4c47-960c-a260281427d5"/>
+				<text><![CDATA[tarea_FechaFinalizacionTarea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="39" y="19" width="39" height="15" uuid="07d246d0-c5b9-47eb-8ed8-eb7cf9a47236"/>
+				<text><![CDATA[naturaleza_CodigoNaturaleza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="78" y="19" width="39" height="15" uuid="e122bdd2-e483-4bce-8108-f850d306dd99"/>
+				<text><![CDATA[bitacora_CorrelativoBitacora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="117" y="19" width="39" height="15" uuid="e07721c6-5959-42f0-a1a0-21f29408197e"/>
+				<text><![CDATA[bitacora_FechaBitacora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="156" y="19" width="39" height="15" uuid="8a9258f3-1012-43c9-adad-023107890d47"/>
+				<text><![CDATA[persona_CodigoPersona]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="195" y="19" width="39" height="15" uuid="663c3666-8a09-4271-bb98-30863bb589c7"/>
+				<text><![CDATA[persona_NombrePersona]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="234" y="19" width="39" height="15" uuid="5411ccad-f4cb-44e5-988b-bfcb41d3dca9"/>
+				<text><![CDATA[involucrado_CodigoNaturaleza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="273" y="19" width="39" height="15" uuid="ddc8aedc-b756-4ece-84a5-c34a716354a3"/>
+				<text><![CDATA[involucrado_CodigoTarea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="312" y="19" width="39" height="15" uuid="44a5a2d6-73b1-4d02-91f9-dc37519e13b8"/>
+				<text><![CDATA[involucrado_CodigoInvolucrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="351" y="19" width="39" height="15" uuid="6396d6b2-3e67-454b-b3f5-d35cfb6ab730"/>
+				<text><![CDATA[institucion_CodigoInstitucion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="390" y="19" width="39" height="15" uuid="60533139-c038-4734-b896-d2098b060206"/>
+				<text><![CDATA[tarea_DescripcionTarea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="429" y="19" width="39" height="15" uuid="8a5a9327-b472-43e3-9aac-91400d4211e1"/>
+				<text><![CDATA[tarea_FechaRecepcionTarea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="468" y="19" width="39" height="15" uuid="4577ef2d-d7d7-48db-bbd8-8b8a6316ba91"/>
+				<text><![CDATA[estado_DescripcionEstado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="507" y="19" width="39" height="15" uuid="845058ad-a902-4dc7-8ae0-2bb27afa77d6"/>
+				<text><![CDATA[bitacora_ObservacionBitacora]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="b54943b7-d605-4566-8fcf-7ed7d24e3214"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="39" height="15" uuid="d28789ab-f6e2-4501-b1e8-c9cca1592dba"/>
+				<textFieldExpression><![CDATA[$F{tarea_FechaFinalizacionTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="39" y="0" width="39" height="15" uuid="f1eaa00d-7d31-4450-ad3d-2f10ad69f134"/>
+				<textFieldExpression><![CDATA[$F{naturaleza_CodigoNaturaleza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="78" y="0" width="39" height="15" uuid="e7115118-ff8b-4b94-97f2-2c642858ff77"/>
+				<textFieldExpression><![CDATA[$F{bitacora_CorrelativoBitacora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="117" y="0" width="39" height="15" uuid="02a497f5-ceca-4ca0-a260-2df5747cc065"/>
+				<textFieldExpression><![CDATA[$F{bitacora_FechaBitacora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="156" y="0" width="39" height="15" uuid="cc22659e-4e8a-4552-beaa-301d44aecff5"/>
+				<textFieldExpression><![CDATA[$F{persona_CodigoPersona}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="195" y="0" width="39" height="15" uuid="370b7d15-81cd-49fb-8397-80b3f2394d05"/>
+				<textFieldExpression><![CDATA[$F{persona_NombrePersona}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="234" y="0" width="39" height="15" uuid="dd4fe815-794e-4461-9e0b-679824376116"/>
+				<textFieldExpression><![CDATA[$F{involucrado_CodigoNaturaleza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="273" y="0" width="39" height="15" uuid="33b9eae9-0b91-4274-a1de-191b7f8d8854"/>
+				<textFieldExpression><![CDATA[$F{involucrado_CodigoTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="312" y="0" width="39" height="15" uuid="6112240e-1bc2-41f6-bba2-5950df239ec9"/>
+				<textFieldExpression><![CDATA[$F{involucrado_CodigoInvolucrado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="351" y="0" width="39" height="15" uuid="3ee4bfdc-00f6-40c5-9b3c-af3e32e4543c"/>
+				<textFieldExpression><![CDATA[$F{institucion_CodigoInstitucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="390" y="0" width="39" height="15" uuid="8ddf262c-f2ed-47af-954c-59a05b4b22a3"/>
+				<textFieldExpression><![CDATA[$F{tarea_DescripcionTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="429" y="0" width="39" height="15" uuid="015b59d1-acf7-44ed-a021-9f573138b59d"/>
+				<textFieldExpression><![CDATA[$F{tarea_FechaRecepcionTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="468" y="0" width="39" height="15" uuid="ab5461ff-5d85-425b-880e-e91a31f604a1"/>
+				<textFieldExpression><![CDATA[$F{estado_DescripcionEstado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="507" y="0" width="39" height="15" uuid="1cf691ea-0b5e-4e2c-87b8-aa78dec298c3"/>
+				<textFieldExpression><![CDATA[$F{bitacora_ObservacionBitacora}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="bcf997d8-1f71-4738-8d77-3ea9ed361ba5"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="e57c55d6-5918-41b1-8715-142b13cb1dc1"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="8bede885-52af-4941-a807-e5e1f8392055"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="9c391bcf-f78f-4f97-abf1-e58bdb58b317"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

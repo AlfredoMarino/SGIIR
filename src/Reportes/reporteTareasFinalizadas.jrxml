@@ -24,7 +24,8 @@ FROM
      `naturaleza` naturaleza INNER JOIN `tarea` tarea ON naturaleza.`CodigoNaturaleza` = tarea.`CodigoNaturaleza`
      INNER JOIN `institucion` institucion ON naturaleza.`CodigoInstitucion` = institucion.`CodigoInstitucion`
 WHERE
-    tarea.FechaFinalizacionTarea is not null AND tarea.FechaFinalizacionTarea >= $P{FECHA_DESDE} AND tarea.FechaFinalizacionTarea <= $P{FECHA_HASTA}]]>
+    tarea.FechaFinalizacionTarea is not null AND tarea.FechaFinalizacionTarea >= $P{FECHA_DESDE} AND tarea.FechaFinalizacionTarea <= $P{FECHA_HASTA}
+ORDER BY tarea.FechaRecepcionTarea, tarea.FechaFinalizacionTarea]]>
 	</queryString>
 	<field name="tarea_CodigoTarea" class="java.lang.Integer"/>
 	<field name="tarea_DescripcionTarea" class="java.lang.String"/>
