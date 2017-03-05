@@ -9,6 +9,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sgiir.Vistas.FrameTest;
+import sgiir.Vistas.framePopup;
 import sgiir.Vistas.login;
 
 
@@ -29,8 +30,8 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        login VistaLogin = new login();
-        VistaLogin.setVisible(true);
+//        login VistaLogin = new login();
+//        VistaLogin.setVisible(true);
         
 //        FrameTest VistaCargo = new FrameTest();
 //        VistaCargo.setVisible(true);
@@ -38,6 +39,11 @@ public class SGIIR {
 //        supervisor Supervisor = new supervisor();
 //        System.out.println(Supervisor.seguimiento());
         
+
+        framePopup VistaPopup = new framePopup();
+        VistaPopup.pnlReporte.setReporte(1); //REPORTE TAREAS FINALIZADAS
+        VistaPopup.showPanel("REPORTE");
+        VistaPopup.setVisible(true);
     }
     
 }

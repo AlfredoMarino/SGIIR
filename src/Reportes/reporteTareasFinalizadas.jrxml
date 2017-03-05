@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4669b0d1-1468-46bb-8ab1-091302d6ac7f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4669b0d1-1468-46bb-8ab1-091302d6ac7f">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -7,8 +7,8 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="FECHA_DESDE" class="java.lang.String"/>
-	<parameter name="FECHA_HASTA" class="java.lang.String"/>
+	<parameter name="FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="FECHA_HASTA" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[SELECT
      tarea.`CodigoTarea` AS tarea_CodigoTarea,
@@ -31,25 +31,21 @@ WHERE
 	<field name="tarea_FechaRecepcionTarea" class="java.sql.Date"/>
 	<field name="tarea_FechaEstimadaTarea" class="java.sql.Date"/>
 	<field name="tarea_FechaFinalizacionTarea" class="java.sql.Date"/>
-	<field name="naturaleza_TipoNaturaleza" class="java.lang.Boolean"/>
-	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.String"/>
+	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.String"/>
 	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
 	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
 	<variable name="TIPO_NATURALEZA" class="java.lang.String">
-		<variableExpression><![CDATA[($F{naturaleza_TipoNaturaleza} == 1 ? "Incidencia" : "Requerimiento")]]></variableExpression>
+		<variableExpression><![CDATA[(($F{naturaleza_TipoNaturaleza}  == "1")? "Incidencia" : "Requerimiento")]]></variableExpression>
 	</variable>
 	<variable name="PRIORIDAD_NATURALEZA" class="java.lang.String">
-		<variableExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza} == 1 ? "Baja" : ($F{naturaleza_PrioridadNaturaleza} == 2 ? "Media" : "Alta")]]></variableExpression>
+		<variableExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza} == "1" ? "Baja" : ($F{naturaleza_PrioridadNaturaleza} == "2" ? "Media" : "Alta")]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="70" splitType="Stretch">
-			<image>
-				<reportElement x="275" y="0" width="300" height="64" uuid="f09dd1a1-947f-435b-abba-dd2463e5c06f"/>
-				<imageExpression><![CDATA["leaf_banner_red.png"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="41f791b4-c24b-4ddf-bbb0-b9e2df82a6b7"/>
 				<textElement verticalAlignment="Middle"/>
