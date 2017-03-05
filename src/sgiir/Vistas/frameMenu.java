@@ -26,6 +26,7 @@ import sgiir.scheduler;
  */
 public class frameMenu extends javax.swing.JFrame {
     
+    public ImageIcon imagenLogo = new ImageIcon(getClass().getResource("/imagenes/logo.png"));
     private propiedades msgFile = new propiedades();
     private propiedades qryFile = new propiedades(5);
     private String Query = "";
@@ -161,6 +162,7 @@ public class frameMenu extends javax.swing.JFrame {
         setTitle(msgFile.getProperty("lbl0000"));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setIconImage(imagenLogo.getImage());
 
         pnlHead.setPreferredSize(new java.awt.Dimension(0, 50));
 
