@@ -148,6 +148,7 @@ public class frameMenu extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         mnuPersonas = new javax.swing.JMenu();
         mitPersona = new javax.swing.JMenuItem();
         mitAutenticacion = new javax.swing.JMenuItem();
@@ -164,6 +165,7 @@ public class frameMenu extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(imagenLogo.getImage());
+        setPreferredSize(new java.awt.Dimension(798, 500));
 
         pnlHead.setPreferredSize(new java.awt.Dimension(0, 50));
 
@@ -242,6 +244,14 @@ public class frameMenu extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Estado de tareas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
 
         menuBar.add(jMenu2);
 
@@ -391,10 +401,18 @@ public class frameMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        framePopup vistaInvolucrado = new framePopup();
-        vistaInvolucrado.showPanel("REPORTE");
-        vistaInvolucrado.setVisible(true);
+        framePopup VistaPopup = new framePopup();
+        VistaPopup.pnlReporte.setReporte(1); //REPORTE TAREAS FINALIZADAS
+        VistaPopup.showPanel("REPORTE");
+        VistaPopup.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        framePopup VistaPopup = new framePopup();
+        VistaPopup.pnlReporte.setReporte(2); //REPORTE ESTADO DE TAREAS
+        VistaPopup.showPanel("REPORTE");
+        VistaPopup.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -456,6 +474,7 @@ public class frameMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
     private javax.swing.JMenuItem mitAutenticacion;

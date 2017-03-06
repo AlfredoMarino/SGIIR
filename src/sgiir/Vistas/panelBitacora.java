@@ -875,6 +875,8 @@ public class panelBitacora extends JPanel {
         for (Object entity : data) {
             entityManager.refresh(entity);
         }
+        
+        comboEstado();
         list.clear();
         list.addAll(data);
     }

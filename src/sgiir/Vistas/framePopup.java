@@ -15,7 +15,7 @@ public class framePopup extends javax.swing.JFrame {
     
     public panelCaracteristica pnlCaracteristica = new panelCaracteristica();
     public panelInvolucrado pnlInvolucrado = new panelInvolucrado();
-    public panelReport pnlReporte = new panelReport();
+    public panelReporte pnlReporte = new panelReporte();
     CardLayout controladorPaneles;
     
     /**

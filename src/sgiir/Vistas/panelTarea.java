@@ -271,7 +271,7 @@ public class panelTarea extends JPanel {
 
         newButton.setText("New");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), newButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cbtTodos, org.jdesktop.beansbinding.ELProperty.create("${selected != true}"), newButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         newButton.addActionListener(formListener);
@@ -521,7 +521,7 @@ public class panelTarea extends JPanel {
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)))
+                            .addComponent(masterScrollPane)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -759,6 +759,8 @@ public class panelTarea extends JPanel {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
             
+            
+            
             defaultField();
             
             statusBar.getInstance().setMsg("Operación exitosa");
@@ -792,8 +794,6 @@ public class panelTarea extends JPanel {
                 }
                 list.clear();
                 list.addAll(data);
-
-                //comboSeguimiento();
 
             }else{
                 comboBox combo = (comboBox) cbxInstitucion.getSelectedItem();
@@ -840,7 +840,7 @@ public class panelTarea extends JPanel {
                     list.clear();
                     list.addAll(data);
 
-                    
+                    comboSeguimiento(codigoNaturaleza);
 
                 }else{
                     statusBar.getInstance().setMsg("Debe selecionar una institución");
@@ -1027,6 +1027,9 @@ public class panelTarea extends JPanel {
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
         for (Object entity : data) {
+            
+            Tarea t = (Tarea) entity;
+            makeDir((t.getCarpetaTarea() + "\\" + t.getCodigoTarea()));
             entityManager.refresh(entity);
         }
         list.clear();
@@ -1094,6 +1097,15 @@ public class panelTarea extends JPanel {
             return false;
 	}
     }
+    
+    private void makeDir(String ruta){
+        File folder = new File(ruta);
+        
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCaracteristica;

@@ -30,8 +30,8 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-//        login VistaLogin = new login();
-//        VistaLogin.setVisible(true);
+        login VistaLogin = new login();
+        VistaLogin.setVisible(true);
         
 //        FrameTest VistaCargo = new FrameTest();
 //        VistaCargo.setVisible(true);
@@ -40,10 +40,10 @@ public class SGIIR {
 //        System.out.println(Supervisor.seguimiento());
         
 
-        framePopup VistaPopup = new framePopup();
-        VistaPopup.pnlReporte.setReporte(1); //REPORTE TAREAS FINALIZADAS
-        VistaPopup.showPanel("REPORTE");
-        VistaPopup.setVisible(true);
+//        framePopup VistaPopup = new framePopup();
+//        VistaPopup.pnlReporte.setReporte(2); //REPORTE TAREAS FINALIZADAS
+//        VistaPopup.showPanel("REPORTE");
+//        VistaPopup.setVisible(true);
     }
     
 }

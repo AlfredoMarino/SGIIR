@@ -22,10 +22,10 @@ import static sgiir.manejadorDB.Conexion;
  *
  * @author Alfredo Mariño
  */
-public class panelReport extends javax.swing.JPanel {
+public class panelReporte extends javax.swing.JPanel {
     private String ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteTareasFinalizadas.jasper"; //POR DEFECTO
     
-    public panelReport() {
+    public panelReporte() {
         initComponents();
     }
     
@@ -37,7 +37,7 @@ public class panelReport extends javax.swing.JPanel {
             break;
             
             case 2: //REPORTE ESTADO DE LAS TAREAS
-                this.ReportPath = "";
+                this.ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteEstadoTarea.jasper";
             break;    
         }
     }
@@ -121,7 +121,7 @@ public class panelReport extends javax.swing.JPanel {
             JasperViewer jv = new JasperViewer(jp, false);
             jv.setVisible(true);
         } catch (JRException ex) {
-            Logger.getLogger(panelReport.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(panelReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
 
