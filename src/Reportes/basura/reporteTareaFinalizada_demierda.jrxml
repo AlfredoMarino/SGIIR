@@ -52,7 +52,7 @@ ORDER BY
 	<field name="institucion_CodigoInstitucion" class="java.lang.Integer"/>
 	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
 	<field name="naturaleza_CodigoInstitucion" class="java.lang.Integer"/>
-	<field name="naturaleza_TipoNaturaleza" class="java.lang.Integer"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.String"/>
 	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.String"/>
 	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
 	<field name="tarea_CodigoNaturaleza" class="java.lang.Integer"/>
@@ -99,7 +99,7 @@ ORDER BY
 						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($F{naturaleza_PrioridadNaturaleza} == "1" ? "Baja" : ($F{naturaleza_PrioridadNaturaleza} == "2" ? "Media" : "Alta"))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza} == "1" ? "Baja" : ($F{naturaleza_PrioridadNaturaleza} == "2" ? "Media" : "Alta")]]></textFieldExpression>
 				</textField>
 				<textField pattern="" isBlankWhenNull="false">
 					<reportElement mode="Transparent" x="286" y="21" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ee4a6db9-6aaa-4c75-8f00-9a514542e1eb"/>
@@ -107,7 +107,7 @@ ORDER BY
 						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($F{naturaleza_TipoNaturaleza}.toString()  == "1" ? "Incidencia" : "Requerimiento")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[(($F{naturaleza_TipoNaturaleza}.toString()  == "1")? "Incidencia" : "Requerimiento")]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement mode="Transparent" x="69" y="21" width="81" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="0167e786-6480-4429-be2a-fe53316af44d"/>
@@ -295,7 +295,7 @@ ORDER BY
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="15" splitType="Stretch"/>
+		<band height="14" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="21" splitType="Stretch">

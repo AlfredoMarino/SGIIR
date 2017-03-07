@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6c47988-5f79-4ee9-a9e4-b934c41cf8ff">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tarea.`CodigoNaturaleza` AS tarea_CodigoNaturaleza,
+     tarea.`CodigoTarea` AS tarea_CodigoTarea,
+     tarea.`DescripcionTarea` AS tarea_DescripcionTarea,
+     tarea.`CodigoSeguimiento` AS tarea_CodigoSeguimiento,
+     tarea.`FechaRecepcionTarea` AS tarea_FechaRecepcionTarea,
+     tarea.`HoraRecepcionTarea` AS tarea_HoraRecepcionTarea,
+     tarea.`FechaEstimadaTarea` AS tarea_FechaEstimadaTarea,
+     tarea.`HoraEstimadaTarea` AS tarea_HoraEstimadaTarea,
+     tarea.`CarpetaTarea` AS tarea_CarpetaTarea,
+     tarea.`ObservacionTarea` AS tarea_ObservacionTarea,
+     tarea.`FechaFinalizacionTarea` AS tarea_FechaFinalizacionTarea,
+     tarea.`HoraFinalizacionTarea` AS tarea_HoraFinalizacionTarea,
+     institucion.`CodigoInstitucion` AS institucion_CodigoInstitucion,
+     institucion.`NombreInstitucion` AS institucion_NombreInstitucion,
+     institucion.`ClienteInstitucion` AS institucion_ClienteInstitucion,
+     naturaleza.`CodigoInstitucion` AS naturaleza_CodigoInstitucion,
+     naturaleza.`TipoNaturaleza` AS naturaleza_TipoNaturaleza,
+     naturaleza.`PrioridadNaturaleza` AS naturaleza_PrioridadNaturaleza,
+     naturaleza.`CodigoNaturaleza` AS naturaleza_CodigoNaturaleza
+FROM
+     `institucion` institucion INNER JOIN `naturaleza` naturaleza ON institucion.`CodigoInstitucion` = naturaleza.`CodigoInstitucion`
+     INNER JOIN `tarea` tarea ON naturaleza.`CodigoNaturaleza` = tarea.`CodigoNaturaleza`
+WHERE
+     tarea.FechaFinalizacionTarea IS NOT null
+ORDER BY
+     tarea.FechaRecepcionTarea ASC,
+     tarea.FechaFinalizacionTarea ASC]]>
+	</queryString>
+	<field name="tarea_CodigoNaturaleza" class="java.lang.Integer"/>
+	<field name="tarea_CodigoTarea" class="java.lang.Integer"/>
+	<field name="tarea_DescripcionTarea" class="java.lang.String"/>
+	<field name="tarea_CodigoSeguimiento" class="java.lang.Integer"/>
+	<field name="tarea_FechaRecepcionTarea" class="java.sql.Date"/>
+	<field name="tarea_HoraRecepcionTarea" class="java.sql.Time"/>
+	<field name="tarea_FechaEstimadaTarea" class="java.sql.Date"/>
+	<field name="tarea_HoraEstimadaTarea" class="java.sql.Time"/>
+	<field name="tarea_CarpetaTarea" class="java.lang.String"/>
+	<field name="tarea_ObservacionTarea" class="java.lang.String"/>
+	<field name="tarea_FechaFinalizacionTarea" class="java.sql.Date"/>
+	<field name="tarea_HoraFinalizacionTarea" class="java.sql.Time"/>
+	<field name="institucion_CodigoInstitucion" class="java.lang.Integer"/>
+	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
+	<field name="institucion_ClienteInstitucion" class="java.lang.Boolean"/>
+	<field name="naturaleza_CodigoInstitucion" class="java.lang.Integer"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<image>
+				<reportElement x="452" y="0" width="103" height="89" uuid="7550e95a-66ef-4b2e-afd5-1f08a3e6fbe1"/>
+				<imageExpression><![CDATA["C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\imagenes\\logoFondoTransparente.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="147" y="28" width="247" height="41" uuid="5d12940e-b5f6-449d-90ff-531af08f28db"/>
+				<textElement>
+					<font fontName="Arial" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tareas finalizadas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="01403664-12bc-4f04-9b95-9a7323bfc61c"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Institución]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="0" width="80" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="e772f947-8fed-4842-b926-dde727f7ff28"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="180" y="0" width="62" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="280404db-a76c-4d8b-b0ab-abf9b46c9cd9"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Prioridad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="242" y="0" width="54" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="a601195e-583f-46e4-95b3-48f7d65b46c6"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Tarea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="296" y="0" width="172" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="765514e5-33a1-4967-9196-2947d8a7b01a"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="468" y="0" width="47" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="acad1248-bda5-4278-b166-ab1d81c699c1"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Inició]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="513" y="0" width="42" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="9e4beea6-0440-4bc1-8aad-4d988e887349"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Finalizó]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="aba75d52-b70d-48a9-911d-15a71f2ee0c3"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="32" uuid="073e540e-edc0-4ae9-b38a-ff061d41d923"/>
+				<textFieldExpression><![CDATA[$F{institucion_NombreInstitucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="80" height="20" uuid="5461737f-3aed-4091-95cd-fd3f945511c0"/>
+				<textFieldExpression><![CDATA[$F{naturaleza_TipoNaturaleza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="62" height="20" uuid="e5d654ac-a2ff-47a3-8712-f06dc35bc2ea"/>
+				<textFieldExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="0" width="54" height="20" uuid="406b73fa-c27e-4910-886b-a931a49f2cff"/>
+				<textFieldExpression><![CDATA[$F{tarea_CodigoTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="296" y="0" width="172" height="32" uuid="ac54eb8e-1725-4c94-8eda-63a6c744c8f6"/>
+				<textFieldExpression><![CDATA[$F{tarea_DescripcionTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="468" y="0" width="47" height="20" uuid="b793800b-60ad-407d-9bac-40913f67d161"/>
+				<textFieldExpression><![CDATA[$F{tarea_FechaEstimadaTarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="0" width="41" height="20" uuid="06a040b5-bd89-4fc1-84e8-28c53cf52759"/>
+				<textFieldExpression><![CDATA[$F{tarea_FechaFinalizacionTarea}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="28" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="100" height="20" uuid="329e9a70-ac69-42c8-b184-c342fbe5e367"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20" uuid="3f2016fb-78fe-4958-bb25-9eecaaf078e0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20" uuid="d5456045-40f5-416d-bb08-2761089c5263"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

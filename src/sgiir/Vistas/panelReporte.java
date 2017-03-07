@@ -23,7 +23,7 @@ import static sgiir.manejadorDB.Conexion;
  * @author Alfredo Mariño
  */
 public class panelReporte extends javax.swing.JPanel {
-    private String ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteTareasFinalizadas.jasper"; //POR DEFECTO
+    private String ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteTareaFinalizada.jasper"; //POR DEFECTO
     
     public panelReporte() {
         initComponents();
@@ -33,7 +33,7 @@ public class panelReporte extends javax.swing.JPanel {
                
         switch(Reporte){
             case 1: //REPORTE TAREAS FINALIZADAS  
-               this.ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteTareasFinalizadas.jasper";
+               this.ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteTareaFinalizada.jasper";
             break;
             
             case 2: //REPORTE ESTADO DE LAS TAREAS
