@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6c47988-5f79-4ee9-a9e4-b934c41cf8ff">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6c47988-5f79-4ee9-a9e4-b934c41cf8ff">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<queryString language="SQL">
+	<parameter name="FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="FECHA_HASTA" class="java.util.Date"/>
+	<queryString>
 		<![CDATA[SELECT
      tarea.`CodigoNaturaleza` AS tarea_CodigoNaturaleza,
      tarea.`CodigoTarea` AS tarea_CodigoTarea,
@@ -28,7 +30,8 @@ FROM
      `institucion` institucion INNER JOIN `naturaleza` naturaleza ON institucion.`CodigoInstitucion` = naturaleza.`CodigoInstitucion`
      INNER JOIN `tarea` tarea ON naturaleza.`CodigoNaturaleza` = tarea.`CodigoNaturaleza`
 WHERE
-     tarea.FechaFinalizacionTarea IS NOT null
+     tarea.FechaFinalizacionTarea IS NOT null AND tarea.FechaFinalizacionTarea >= $P{FECHA_DESDE} AND 
+tarea.FechaFinalizacionTarea <= $P{FECHA_HASTA}
 ORDER BY
      tarea.FechaRecepcionTarea ASC,
      tarea.FechaFinalizacionTarea ASC]]>
@@ -49,8 +52,8 @@ ORDER BY
 	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
 	<field name="institucion_ClienteInstitucion" class="java.lang.Boolean"/>
 	<field name="naturaleza_CodigoInstitucion" class="java.lang.Integer"/>
-	<field name="naturaleza_TipoNaturaleza" class="java.lang.Boolean"/>
-	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Boolean"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.Integer"/>
+	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Integer"/>
 	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -143,11 +146,11 @@ ORDER BY
 			</textField>
 			<textField>
 				<reportElement x="100" y="0" width="80" height="20" uuid="5461737f-3aed-4091-95cd-fd3f945511c0"/>
-				<textFieldExpression><![CDATA[$F{naturaleza_TipoNaturaleza}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{naturaleza_TipoNaturaleza} == 0 ? "Requerimiento" : "Incidencia" )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="0" width="62" height="20" uuid="e5d654ac-a2ff-47a3-8712-f06dc35bc2ea"/>
-				<textFieldExpression><![CDATA[$F{naturaleza_PrioridadNaturaleza}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $F{naturaleza_PrioridadNaturaleza} == 1 ? "Baja" : ( $F{naturaleza_PrioridadNaturaleza} == 2 ? "Media" : "Alta" ) )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="242" y="0" width="54" height="20" uuid="406b73fa-c27e-4910-886b-a931a49f2cff"/>
