@@ -21,7 +21,7 @@ import sgiir.propiedades.propiedades;
  *
  * @author Alfredo Mariño
  */
-public class login extends javax.swing.JFrame {
+public class frameLogin extends javax.swing.JFrame {
     
     public ImageIcon imagenLogo = new ImageIcon(getClass().getResource("/imagenes/logo.png"));
     private propiedades msgFile = new propiedades();
@@ -42,7 +42,7 @@ public class login extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
-    public login() {
+    public frameLogin() {
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -75,7 +75,6 @@ public class login extends javax.swing.JFrame {
         setTitle("Login SGIIR");
         setIconImage(imagenLogo.getImage());
         setLocation(new java.awt.Point(500, 250));
-        setPreferredSize(new java.awt.Dimension(395, 285));
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -211,7 +210,7 @@ public class login extends javax.swing.JFrame {
                     statusBar.getInstance().setMsg(msgFile.getProperty("msg0001"));
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(frameLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }else{
@@ -271,20 +270,21 @@ public class login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new login().setVisible(true);
+                new frameLogin().setVisible(true);
             }
         });
     }

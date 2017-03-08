@@ -8,9 +8,8 @@ package sgiir;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import sgiir.Vistas.FrameTest;
 import sgiir.Vistas.framePopup;
-import sgiir.Vistas.login;
+import sgiir.Vistas.frameLogin;
 
 
 /**
@@ -30,7 +29,7 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        login VistaLogin = new login();
+        frameLogin VistaLogin = new frameLogin();
         VistaLogin.setVisible(true);
         
 //        FrameTest VistaCargo = new FrameTest();
