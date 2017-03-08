@@ -178,11 +178,11 @@
                                       <Component id="btnRutaCarpeta" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="codigoNaturalezaField" alignment="0" pref="111" max="32767" attributes="0"/>
-                                      <Component id="codigoTareaField" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="codigoTareaField" alignment="0" pref="101" max="32767" attributes="0"/>
+                                      <Component id="codigoNaturalezaField" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace type="unrelated" pref="222" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" pref="216" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">

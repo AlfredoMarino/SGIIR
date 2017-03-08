@@ -566,9 +566,9 @@ public class panelTarea extends JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnRutaCarpeta))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                                        .addComponent(codigoTareaField, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 222, Short.MAX_VALUE)
+                                        .addComponent(codigoTareaField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                                        .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 216, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -781,14 +781,20 @@ public class panelTarea extends JPanel {
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         if(cbtTodos.isSelected()){
             statusBar.getInstance().setMsg("Debe seleccionar una naturaleza");
-        }else{    
-            sgiir.Entidades.Tarea t = new sgiir.Entidades.Tarea();
-            t.setCodigoNaturaleza(n);
-            entityManager.persist(t);
-            list.add(t);
-            int row = list.size() - 1;
-            masterTable.setRowSelectionInterval(row, row);
-            masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+        }else{   
+            if(!codigoNaturalezaField.getText().isEmpty()){
+                sgiir.Entidades.Tarea t = new sgiir.Entidades.Tarea();
+                t.setCodigoNaturaleza(n);
+                entityManager.persist(t);
+                list.add(t);
+                int row = list.size() - 1;
+                masterTable.setRowSelectionInterval(row, row);
+                masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+
+                cbxSeguimiento.setSelectedIndex(0);
+            }else{
+                statusBar.getInstance().setMsg("Debe seleccionar una naturaleza");
+            }
         }
     }//GEN-LAST:event_newButtonActionPerformed
     
@@ -798,40 +804,45 @@ public class panelTarea extends JPanel {
             itemCombo = (comboBox) cbxSeguimiento.getSelectedItem();
             codigoSeguimiento = itemCombo.getId();
             
+            //pasa los campos visuales a la variables
             seteaCampos();
+            
+            //valida las variables
+            if(validaciones()){
+                int[] selected = masterTable.getSelectedRows();
+                List<Tarea> toMerged = new ArrayList<Tarea>(selected.length);
+                for (int idx = 0; idx < selected.length; idx++) {
+                    Tarea t = list.get(masterTable.convertRowIndexToModel(selected[idx]));
 
-            int[] selected = masterTable.getSelectedRows();
-            List<Tarea> toMerged = new ArrayList<Tarea>(selected.length);
-            for (int idx = 0; idx < selected.length; idx++) {
-                Tarea t = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-                              
-                t.setCodigoSeguimiento(s);
-                t.setCodigoNaturaleza(n);
-                t.setDescripcionTarea(descripcionTarea);
-                t.setFechaRecepcionTarea(fechaRecepcionTarea);
-                t.setHoraRecepcionTarea(horaRecepcionTarea);
-                t.setFechaEstimadaTarea(fechaEstimadaTarea);
-                t.setHoraEstimadaTarea(horaEstimadaTarea);
-                t.setCarpetaTarea(carpetaTarea);
-                t.setObservacionTarea(observacionTarea);
-                t.setFechaFinalizacionTarea(fechaFinalizacionTarea);
-                t.setHoraFinalizacionTarea(horaFinalizacionTarea);
-                
-                toMerged.add(t);
+                    t.setCodigoSeguimiento(s);
+                    t.setCodigoNaturaleza(n);
+                    t.setDescripcionTarea(descripcionTarea);
+                    t.setFechaRecepcionTarea(fechaRecepcionTarea);
+                    t.setHoraRecepcionTarea(horaRecepcionTarea);
+                    t.setFechaEstimadaTarea(fechaEstimadaTarea);
+                    t.setHoraEstimadaTarea(horaEstimadaTarea);
+                    t.setCarpetaTarea(carpetaTarea);
+                    t.setObservacionTarea(observacionTarea);
+                    t.setFechaFinalizacionTarea(fechaFinalizacionTarea);
+                    t.setHoraFinalizacionTarea(horaFinalizacionTarea);
 
-                entityManager.merge(t);
+                    toMerged.add(t);
+
+                    entityManager.merge(t);
+                }
+
+
+                entityManager.getTransaction().commit();
+                entityManager.getTransaction().begin();
+
+
+
+                defaultField();
+
+                statusBar.getInstance().setMsg("Operación exitosa");
+                refresh();
             }
-            
-            
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-            
-            
-            
-            defaultField();
-            
-            statusBar.getInstance().setMsg("Operación exitosa");
-            refresh();
+
         } catch (RollbackException rex) {
             statusBar.getInstance().setMsg("Operación fallida");
             rex.printStackTrace();
@@ -1146,6 +1157,40 @@ public class panelTarea extends JPanel {
             cbxSeguimiento.setSelectedIndex(0);
         }
 
+    }
+    
+    private boolean validaciones(){
+        boolean check = false;
+        
+        if(n.getCodigoNaturaleza() != 0){
+            if(s != null){
+                if(!descripcionTarea.isEmpty()){
+                    if(fechaRecepcionTarea != null){
+                        if(fechaEstimadaTarea != null){
+                            if(!carpetaTarea.isEmpty()){
+                                
+                                check = true;
+                                
+                            }else{
+                                statusBar.getInstance().setMsg("Ingrese una ubicación para la carpeta de archivos");
+                            }
+                        }else{
+                            statusBar.getInstance().setMsg("Ingrese la fecha estimada de resolución de la tarea");
+                        }
+                    }else{
+                        statusBar.getInstance().setMsg("Ingrese la fecha de recepción");
+                    }
+                }else{
+                    statusBar.getInstance().setMsg("Ingrese una descripción");
+                }
+            }else{
+                statusBar.getInstance().setMsg("Debe seleccionar un tipo de seguimiento");
+            }
+        }else{
+            statusBar.getInstance().setMsg("Naturaleza invalida");
+        }
+        
+        return check;
     }
     
     private static boolean isNotNull(Object objeto){
