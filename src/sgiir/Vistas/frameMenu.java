@@ -138,6 +138,7 @@ public class frameMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlHead = new panelImagen(imagenBanner.getImage());
+        lblTitulo = new javax.swing.JLabel();
         pnlDetails = new javax.swing.JPanel();
         pnlFoot = new javax.swing.JPanel();
         StatusBar = statusBar.getInstance();
@@ -165,19 +166,24 @@ public class frameMenu extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(imagenLogo.getImage());
-        setPreferredSize(new java.awt.Dimension(798, 500));
 
         pnlHead.setPreferredSize(new java.awt.Dimension(0, 50));
+
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("SGIIR");
 
         javax.swing.GroupLayout pnlHeadLayout = new javax.swing.GroupLayout(pnlHead);
         pnlHead.setLayout(pnlHeadLayout);
         pnlHeadLayout.setHorizontalGroup(
             pnlHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
+            .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         pnlHeadLayout.setVerticalGroup(
             pnlHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(pnlHeadLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblTitulo))
         );
 
         getContentPane().add(pnlHead, java.awt.BorderLayout.NORTH);
@@ -191,7 +197,7 @@ public class frameMenu extends javax.swing.JFrame {
         pnlFoot.setLayout(pnlFootLayout);
         pnlFootLayout.setHorizontalGroup(
             pnlFootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+            .addComponent(StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         pnlFootLayout.setVerticalGroup(
             pnlFootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,15 +351,17 @@ public class frameMenu extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         controladorPaneles.show(pnlDetails, "TAREA");
-        
+        lblTitulo.setText("TAREAS");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void mitAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitAreaActionPerformed
         controladorPaneles.show(pnlDetails, "AREA");
+        lblTitulo.setText("AREAS");
     }//GEN-LAST:event_mitAreaActionPerformed
 
     private void mitInstitucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitInstitucionActionPerformed
        controladorPaneles.show(pnlDetails, "INSTITUCION");
+       lblTitulo.setText("INSTITUCIONES");
     }//GEN-LAST:event_mitInstitucionActionPerformed
 
     private void mnuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInicioActionPerformed
@@ -362,10 +370,12 @@ public class frameMenu extends javax.swing.JFrame {
 
     private void mnuInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuInicioMouseClicked
         controladorPaneles.show(pnlDetails, "RESUMEN");
+        lblTitulo.setText("SGIIR");
     }//GEN-LAST:event_mnuInicioMouseClicked
 
     private void mitCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitCargoActionPerformed
         controladorPaneles.show(pnlDetails, "CARGO");
+        lblTitulo.setText("CARGOS");
     }//GEN-LAST:event_mitCargoActionPerformed
 
     private void mnuPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPersonasActionPerformed
@@ -378,10 +388,12 @@ public class frameMenu extends javax.swing.JFrame {
 
     private void mitPersonaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mitPersonaMouseReleased
         controladorPaneles.show(pnlDetails, "PERSONA");
+        lblTitulo.setText("PERSONAS");
     }//GEN-LAST:event_mitPersonaMouseReleased
 
     private void mitAutenticacionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mitAutenticacionMouseReleased
         controladorPaneles.show(pnlDetails, "AUTENTICACION");
+        lblTitulo.setText("USUARIOS");
     }//GEN-LAST:event_mitAutenticacionMouseReleased
 
     private void mitPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPersonaActionPerformed
@@ -390,14 +402,17 @@ public class frameMenu extends javax.swing.JFrame {
 
     private void mitNaturalezaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitNaturalezaActionPerformed
         controladorPaneles.show(pnlDetails, "NATURALEZA");
+        lblTitulo.setText("NATURALEZA");
     }//GEN-LAST:event_mitNaturalezaActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         controladorPaneles.show(pnlDetails, "SEGUIMIENTO");
+        lblTitulo.setText("SEGUIMIENTO DE TAREAS");
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         controladorPaneles.show(pnlDetails, "BITACORA");
+        lblTitulo.setText("BITACORA DE TAREA");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -475,6 +490,7 @@ public class frameMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
     private javax.swing.JMenuItem mitAutenticacion;
