@@ -182,8 +182,8 @@ public class frameMenu extends javax.swing.JFrame {
         pnlHeadLayout.setVerticalGroup(
             pnlHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeadLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(lblTitulo))
+                .addComponent(lblTitulo)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         getContentPane().add(pnlHead, java.awt.BorderLayout.NORTH);
