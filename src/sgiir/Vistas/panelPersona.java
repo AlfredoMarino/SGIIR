@@ -6,6 +6,8 @@
 package sgiir.Vistas;
 
 import java.awt.EventQueue;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.Beans;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -188,6 +190,17 @@ public class panelPersona extends JPanel {
         bindingGroup.addBinding(binding);
 
         telefonoPersonaField.addCaretListener(formListener);
+        telefonoPersonaField.addKeyListener(new KeyAdapter(){
+            public void keyTyped(KeyEvent e){
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if(((caracter < '0') || (caracter > '9'))
+                    && (caracter != '\b' /*corresponde a BACK_SPACE*/)){
+                    e.consume();  // ignorar el evento de teclado
+                }
+            }
+        });
 
         saveButton.setText("Guardar");
         saveButton.addActionListener(formListener);

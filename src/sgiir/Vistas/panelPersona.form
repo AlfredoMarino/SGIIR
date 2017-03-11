@@ -323,6 +323,10 @@
       <Events>
         <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="telefonoPersonaFieldCaretUpdate"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTextField()"/>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="telefonoPersonaField.addKeyListener(new KeyAdapter(){&#xa;   public void keyTyped(KeyEvent e){&#xa;      char caracter = e.getKeyChar();&#xa;&#xa;      // Verificar si la tecla pulsada no es un digito&#xa;        if(((caracter &lt; &apos;0&apos;) || (caracter &gt; &apos;9&apos;))&#xa;            &amp;&amp; (caracter != &apos;\b&apos; /*corresponde a BACK_SPACE*/)){&#xa;            e.consume();  // ignorar el evento de teclado&#xa;        }&#xa;    }&#xa;});"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="saveButton">
       <Properties>
