@@ -125,7 +125,7 @@ public class panelPersona extends JPanel {
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoCargo.codigoInstitucion.nombreInstitucion}"));
-        columnBinding.setColumnName("Institucion");
+        columnBinding.setColumnName("Institución");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
@@ -149,52 +149,56 @@ public class panelPersona extends JPanel {
         masterTable.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
         masterTable.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
 
-        codigoPersonaLabel.setText("Codigo Persona:");
+        codigoPersonaLabel.setText("Código:");
 
-        nombrePersonaLabel.setText("Nombre Persona:");
+        nombrePersonaLabel.setText("Nombre:");
 
-        emailPersonaLabel.setText("Email Persona:");
+        emailPersonaLabel.setText("Email:");
 
-        telefonoPersonaLabel.setText("Telefono Persona:");
+        telefonoPersonaLabel.setText("Telefono:");
 
-        codigoCargoLabel.setText("Codigo Cargo:");
+        codigoCargoLabel.setText("Cargo:");
 
-        recordatorioPersonaLabel.setText("Recordatorio Persona:");
+        recordatorioPersonaLabel.setText("Recibir Alertas:");
+
+        codigoPersonaField.setEditable(false);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoPersona}"), codigoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nombrePersona}"), nombrePersonaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nombrePersonaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.emailPersona}"), emailPersonaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), emailPersonaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
+        emailPersonaField.addActionListener(formListener);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.telefonoPersona}"), telefonoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), telefonoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        saveButton.setText("Save");
+        telefonoPersonaField.addCaretListener(formListener);
+
+        saveButton.setText("Guardar");
         saveButton.addActionListener(formListener);
 
-        refreshButton.setText("Refresh");
+        refreshButton.setText("Refrescar");
         refreshButton.addActionListener(formListener);
 
-        newButton.setText("New");
+        newButton.setText("Nuevo");
         newButton.addActionListener(formListener);
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Eliminar");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -212,19 +216,10 @@ public class panelPersona extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(newButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(refreshButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(codigoPersonaLabel)
                                     .addComponent(nombrePersonaLabel)
@@ -233,15 +228,25 @@ public class panelPersona extends JPanel {
                                     .addComponent(codigoCargoLabel)
                                     .addComponent(recordatorioPersonaLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codigoPersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(nombrePersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(emailPersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addComponent(telefonoPersonaField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(chbRecordatorio)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(cbxCargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(telefonoPersonaField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chbRecordatorio, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(codigoPersonaField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxCargo, 0, 309, Short.MAX_VALUE)
+                                    .addComponent(emailPersonaField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nombrePersonaField, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(newButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(refreshButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(saveButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -290,7 +295,7 @@ public class panelPersona extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener, javax.swing.event.CaretListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -304,6 +309,9 @@ public class panelPersona extends JPanel {
             }
             else if (evt.getSource() == deleteButton) {
                 panelPersona.this.deleteButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == emailPersonaField) {
+                panelPersona.this.emailPersonaFieldActionPerformed(evt);
             }
         }
 
@@ -320,11 +328,17 @@ public class panelPersona extends JPanel {
         }
 
         public void mouseReleased(java.awt.event.MouseEvent evt) {
-            if (evt.getSource() == cbxCargo) {
+            if (evt.getSource() == masterTable) {
+                panelPersona.this.masterTableMouseReleased(evt);
+            }
+            else if (evt.getSource() == cbxCargo) {
                 panelPersona.this.cbxCargoMouseReleased(evt);
             }
-            else if (evt.getSource() == masterTable) {
-                panelPersona.this.masterTableMouseReleased(evt);
+        }
+
+        public void caretUpdate(javax.swing.event.CaretEvent evt) {
+            if (evt.getSource() == telefonoPersonaField) {
+                panelPersona.this.telefonoPersonaFieldCaretUpdate(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -428,6 +442,14 @@ public class panelPersona extends JPanel {
             }
         }
     }//GEN-LAST:event_masterTableMouseReleased
+
+    private void emailPersonaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailPersonaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailPersonaFieldActionPerformed
+
+    private void telefonoPersonaFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_telefonoPersonaFieldCaretUpdate
+        
+    }//GEN-LAST:event_telefonoPersonaFieldCaretUpdate
 
     private void refreshMasterTable(){
         

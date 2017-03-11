@@ -34,10 +34,12 @@ public class panelReporte extends javax.swing.JPanel {
         switch(Reporte){
             case 1: //REPORTE TAREAS FINALIZADAS  
                this.ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteTareaFinalizada.jasper";
+               lblNameReport.setText("Reporte: Tareas finalizadas");
             break;
             
             case 2: //REPORTE ESTADO DE LAS TAREAS
                 this.ReportPath = "C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\Reportes\\reporteEstadoTarea.jasper";
+                lblNameReport.setText("Reporte: Estado de tareas");
             break;    
         }
     }
@@ -52,6 +54,7 @@ public class panelReporte extends javax.swing.JPanel {
         btnGenerar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lblNameReport = new javax.swing.JLabel();
 
         dchDesde.setDate(new Date());
 
@@ -71,6 +74,10 @@ public class panelReporte extends javax.swing.JPanel {
 
         jLabel2.setText("Hasta:");
 
+        lblNameReport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNameReport.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNameReport.setText("Reporte");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,17 +90,21 @@ public class panelReporte extends javax.swing.JPanel {
                         .addComponent(jLabel2))
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGenerar)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(dchHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dchDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dchDesde, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                    .addComponent(dchHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(btnGenerar)))
+                .addContainerGap(110, Short.MAX_VALUE))
+            .addComponent(lblNameReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(58, 58, 58)
+                .addComponent(lblNameReport)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(dchDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -103,7 +114,7 @@ public class panelReporte extends javax.swing.JPanel {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(btnGenerar)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -132,6 +143,7 @@ public class panelReporte extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser dchHasta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblNameReport;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
