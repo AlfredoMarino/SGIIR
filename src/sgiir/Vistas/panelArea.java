@@ -253,6 +253,7 @@ public class panelArea extends JPanel {
     }//GEN-LAST:event_masterTableMouseReleased
 
     private void refresh(){
+        statusBar.getInstance().clrMsg();
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
