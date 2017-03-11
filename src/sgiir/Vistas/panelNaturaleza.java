@@ -108,7 +108,7 @@ public class panelNaturaleza extends JPanel {
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza}"));
-        columnBinding.setColumnName("Codigo Naturaleza");
+        columnBinding.setColumnName("Código Naturaleza");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${prioridadNaturaleza == 1 ? 'Baja' : (prioridadNaturaleza == 2 ?  'Media' : 'Alta')}"));
@@ -128,13 +128,13 @@ public class panelNaturaleza extends JPanel {
         masterTable.addMouseListener(formListener);
         masterScrollPane.setViewportView(masterTable);
 
-        codigoInstitucionLabel.setText("Codigo Institucion:");
+        codigoInstitucionLabel.setText("Institución:");
 
-        tipoNaturalezaLabel.setText("Tipo Naturaleza:");
+        tipoNaturalezaLabel.setText("Tipo:");
 
-        prioridadNaturalezaLabel.setText("Prioridad Naturaleza:");
+        prioridadNaturalezaLabel.setText("Prioridad:");
 
-        codigoNaturalezaLabel.setText("Codigo Naturaleza:");
+        codigoNaturalezaLabel.setText("Código Naturaleza:");
 
         codigoNaturalezaField.setEditable(false);
 
@@ -142,16 +142,16 @@ public class panelNaturaleza extends JPanel {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        saveButton.setText("Save");
+        saveButton.setText("Guardar");
         saveButton.addActionListener(formListener);
 
-        refreshButton.setText("Refresh");
+        refreshButton.setText("Refrescar");
         refreshButton.addActionListener(formListener);
 
-        newButton.setText("New");
+        newButton.setText("Nuevo");
         newButton.addActionListener(formListener);
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Eliminar");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -211,7 +211,7 @@ public class panelNaturaleza extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(codigoInstitucionLabel)
@@ -233,7 +233,7 @@ public class panelNaturaleza extends JPanel {
                                                 .addComponent(rdbPrioridad3))))
                                     .addComponent(cbxInstitucion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(codigoNaturalezaField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 95, Short.MAX_VALUE)))))
+                                .addGap(0, 143, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -382,8 +382,9 @@ public class panelNaturaleza extends JPanel {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
             
-            statusBar.getInstance().setMsg("Operación exitosa");
             refresh();
+            statusBar.getInstance().setMsg("Operación exitosa");
+            
         } catch (RollbackException rex) {
             statusBar.getInstance().setMsg("Operación fallida");
             rex.printStackTrace();
@@ -448,7 +449,7 @@ public class panelNaturaleza extends JPanel {
 
     private void masterTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseReleased
         if(masterTable.getSelectedRow() != -1){
-            
+            statusBar.getInstance().clrMsg();
 
             if(isNumeric(codigoInstitucionField.getText())){
                 for (int index = 0; index < cbxInstitucion.getItemCount(); index++) {
@@ -500,6 +501,7 @@ public class panelNaturaleza extends JPanel {
     }
     
     private void refresh(){
+        statusBar.getInstance().clrMsg();
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();

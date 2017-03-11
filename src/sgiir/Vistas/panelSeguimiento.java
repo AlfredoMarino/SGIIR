@@ -15,6 +15,7 @@ import java.util.List;
 import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sgiir.statusBar;
 
 /**
  *
@@ -54,9 +55,11 @@ public class panelSeguimiento extends JPanel {
 
         FormListener formListener = new FormListener();
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza}"));
-        columnBinding.setColumnName("Codigo Naturaleza");
+        columnBinding.setColumnName("Código Naturaleza");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${prioridadNaturaleza == 1 ? 'Baja' : (prioridadNaturaleza == 2 ?  'Media' : 'Alta')}"));
@@ -74,46 +77,46 @@ public class panelSeguimiento extends JPanel {
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         masterScrollPane.setViewportView(masterTable);
-        if (masterTable.getColumnModel().getColumnCount() > 0) {
-            masterTable.getColumnModel().getColumn(0).setResizable(false);
-        }
+
+        detailTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.seguimientoCollection}");
         jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, detailTable);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoSeguimiento}"));
-        columnBinding.setColumnName("Codigo Seguimiento");
+        columnBinding.setColumnName("Código Seguimiento");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descripcionSeguimiento}"));
-        columnBinding.setColumnName("Descripcion Seguimiento");
+        columnBinding.setColumnName("Descripción");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${diasSeguimiento}"));
-        columnBinding.setColumnName("Dias Seguimiento");
+        columnBinding.setColumnName("Cada cuantos día");
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${horasSeguimiento}"));
-        columnBinding.setColumnName("Horas Seguimiento");
+        columnBinding.setColumnName("Hora de Seguimiento");
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maximoSeguimiento}"));
-        columnBinding.setColumnName("Maximo Seguimiento");
+        columnBinding.setColumnName("Maximo de avisos");
         columnBinding.setColumnClass(Integer.class);
         jTableBinding.setSourceUnreadableValue(java.util.Collections.emptyList());
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         detailScrollPane.setViewportView(detailTable);
 
-        saveButton.setText("Save");
+        saveButton.setText("Guardar");
         saveButton.addActionListener(formListener);
 
-        refreshButton.setText("Refresh");
+        refreshButton.setText("Refrescar");
         refreshButton.addActionListener(formListener);
 
-        deleteDetailButton.setText("Delete");
+        deleteDetailButton.setText("Eliminar");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, detailTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteDetailButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         deleteDetailButton.addActionListener(formListener);
 
-        newDetailButton.setText("New");
+        newDetailButton.setText("Nuevo");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), newDetailButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -130,7 +133,7 @@ public class panelSeguimiento extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 70, Short.MAX_VALUE)
+                        .addGap(0, 46, Short.MAX_VALUE)
                         .addComponent(newDetailButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteDetailButton)
@@ -233,21 +236,18 @@ public class panelSeguimiento extends JPanel {
     
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        entityManager.getTransaction().rollback();
-        entityManager.getTransaction().begin();
-        java.util.Collection data = query.getResultList();
-        for (Object entity : data) {
-            entityManager.refresh(entity);
-        }
-        list.clear();
-        list.addAll(data);
+        refresh();
     }//GEN-LAST:event_refreshButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
+            
+            refresh();
+            statusBar.getInstance().setMsg("Operación Exitosa");
         } catch (RollbackException rex) {
+            statusBar.getInstance().setMsg("Operación Fallida");
             rex.printStackTrace();
             entityManager.getTransaction().begin();
             List<sgiir.Entidades.Naturaleza> merged = new ArrayList<sgiir.Entidades.Naturaleza>(list.size());
@@ -258,7 +258,18 @@ public class panelSeguimiento extends JPanel {
             list.addAll(merged);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
-
+    
+    private void refresh(){
+        statusBar.getInstance().clrMsg();
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
+        java.util.Collection data = query.getResultList();
+        for (Object entity : data) {
+            entityManager.refresh(entity);
+        }
+        list.clear();
+        list.addAll(data);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deleteDetailButton;

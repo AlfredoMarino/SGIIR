@@ -50,6 +50,7 @@ public class frameMenu extends javax.swing.JFrame {
     public panelSeguimiento VistaSeguimiento = new panelSeguimiento();
     public panelTarea VistaTarea = new panelTarea();
     public panelBitacora VistaBitacora = new panelBitacora();
+    public panelAboutMe VistaAboutMe = new panelAboutMe();
     
     public ImageIcon imagenBanner = new ImageIcon(getClass().getResource("/imagenes/banner.png")); 
     
@@ -100,11 +101,11 @@ public class frameMenu extends javax.swing.JFrame {
                         Logger.getLogger(frameMenu.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
-                Query = qryFile.getProperty("qry0001");
-                               
-                rs = DataBase.executeQuery(Query);
-                rs.absolute(1);
+//                
+//                Query = qryFile.getProperty("qry0001");
+//                               
+//                rs = DataBase.executeQuery(Query);
+//                rs.absolute(1);
                 //StatusBar.setText(rs.getString("DescripcionTarea"));
                 
             break;
@@ -147,9 +148,9 @@ public class frameMenu extends javax.swing.JFrame {
         mnuTarea = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        mnuReportes = new javax.swing.JMenu();
+        mitTareaFinalizadas = new javax.swing.JMenuItem();
+        mitEstadoTarea = new javax.swing.JMenuItem();
         mnuPersonas = new javax.swing.JMenu();
         mitPersona = new javax.swing.JMenuItem();
         mitAutenticacion = new javax.swing.JMenuItem();
@@ -158,7 +159,7 @@ public class frameMenu extends javax.swing.JFrame {
         mitInstitucion = new javax.swing.JMenuItem();
         mitCargo = new javax.swing.JMenuItem();
         mitNaturaleza = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mitSeguimiento = new javax.swing.JMenuItem();
         mnuAcerca = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -241,25 +242,25 @@ public class frameMenu extends javax.swing.JFrame {
 
         menuBar.add(mnuTarea);
 
-        jMenu2.setText("Reportes");
+        mnuReportes.setText("Reportes");
 
-        jMenuItem4.setText("Tareas Finalizadas");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mitTareaFinalizadas.setText("Tareas Finalizadas");
+        mitTareaFinalizadas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mitTareaFinalizadasActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        mnuReportes.add(mitTareaFinalizadas);
 
-        jMenuItem5.setText("Estado de tareas");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mitEstadoTarea.setText("Estado de tareas");
+        mitEstadoTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mitEstadoTareaActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem5);
+        mnuReportes.add(mitEstadoTarea);
 
-        menuBar.add(jMenu2);
+        menuBar.add(mnuReportes);
 
         mnuPersonas.setText(msgFile.getProperty("lbl0006"));
         mnuPersonas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -331,17 +332,22 @@ public class frameMenu extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mitNaturaleza);
 
-        jMenuItem3.setText("Seguimiento");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mitSeguimiento.setText("Seguimiento");
+        mitSeguimiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mitSeguimientoActionPerformed(evt);
             }
         });
-        mnuConfiguracion.add(jMenuItem3);
+        mnuConfiguracion.add(mitSeguimiento);
 
         menuBar.add(mnuConfiguracion);
 
         mnuAcerca.setText("Acerca de");
+        mnuAcerca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuAcercaMouseClicked(evt);
+            }
+        });
         menuBar.add(mnuAcerca);
 
         setJMenuBar(menuBar);
@@ -405,29 +411,34 @@ public class frameMenu extends javax.swing.JFrame {
         lblTitulo.setText("NATURALEZA");
     }//GEN-LAST:event_mitNaturalezaActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void mitSeguimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSeguimientoActionPerformed
         controladorPaneles.show(pnlDetails, "SEGUIMIENTO");
         lblTitulo.setText("SEGUIMIENTO DE TAREAS");
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_mitSeguimientoActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         controladorPaneles.show(pnlDetails, "BITACORA");
         lblTitulo.setText("BITACORA DE TAREA");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void mitTareaFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitTareaFinalizadasActionPerformed
         framePopup VistaPopup = new framePopup();
         VistaPopup.pnlReporte.setReporte(1); //REPORTE TAREAS FINALIZADAS
         VistaPopup.showPanel("REPORTE");
         VistaPopup.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_mitTareaFinalizadasActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void mitEstadoTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitEstadoTareaActionPerformed
         framePopup VistaPopup = new framePopup();
         VistaPopup.pnlReporte.setReporte(2); //REPORTE ESTADO DE TAREAS
         VistaPopup.showPanel("REPORTE");
         VistaPopup.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_mitEstadoTareaActionPerformed
+
+    private void mnuAcercaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuAcercaMouseClicked
+        controladorPaneles.show(pnlDetails, "ACERCA");
+        lblTitulo.setText("SGIIR");
+    }//GEN-LAST:event_mnuAcercaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -477,6 +488,7 @@ public class frameMenu extends javax.swing.JFrame {
         pnlDetails.add(VistaNaturaleza, "NATURALEZA");
         pnlDetails.add(VistaSeguimiento, "SEGUIMIENTO");
         pnlDetails.add(VistaBitacora, "BITACORA");
+        pnlDetails.add(VistaAboutMe, "ACERCA");
         
         
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
@@ -484,24 +496,24 @@ public class frameMenu extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel StatusBar;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mitArea;
     private javax.swing.JMenuItem mitAutenticacion;
     private javax.swing.JMenuItem mitCargo;
+    private javax.swing.JMenuItem mitEstadoTarea;
     private javax.swing.JMenuItem mitInstitucion;
     private javax.swing.JMenuItem mitNaturaleza;
     private javax.swing.JMenuItem mitPersona;
+    private javax.swing.JMenuItem mitSeguimiento;
+    private javax.swing.JMenuItem mitTareaFinalizadas;
     private javax.swing.JMenu mnuAcerca;
     private javax.swing.JMenu mnuConfiguracion;
     private javax.swing.JMenu mnuInicio;
     private javax.swing.JMenu mnuPersonas;
+    private javax.swing.JMenu mnuReportes;
     private javax.swing.JMenu mnuTarea;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlFoot;
