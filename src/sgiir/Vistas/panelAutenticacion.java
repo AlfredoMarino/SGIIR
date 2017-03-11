@@ -105,6 +105,8 @@ public class panelAutenticacion extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoPersonaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${userAutenticacion}"));
         columnBinding.setColumnName("Usuario");
@@ -322,6 +324,8 @@ public class panelAutenticacion extends JPanel {
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         
+        defaultField();
+        
         userAutenticacionField.enable(true);
         sgiir.Entidades.Autenticacion a = new sgiir.Entidades.Autenticacion();
         entityManager.persist(a);
@@ -352,7 +356,7 @@ public class panelAutenticacion extends JPanel {
                         Query = "UPDATE autenticacion SET PassAutenticacion = ?, CodigoPersona = ?, NivelAutenticacion = ? WHERE autenticacion.UserAutenticacion = '" + masterTable.getValueAt(filaSeleccionada, 0) + "'";
                             PreparedStatement ps = Conexion.prepareCall(Query);
                             //ps.setString(1, userAutenticacionField.getText());
-                            ps.setString(1, passAutenticacionField.getText());
+                            ps.setString(1, Encrypt(passAutenticacionField.getText().toUpperCase()));
                             ps.setInt(2, CodigoPersona);
                             ps.setInt(3, selectNivelAutenticacion());
                             //ps.setBoolean(5, chbRecordatorio.isSelected());
@@ -366,7 +370,7 @@ public class panelAutenticacion extends JPanel {
 
                         PreparedStatement ps = Conexion.prepareCall(Query);
                         ps.setString(1, userAutenticacionField.getText());
-                        ps.setString(2, passAutenticacionField.getText());
+                        ps.setString(2, Encrypt(passAutenticacionField.getText().toUpperCase()));
                         ps.setInt(3, CodigoPersona);
                         ps.setInt(4, selectNivelAutenticacion());
 
@@ -419,7 +423,7 @@ public class panelAutenticacion extends JPanel {
                     cbxPersona.setSelectedIndex(index);
                 }
             }
-
+            statusBar.getInstance().clrMsg();
             
         }
     }//GEN-LAST:event_masterTableMouseReleased
@@ -533,7 +537,7 @@ public class panelAutenticacion extends JPanel {
             cbxPersona.setSelectedIndex(0);
         }
         passAutenticacionField.setText("");
-        
+        statusBar.getInstance().clrMsg();
     }
     
     //Encripta texto como la contraseña
