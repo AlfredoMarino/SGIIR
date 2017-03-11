@@ -130,7 +130,7 @@ public class panelBitacora extends JPanel {
         lstArea = new javax.swing.JList<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         lstInvolucrado = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        btnInvolucrado = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -143,7 +143,7 @@ public class panelBitacora extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoInvolucrado}"), codigoInvolucradoField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoInvolucradoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), codigoInvolucradoField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         rgrTipo.add(rdbTipo1);
@@ -305,13 +305,14 @@ public class panelBitacora extends JPanel {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdbTipo1)
-                    .addComponent(rdbTipo2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdbPrioridad1)
                         .addComponent(rdbPrioridad2)
-                        .addComponent(rdbPrioridad3)))
+                        .addComponent(rdbPrioridad3))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdbTipo1)
+                        .addComponent(rdbTipo2)))
                 .addContainerGap())
         );
 
@@ -322,16 +323,16 @@ public class panelBitacora extends JPanel {
         columnBinding.setColumnName("Naturaleza");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoInstitucion.nombreInstitucion}"));
+        columnBinding.setColumnName("Institución");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoTarea}"));
         columnBinding.setColumnName("Tarea");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descripcionTarea}"));
         columnBinding.setColumnName("Descripción");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigoNaturaleza.codigoInstitucion.nombreInstitucion}"));
-        columnBinding.setColumnName("Institución");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${fechaRecepcionTarea}"));
@@ -364,8 +365,6 @@ public class panelBitacora extends JPanel {
         bindingGroup.addBinding(binding);
 
         jScrollPane2.setViewportView(fldObservacion);
-
-        dchFecha.setDate(new Date());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fechaBitacora}"), dchFecha, org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setSourceNullValue(new Date());
@@ -400,8 +399,12 @@ public class panelBitacora extends JPanel {
         lstInvolucrado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane4.setViewportView(lstInvolucrado);
 
-        jButton1.setText("Agregar involucrados");
-        jButton1.addActionListener(formListener);
+        btnInvolucrado.setText("Involucrados");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoInvolucrado != null}"), btnInvolucrado, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        btnInvolucrado.addActionListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -411,42 +414,42 @@ public class panelBitacora extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(183, 183, 183)
-                                    .addComponent(jButton1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jScrollPane4))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(newButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(deleteButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(refreshButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(saveButton))))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(96, 96, 96)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(newButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(refreshButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saveButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(correlativoLabel)
+                                        .addComponent(fechaBitacoraLabel))
+                                    .addComponent(observacionBitacoraLabel)
+                                    .addComponent(codigoEstadoLabel))
+                                .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(correlativoLabel)
-                                    .addComponent(fechaBitacoraLabel))
-                                .addComponent(observacionBitacoraLabel)
-                                .addComponent(codigoEstadoLabel))
-                            .addGap(10, 10, 10)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(correlativoBitacoraField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(dchFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(spnHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-                                .addComponent(cbxEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(correlativoBitacoraField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(dchFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(spnHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbxEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(80, 80, 80)
+                                .addComponent(btnInvolucrado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane4)))))
                 .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -461,13 +464,6 @@ public class panelBitacora extends JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -488,13 +484,23 @@ public class panelBitacora extends JPanel {
                                     .addComponent(fechaBitacoraLabel)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(21, 21, 21)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(refreshButton)
-                    .addComponent(deleteButton)
-                    .addComponent(newButton))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(21, 21, 21))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnInvolucrado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveButton)
+                            .addComponent(refreshButton)
+                            .addComponent(deleteButton)
+                            .addComponent(newButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 16, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -533,8 +539,8 @@ public class panelBitacora extends JPanel {
             else if (evt.getSource() == rdbPrioridad1) {
                 panelBitacora.this.rdbPrioridad1ActionPerformed(evt);
             }
-            else if (evt.getSource() == jButton1) {
-                panelBitacora.this.jButton1ActionPerformed(evt);
+            else if (evt.getSource() == btnInvolucrado) {
+                panelBitacora.this.btnInvolucradoActionPerformed(evt);
             }
         }
 
@@ -609,7 +615,7 @@ public class panelBitacora extends JPanel {
         }
         
         b.setBitacoraPK(new BitacoraPK(codigoNaturaleza, codigoTarea, correlativoBitacora));
-        b.setCodigoInvolucrado(codigoInvolucrado);
+        b.setCodigoInvolucrado(codigoInvolucrado); //NO HACE FALTA SI LO ASIGNA EN EL SAVE
         
         /////
         
@@ -648,6 +654,7 @@ public class panelBitacora extends JPanel {
                 entityManager.getTransaction().begin();
 
                 //defaultField();
+                insertNewInvolucrado(codigoNaturaleza, codigoTarea, codigoInvolucrado);
 
                 statusBar.getInstance().setMsg("Operación exitosa");
                 refresh();
@@ -666,6 +673,7 @@ public class panelBitacora extends JPanel {
 
     private void defaultField(){
         
+        lstInvolucrado.setModel(new DefaultListModel<>());
         spnHora.setValue(new Date());
         dchFecha.setDate(new Date());
         fldObservacion.setText("");
@@ -676,6 +684,7 @@ public class panelBitacora extends JPanel {
     }
     
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        defaultField();
         statusBar.getInstance().clrMsg();
         int noResult = 0;
 
@@ -845,20 +854,24 @@ public class panelBitacora extends JPanel {
         } 
         
         statusBar.getInstance().clrMsg();
+        defaultField();
         try{
 
             query = entityManager.createNativeQuery("SELECT * FROM Bitacora where CodigoNaturaleza = ? and CodigoTarea = ?", Bitacora.class);
 
             query.setParameter(1, codigoNaturaleza);
             query.setParameter(2, codigoTarea);
-
+            
+            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().begin();
             java.util.Collection data = query.getResultList();;
             for (Object entity : data) {
                 entityManager.refresh(entity);
             }
             list.clear();
             list.addAll(data);
-
+            
+            cargaInvolucrados(codigoNaturaleza, codigoTarea, 0);
         }catch(javax.persistence.NoResultException nre){
 
             statusBar.getInstance().setMsg("No se encontraron tareas");
@@ -883,7 +896,7 @@ public class panelBitacora extends JPanel {
         }
     }//GEN-LAST:event_masterTableMouseReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnInvolucradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvolucradoActionPerformed
         if(masterTable.getSelectedRow() != -1){
             framePopup vistaInvolucrado = new framePopup();
             vistaInvolucrado.pnlInvolucrado.setInvolucrado(codigoNaturaleza, codigoTarea, codigoInvolucrado);
@@ -891,7 +904,7 @@ public class panelBitacora extends JPanel {
             vistaInvolucrado.setVisible(true);
 
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnInvolucradoActionPerformed
     
     private void cargaInvolucrados(int naturaleza, int tarea, int involucrado){
         DefaultListModel<String> listPersona = new DefaultListModel<>();
@@ -902,8 +915,10 @@ public class panelBitacora extends JPanel {
             queryInvolucrado.setParameter(1, naturaleza);
             queryInvolucrado.setParameter(2, tarea);
             queryInvolucrado.setParameter(3, involucrado);
-
-            List<Involucrado> data = queryInvolucrado.getResultList();;
+            
+            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().begin();
+            List<Involucrado> data = queryInvolucrado.getResultList();
             for (Involucrado i : data) {
                 listPersona.addElement(i.getPersona().getNombrePersona());
             }
@@ -920,6 +935,8 @@ public class panelBitacora extends JPanel {
     }
     
     private void refresh(){
+        cargaInvolucrados(codigoNaturaleza, codigoTarea, codigoInvolucrado);
+        
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -956,6 +973,7 @@ public class panelBitacora extends JPanel {
             }
         }*/
     }
+    
     
     private boolean validaciones(){
         boolean check = false;
@@ -1041,6 +1059,39 @@ public class panelBitacora extends JPanel {
         }
     }
     
+    //copia los ultimos involucrados para la nueva bitacora
+    public void insertNewInvolucrado(int CodigoNaturaleza, int CodigoTarea, int CodigoInvolucrado){
+        try {
+            String Query = "SELECT * FROM Involucrado "
+                + "where codigoNaturaleza = ? and codigoTarea = ? and codigoInvolucrado = "
+                + "(Select codigoInvolucrado from involucrado "
+                + "where codigoNaturaleza = ? and codigoTarea = ? "
+                + "ORDER BY codigoInvolucrado DESC "
+                + "LIMIT 1)";
+            PreparedStatement ps = Conexion.prepareCall(Query);
+            ps.setInt(1, CodigoNaturaleza);
+            ps.setInt(2, CodigoTarea);
+            ps.setInt(3, CodigoNaturaleza);
+            ps.setInt(4, CodigoTarea);
+          
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                
+                String Query2 = "INSERT INTO involucrado (codigoNaturaleza, codigoTarea, codigoInvolucrado, codigoPersona) VALUES (?, ?, ?, ?)";
+                PreparedStatement ps2 = Conexion.prepareCall(Query2);
+                ps2.setInt(1, CodigoNaturaleza);
+                ps2.setInt(2, CodigoTarea);
+                ps2.setInt(3, CodigoInvolucrado);
+                ps2.setInt(4, rs.getInt("codigoPersona"));
+
+                int res = ps2.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(panelInvolucrado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     private static boolean isNumeric(String cadena){
 	try {
             Integer.parseInt(cadena);
@@ -1051,6 +1102,7 @@ public class panelBitacora extends JPanel {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnInvolucrado;
     private javax.swing.JCheckBox cbtTodos;
     private javax.swing.JComboBox<comboBox> cbxEstado;
     private javax.swing.JComboBox<comboBox> cbxInstitucion;
@@ -1064,7 +1116,6 @@ public class panelBitacora extends JPanel {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel fechaBitacoraLabel;
     private javax.swing.JTextArea fldObservacion;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

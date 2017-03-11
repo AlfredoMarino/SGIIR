@@ -7,8 +7,14 @@ package sgiir.Vistas;
 
 import java.awt.EventQueue;
 import java.beans.Beans;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import javax.swing.JFrame;
@@ -19,6 +25,7 @@ import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Persona;
 import sgiir.Entidades.Tarea;
 import sgiir.comboBox;
+import static sgiir.manejadorDB.Conexion;
 
 /**
  *
@@ -60,6 +67,38 @@ public class panelInvolucrado extends JPanel {
         list.addAll(data);
 
     }
+    
+    //carga el ultimo involucrado, y le setea el codigo involucrado que viene de parametro, por si decide insertar
+    public void setUltimoInvolucrado(int CodigoNaturaleza, int CodigoTarea, int CodigoInvolucrado) {
+        int ultimoInvolucrado = 0;
+        this.CodigoNaturaleza = CodigoNaturaleza;
+        this.CodigoTarea = CodigoTarea;
+        this.CodigoInvolucrado = CodigoInvolucrado;
+        
+        Query queryUltimoInvolucrado = entityManager.createNativeQuery("SELECT * FROM Involucrado "
+                + "where codigoNaturaleza = ? and codigoTarea = ? and codigoInvolucrado = "
+                + "(Select codigoInvolucrado from involucrado "
+                + "where codigoNaturaleza = ? and codigoTarea = ? "
+                + "ORDER BY codigoInvolucrado DESC "
+                + "LIMIT 1)", Involucrado.class);
+        queryUltimoInvolucrado.setParameter(1, CodigoNaturaleza);
+        queryUltimoInvolucrado.setParameter(2, CodigoTarea);
+        queryUltimoInvolucrado.setParameter(3, CodigoNaturaleza);
+        queryUltimoInvolucrado.setParameter(4, CodigoTarea);
+        
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
+        java.util.Collection data = queryUltimoInvolucrado.getResultList();
+        for (Object entity : data) {
+            
+            entityManager.refresh(entity);
+        }
+        list.clear();
+        list.addAll(data);
+
+    }
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -114,16 +153,16 @@ public class panelInvolucrado extends JPanel {
 
         personaLabel.setText("Persona:");
 
-        saveButton.setText("Save");
+        saveButton.setText("Guardar");
         saveButton.addActionListener(formListener);
 
-        refreshButton.setText("Refresh");
+        refreshButton.setText("Refrescar");
         refreshButton.addActionListener(formListener);
 
-        newButton.setText("New");
+        newButton.setText("Nuevo");
         newButton.addActionListener(formListener);
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Eliminar");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -162,11 +201,11 @@ public class panelInvolucrado extends JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(personaLabel))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
