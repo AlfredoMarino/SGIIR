@@ -219,7 +219,7 @@ public class panelAutenticacion extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userAutenticacionLabel)
@@ -232,14 +232,14 @@ public class panelAutenticacion extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(codigoPersonaLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nivelAutenticacionLabel)
                     .addComponent(rdbNivelUser1)
                     .addComponent(rdbNivelUser2)
                     .addComponent(rdbNivelUser3)
                     .addComponent(rdbNivelUser4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
@@ -380,7 +380,7 @@ public class panelAutenticacion extends JPanel {
                 
                 defaultField();
             }
-            
+            statusBar.getInstance().setMsg("Operación Exitosa");
             
                 //entityManager.getTransaction().commit();
                 //entityManager.getTransaction().begin();
@@ -394,7 +394,7 @@ public class panelAutenticacion extends JPanel {
             list.clear();
             list.addAll(merged);
             
-            statusBar.getInstance().setMsg("Operación Exitosa");
+            statusBar.getInstance().setMsg("Operación fallida");
         } catch (SQLException ex) {
             Logger.getLogger(panelAutenticacion.class.getName()).log(Level.SEVERE, null, ex);
             entityManager.getTransaction().begin();
@@ -447,6 +447,8 @@ public class panelAutenticacion extends JPanel {
         }
         list.clear();
         list.addAll(data);
+        
+        defaultField();
     }
     private int selectNivelAutenticacion(){
         if(rdbNivelUser1.isSelected() == true){
