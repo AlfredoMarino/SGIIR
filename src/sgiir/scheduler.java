@@ -52,7 +52,7 @@ public class scheduler {
         Date runTime = evenMinuteDate(new Date());
         
         
-        //ejecuta cada 5 segundos
+        //ejecuta cada 40 segundos
 //        Trigger trigger = newTrigger()
 //                .withIdentity("trigger1", "group1")
 //                .withSchedule(cronSchedule("0/40 * * * * ?")).build();

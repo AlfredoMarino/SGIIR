@@ -173,7 +173,7 @@ public class supervisor implements Job {
     
     public void enviaEmailRecordatorio(int naturaleza, int tarea){
         String Asunto = "Tarea pendiente";
-        String Texto = "No se actualizado el estado de la tarea " + tarea + " de naturaleza " + naturaleza;
+        String Texto = "No se ha actualizado el estado de la tarea " + tarea + " de naturaleza " + naturaleza +".";
                     
         email despachadorEmail  = new email();          
         if(despachadorEmail.sendEmail(Asunto, destinatariosEmail, Texto)){
@@ -186,7 +186,7 @@ public class supervisor implements Job {
     
     public void enviaEmailInforme(int naturaleza, int tarea) throws SQLException{
         String Asunto = "Tarea no cumple con los tiempos";
-        String Texto = "La tarea" + tarea + " de naturaleza " + naturaleza;
+        String Texto = "La tarea " + tarea + " de naturaleza " + naturaleza + " no cumple con los tiempos de entrega.";
         
         String Query = "SELECT p.EmailPersona FROM persona p INNER JOIN cargo c "
                 + "ON p.CodigoCargo = c.CodigoCargo WHERE c.InformeCargo = 1";
