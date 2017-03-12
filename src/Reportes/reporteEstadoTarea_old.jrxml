@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b14e8ad8-2f4b-4efd-b9b5-801ac60e71ef">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="41"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="FECHA_DESDE" class="java.util.Date"/>
 	<parameter name="FECHA_HASTA" class="java.util.Date"/>
 	<queryString>
@@ -29,8 +29,7 @@
      tarea.`FechaFinalizacionTarea` AS tarea_FechaFinalizacionTarea,
      tarea.`HoraFinalizacionTarea` AS tarea_HoraFinalizacionTarea,
      tarea.`HoraRecepcionTarea` AS tarea_HoraRecepcionTarea,
-     tarea.`FechaEstimadaTarea` AS tarea_FechaEstimadaTarea,
-     IFnull(tarea.`FechaFinalizacionTarea`, "1900-01-01") AS fechaNull
+     tarea.`FechaEstimadaTarea` AS tarea_FechaEstimadaTarea
 FROM
      `estado` estado INNER JOIN `bitacora` bitacora ON estado.`CodigoEstado` = bitacora.`CodigoEstado`
      LEFT OUTER JOIN `tarea` tarea ON bitacora.`CodigoTarea` = tarea.`CodigoTarea`
@@ -66,7 +65,6 @@ ORDER BY
 	<field name="tarea_HoraFinalizacionTarea" class="java.sql.Time"/>
 	<field name="tarea_HoraRecepcionTarea" class="java.sql.Time"/>
 	<field name="tarea_FechaEstimadaTarea" class="java.sql.Date"/>
-	<field name="fechaNull" class="java.lang.String"/>
 	<group name="Naturaleza" keepTogether="true">
 		<groupExpression><![CDATA[$F{naturaleza_CodigoNaturaleza}]]></groupExpression>
 		<groupHeader>
@@ -148,7 +146,7 @@ ORDER BY
 		<groupHeader>
 			<band height="65">
 				<textField>
-					<reportElement mode="Transparent" x="141" y="0" width="189" height="45" forecolor="#000000" backcolor="#FFFFFF" uuid="cba4873d-28f0-475c-b8cb-edd71e85844a"/>
+					<reportElement mode="Transparent" x="141" y="0" width="215" height="45" forecolor="#000000" backcolor="#FFFFFF" uuid="cba4873d-28f0-475c-b8cb-edd71e85844a"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -156,7 +154,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{tarea_DescripcionTarea}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement mode="Transparent" x="377" y="12" width="58" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="36bb5caa-50e8-4502-98e8-3082fdb9f62f"/>
+					<reportElement mode="Transparent" x="403" y="12" width="58" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="36bb5caa-50e8-4502-98e8-3082fdb9f62f"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -164,12 +162,12 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{tarea_FechaRecepcionTarea}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement mode="Transparent" x="482" y="12" width="74" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="e9fec4d0-c723-4c2a-bede-6ea0fa06c443"/>
+					<reportElement mode="Transparent" x="505" y="11" width="48" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="e9fec4d0-c723-4c2a-bede-6ea0fa06c443"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{fechaNull}.equals( "1900-01-01" ) ? "": $F{tarea_FechaFinalizacionTarea}.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{tarea_FechaFinalizacionTarea}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement mode="Transparent" x="88" y="45" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="77c59b1b-6a8b-4821-923c-eab9a60297e3"/>
@@ -206,7 +204,7 @@ ORDER BY
 					<reportElement x="-1" y="45" width="551" height="1" uuid="cd3b560e-a170-4f92-9aa5-9629a67ee5de"/>
 				</line>
 				<staticText>
-					<reportElement mode="Transparent" x="435" y="12" width="44" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="f55d687d-a676-415e-89ce-2c940dd19ac0"/>
+					<reportElement mode="Transparent" x="461" y="11" width="44" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="f55d687d-a676-415e-89ce-2c940dd19ac0"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -214,7 +212,7 @@ ORDER BY
 					<text><![CDATA[FIN]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Transparent" x="330" y="12" width="47" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="02fc7cfb-4abb-46b0-8b2d-b7822a96db46"/>
+					<reportElement mode="Transparent" x="356" y="12" width="47" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="02fc7cfb-4abb-46b0-8b2d-b7822a96db46"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 						<paragraph lineSpacing="Single"/>

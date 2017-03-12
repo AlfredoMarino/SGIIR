@@ -85,7 +85,6 @@ public class frameLogin extends javax.swing.JFrame {
             }
         });
 
-        fldUsuario.setText("master");
         fldUsuario.setToolTipText("");
         fldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -96,7 +95,11 @@ public class frameLogin extends javax.swing.JFrame {
             }
         });
 
-        fldContraseña.setText("master");
+        fldContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fldContraseñaActionPerformed(evt);
+            }
+        });
         fldContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 fldContraseñaKeyPressed(evt);
@@ -246,6 +249,10 @@ public class frameLogin extends javax.swing.JFrame {
             valida();
         }
     }//GEN-LAST:event_fldContraseñaKeyReleased
+
+    private void fldContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fldContraseñaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fldContraseñaActionPerformed
     
     //Encripta texto como la contraseña
     private static String Encrypt(String texto){

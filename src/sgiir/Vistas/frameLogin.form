@@ -95,7 +95,6 @@
   <SubComponents>
     <Component class="javax.swing.JTextField" name="fldUsuario">
       <Properties>
-        <Property name="text" type="java.lang.String" value="master"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
@@ -104,10 +103,8 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="fldContrase&#xf1;a">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="master"/>
-      </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fldContrase&#xf1;aActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fldContrase&#xf1;aKeyPressed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fldContrase&#xf1;aKeyReleased"/>
       </Events>
