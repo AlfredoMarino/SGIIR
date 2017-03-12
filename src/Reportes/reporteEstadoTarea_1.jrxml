@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b14e8ad8-2f4b-4efd-b9b5-801ac60e71ef">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="41"/>
+	<parameter name="FECHA_DESDE" class="java.util.Date"/>
+	<parameter name="FECHA_HASTA" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     bitacora.`CodigoNaturaleza` AS bitacora_CodigoNaturaleza,
+     bitacora.`CodigoTarea` AS bitacora_CodigoTarea,
+     bitacora.`CorrelativoBitacora` AS bitacora_CorrelativoBitacora,
+     bitacora.`ObservacionBitacora` AS bitacora_ObservacionBitacora,
+     bitacora.`FechaBitacora` AS bitacora_FechaBitacora,
+     bitacora.`HoraBitacora` AS bitacora_HoraBitacora,
+     estado.`DescripcionEstado` AS estado_DescripcionEstado,
+     institucion.`CodigoInstitucion` AS institucion_CodigoInstitucion,
+     institucion.`NombreInstitucion` AS institucion_NombreInstitucion,
+     naturaleza.`CodigoInstitucion` AS naturaleza_CodigoInstitucion,
+     naturaleza.`TipoNaturaleza` AS naturaleza_TipoNaturaleza,
+     naturaleza.`PrioridadNaturaleza` AS naturaleza_PrioridadNaturaleza,
+     naturaleza.`CodigoNaturaleza` AS naturaleza_CodigoNaturaleza,
+     tarea.`CodigoNaturaleza` AS tarea_CodigoNaturaleza,
+     tarea.`CodigoTarea` AS tarea_CodigoTarea,
+     tarea.`DescripcionTarea` AS tarea_DescripcionTarea,
+     tarea.`FechaRecepcionTarea` AS tarea_FechaRecepcionTarea,
+     tarea.`HoraEstimadaTarea` AS tarea_HoraEstimadaTarea,
+     tarea.`ObservacionTarea` AS tarea_ObservacionTarea,
+     tarea.`FechaFinalizacionTarea` AS tarea_FechaFinalizacionTarea,
+     tarea.`HoraFinalizacionTarea` AS tarea_HoraFinalizacionTarea,
+     tarea.`HoraRecepcionTarea` AS tarea_HoraRecepcionTarea,
+     tarea.`FechaEstimadaTarea` AS tarea_FechaEstimadaTarea,
+     IFnull(tarea.`FechaFinalizacionTarea`, "1900-01-01") AS fechaNull
+FROM
+     `estado` estado INNER JOIN `bitacora` bitacora ON estado.`CodigoEstado` = bitacora.`CodigoEstado`
+     LEFT OUTER JOIN `tarea` tarea ON bitacora.`CodigoTarea` = tarea.`CodigoTarea`
+     AND bitacora.`CodigoNaturaleza` = tarea.`CodigoNaturaleza`
+     INNER JOIN `naturaleza` naturaleza ON tarea.`CodigoNaturaleza` = naturaleza.`CodigoNaturaleza`
+     INNER JOIN `institucion` institucion ON naturaleza.`CodigoInstitucion` = institucion.`CodigoInstitucion`
+WHERE Tarea.FechaRecepcionTarea >= $P{FECHA_DESDE} and Tarea.FechaRecepcionTarea <= $P{FECHA_HASTA}
+ORDER BY
+     bitacora.CodigoNaturaleza ASC,
+     bitacora.CodigoTarea ASC,
+     bitacora.CorrelativoBitacora ASC]]>
+	</queryString>
+	<field name="bitacora_CodigoNaturaleza" class="java.lang.Integer"/>
+	<field name="bitacora_CodigoTarea" class="java.lang.Integer"/>
+	<field name="bitacora_CorrelativoBitacora" class="java.lang.Integer"/>
+	<field name="bitacora_ObservacionBitacora" class="java.lang.String"/>
+	<field name="bitacora_FechaBitacora" class="java.sql.Date"/>
+	<field name="bitacora_HoraBitacora" class="java.sql.Time"/>
+	<field name="estado_DescripcionEstado" class="java.lang.String"/>
+	<field name="institucion_CodigoInstitucion" class="java.lang.Integer"/>
+	<field name="institucion_NombreInstitucion" class="java.lang.String"/>
+	<field name="naturaleza_CodigoInstitucion" class="java.lang.Integer"/>
+	<field name="naturaleza_TipoNaturaleza" class="java.lang.Integer"/>
+	<field name="naturaleza_PrioridadNaturaleza" class="java.lang.Integer"/>
+	<field name="naturaleza_CodigoNaturaleza" class="java.lang.Integer"/>
+	<field name="tarea_CodigoNaturaleza" class="java.lang.Integer"/>
+	<field name="tarea_CodigoTarea" class="java.lang.Integer"/>
+	<field name="tarea_DescripcionTarea" class="java.lang.String"/>
+	<field name="tarea_FechaRecepcionTarea" class="java.sql.Date"/>
+	<field name="tarea_HoraEstimadaTarea" class="java.sql.Time"/>
+	<field name="tarea_ObservacionTarea" class="java.lang.String"/>
+	<field name="tarea_FechaFinalizacionTarea" class="java.sql.Date"/>
+	<field name="tarea_HoraFinalizacionTarea" class="java.sql.Time"/>
+	<field name="tarea_HoraRecepcionTarea" class="java.sql.Time"/>
+	<field name="tarea_FechaEstimadaTarea" class="java.sql.Date"/>
+	<field name="fechaNull" class="java.lang.String"/>
+	<group name="Naturaleza" keepTogether="true">
+		<groupExpression><![CDATA[$F{naturaleza_CodigoNaturaleza}]]></groupExpression>
+		<groupHeader>
+			<band height="41">
+				<rectangle>
+					<reportElement x="0" y="0" width="553" height="41" backcolor="#19008B" uuid="70847e31-72a2-4611-8d4a-be339ab6611b"/>
+				</rectangle>
+				<textField>
+					<reportElement x="0" y="21" width="70" height="20" forecolor="#FFFFFF" uuid="a650ddb9-1156-4d0d-8a04-75058d22b6f0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="15" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_CodigoNaturaleza}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="false">
+					<reportElement mode="Transparent" x="150" y="21" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="4899f407-7768-45d0-be5c-89765d4c9c81"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{institucion_NombreInstitucion}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="false">
+					<reportElement mode="Transparent" x="464" y="21" width="86" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ce718f75-6917-4792-9e49-7bcd5235e13f"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{naturaleza_PrioridadNaturaleza} == 1 ? "Baja" : ($F{naturaleza_PrioridadNaturaleza} == 2 ? "Media" : "Alta"))]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="false">
+					<reportElement mode="Transparent" x="286" y="21" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ee4a6db9-6aaa-4c75-8f00-9a514542e1eb"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{naturaleza_TipoNaturaleza}  == 1 ? "Incidencia" : "Requerimiento")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Transparent" x="69" y="21" width="81" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="0167e786-6480-4429-be2a-fe53316af44d"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[INSTITUCIÓN:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="386" y="21" width="78" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="69c33d53-5b31-4f51-800a-9dacbaf77004"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[PRIORIDAD:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="250" y="21" width="35" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="31c005e9-9497-42cf-a0f5-bad3cf3b42c6"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[TIPO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="1" y="0" width="552" height="21" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="e40f28ce-bbf0-45ff-8f3b-52f6dad22ede"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="15" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Naturaleza]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="34"/>
+		</groupFooter>
+	</group>
+	<group name="Tarea">
+		<groupExpression><![CDATA[$F{tarea_CodigoTarea}]]></groupExpression>
+		<groupHeader>
+			<band height="65">
+				<textField>
+					<reportElement mode="Transparent" x="141" y="0" width="189" height="45" forecolor="#000000" backcolor="#FFFFFF" uuid="cba4873d-28f0-475c-b8cb-edd71e85844a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tarea_DescripcionTarea}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="377" y="12" width="58" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="36bb5caa-50e8-4502-98e8-3082fdb9f62f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tarea_FechaRecepcionTarea}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement mode="Transparent" x="482" y="12" width="74" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="e9fec4d0-c723-4c2a-bede-6ea0fa06c443"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fechaNull}.equals( "1900-01-01" ) ? "": $F{tarea_FechaFinalizacionTarea}.toString()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Transparent" x="88" y="45" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="77c59b1b-6a8b-4821-923c-eab9a60297e3"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Estado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="188" y="45" width="315" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="7e7cc7c5-a0b9-44a8-8825-1b41e3a46872"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Observaciones]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="26" y="45" width="62" height="20" uuid="eefc32c1-5fb6-4af9-8863-1a6703cd76f1"/>
+					<textElement textAlignment="Center">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nro.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="501" y="45" width="52" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="f754cb77-200b-41f5-a06d-91e220849261"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="SansSerif" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<line>
+					<reportElement x="-1" y="45" width="551" height="1" uuid="cd3b560e-a170-4f92-9aa5-9629a67ee5de"/>
+				</line>
+				<staticText>
+					<reportElement mode="Transparent" x="435" y="12" width="44" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="f55d687d-a676-415e-89ce-2c940dd19ac0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[FIN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="330" y="12" width="47" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="02fc7cfb-4abb-46b0-8b2d-b7822a96db46"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[INICIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="12" y="2" width="57" height="44" forecolor="#000000" backcolor="#FFFFFF" uuid="1d34554d-11c0-4f1a-aab9-f9e2f3c2c81a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="16" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[TAREA]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="70" y="2" width="71" height="44" uuid="eef1e29a-90cb-4f38-b64c-4ea3d72ca575"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bitacora_CodigoTarea}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="19"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="141" y="14" width="290" height="41" uuid="5714b8ac-6160-4e59-85d0-c28026ce1ece"/>
+				<textElement>
+					<font fontName="Arial" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DE TAREAS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="452" y="0" width="101" height="79" uuid="84cef8bf-9184-4362-b02b-9f361de7371b"/>
+				<imageExpression><![CDATA["C:\\Users\\alfre\\Documents\\NetBeansProjects\\SGIIR\\src\\imagenes\\logoFondoTransparente.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="88" y="0" width="100" height="20" uuid="6e3b77c5-641f-427e-bf74-814ec65f2603"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{estado_DescripcionEstado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="1" width="316" height="19" uuid="54b6bb4c-3b19-425a-9090-24d3d923bd6a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{bitacora_ObservacionBitacora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="504" y="1" width="52" height="19" uuid="a8f3dc97-0b27-4c9b-bf65-d56aaadb3e98"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{bitacora_FechaBitacora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="1" width="63" height="19" uuid="f856b8d6-2aac-42c2-96df-89123f01569c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{bitacora_CorrelativoBitacora}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="1" width="100" height="20" uuid="420c2a92-1f48-4177-b486-4eaef68422c4"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="0" width="80" height="20" uuid="f270a9e9-4d25-495a-9cd8-28564699e8a5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="511" y="0" width="40" height="20" uuid="1cefe7ab-da33-4915-88b9-a4d17166e2b2"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
