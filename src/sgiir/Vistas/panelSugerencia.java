@@ -106,20 +106,19 @@ public class panelSugerencia extends javax.swing.JPanel {
         //Especialista en el area
         if(rdb1.isSelected()){
             listaSugerencia = sugerencia.programadorEspecialistaSugerido(CodigoNaturaleza, CodigoTarea);
-            listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());//mayor a menor
         }else{
             //Programador disponible
             if(rdb2.isSelected()){
                 listaSugerencia = sugerencia.programadorDisponible();
-                listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());//mayor a menor
             }else{//ambos
-                sugerencia.ambosFiltros(CodigoNaturaleza, CodigoTarea);
+                listaSugerencia = sugerencia.ambosFiltros(CodigoNaturaleza, CodigoTarea);
             } 
         }
         
+        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());//mayor a menor
+        
         for(Sugerencia.Persona p : listaSugerencia){
             listPersona.addElement(p.nombrePersona + aciertos(p.match));
-            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
         }
         listView.setModel(listPersona);
     }//GEN-LAST:event_btnBusquedaActionPerformed

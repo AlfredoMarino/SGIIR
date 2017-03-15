@@ -256,19 +256,21 @@ public class Sugerencia {
     }
     
     public List<Persona> ambosFiltros(int Naturaleza, int Tarea){
+        programadorIndicado.clear();
+        programadorDesocupado.clear();
+        programadorOptimo.clear();
+        
         programadorDesocupado = programadorDisponible();
         programadorIndicado = programadorEspecialistaSugerido(Naturaleza, Tarea);
         
         int i = 0;
         for(Persona p : programadorDesocupado){
-            if(p.codigoPersona == programadorIndicado.get(i).codigoPersona){
-                p.match = p.match + sumaMatch(p.codigoPersona, programadorIndicado);
-                programadorOptimo.add(p);
-            }
+            
+            p.match += sumaMatch(p.codigoPersona, programadorIndicado);
+            programadorOptimo.add(p);
+            
         }
-        
-        programadorOptimo.sort(Comparator.comparing(Persona::getMatch).reversed());
-        
+               
         return programadorOptimo;
     }
     
