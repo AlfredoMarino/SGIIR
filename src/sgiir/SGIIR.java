@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sgiir.Vistas.framePopup;
 import sgiir.Vistas.frameLogin;
-import sgiir.programadorSugerido.Persona;
+import sgiir.Sugerencia.Persona;
 
 
 /**
@@ -37,7 +37,7 @@ public class SGIIR {
         frameLogin VistaLogin = new frameLogin();
         VistaLogin.setVisible(true);
         
-//        programadorSugerido sugerencia = new programadorSugerido();
+//        Sugerencia sugerencia = new Sugerencia();
 //        
 //        List<Persona> listaSugerencia = sugerencia.programadorDisponible();
 //        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import sgiir.programadorSugerido;
-import sgiir.programadorSugerido.Persona;
+import sgiir.Sugerencia;
+import sgiir.Sugerencia.Persona;
 
 /**
  *
@@ -19,8 +19,8 @@ import sgiir.programadorSugerido.Persona;
 public class panelSugerencia extends javax.swing.JPanel {
 
     List<Integer> listaAreas = new ArrayList<>();
-    programadorSugerido sugerencia = new programadorSugerido();
-    List<programadorSugerido.Persona> listaSugerencia;
+    Sugerencia sugerencia = new Sugerencia();
+    List<Sugerencia.Persona> listaSugerencia;
     List<String> listPersona;
     int CodigoNaturaleza, CodigoTarea;
     
@@ -111,13 +111,13 @@ public class panelSugerencia extends javax.swing.JPanel {
             //Programador disponible
             if(rdb2.isSelected()){
                 listaSugerencia = sugerencia.programadorDisponible();
-                listaSugerencia.sort(Comparator.comparing(Persona::getMatch));
+                listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());//mayor a menor
             }else{//ambos
-                
+                sugerencia.ambosFiltros(CodigoNaturaleza, CodigoTarea);
             } 
         }
         
-        for(programadorSugerido.Persona p : listaSugerencia){
+        for(Sugerencia.Persona p : listaSugerencia){
             listPersona.addElement(p.nombrePersona + aciertos(p.match));
             System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
         }

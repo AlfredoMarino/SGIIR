@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +20,10 @@ import static sgiir.manejadorDB.Conexion;
  *
  * @author Alfredo Mariño
  */
-public class programadorSugerido {
+public class Sugerencia {
     public List<Persona> programadorDesocupado = new ArrayList<Persona>();
     public List<Persona> programadorIndicado = new ArrayList<Persona>();
+    public List<Persona> programadorOptimo = new ArrayList<Persona>();
     
     public static class Persona implements Comparable<Persona> {
 
@@ -35,7 +37,11 @@ public class programadorSugerido {
         }
         public int getMatch(){
             return match;
-        }        
+        }     
+        
+        public void setMatch(int match){
+            this.match = match;
+        }
         
         @Override
         public int compareTo(Persona o) {
@@ -137,9 +143,10 @@ public class programadorSugerido {
             programadorDesocupado.add(new Persona(ultimaPersonaAgregada, count, ultimoNombreAgregado));
             
         } catch (SQLException ex) {
-            Logger.getLogger(programadorSugerido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Sugerencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        revertMatch();//invierte el match porque el que tiene mas aciertos es el que esta mas ocupado
         return programadorDesocupado;
         
     }
@@ -195,7 +202,7 @@ public class programadorSugerido {
             
             programadorIndicado.add(new Persona(ultimaPersonaAgregada, count, ultimoNombreAgregado));
         } catch (SQLException ex) {
-            Logger.getLogger(programadorSugerido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Sugerencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return programadorIndicado;
@@ -228,7 +235,7 @@ public class programadorSugerido {
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(programadorSugerido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Sugerencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(listaAreas.size() > 0){
             return programadorEspecialista(listaAreas);
@@ -236,6 +243,42 @@ public class programadorSugerido {
             return programadorIndicado;
         }
         
+    }
+    
+    public void revertMatch(){
+        programadorDesocupado.sort(Comparator.comparing(Persona::getMatch).reversed());
+        int mayor = programadorDesocupado.get(0).match;
+        for(int i = 0; i < programadorDesocupado.size(); i++){
+//            System.out.println("sin revert " + programadorDesocupado.get(i).nombrePersona + " " + programadorDesocupado.get(i).match);
+            programadorDesocupado.get(i).setMatch(mayor - programadorDesocupado.get(i).match);
+//            System.out.println("con revert " + programadorDesocupado.get(i).nombrePersona + " " + programadorDesocupado.get(i).match);
+        }
+    }
+    
+    public List<Persona> ambosFiltros(int Naturaleza, int Tarea){
+        programadorDesocupado = programadorDisponible();
+        programadorIndicado = programadorEspecialistaSugerido(Naturaleza, Tarea);
+        
+        int i = 0;
+        for(Persona p : programadorDesocupado){
+            if(p.codigoPersona == programadorIndicado.get(i).codigoPersona){
+                p.match = p.match + sumaMatch(p.codigoPersona, programadorIndicado);
+                programadorOptimo.add(p);
+            }
+        }
+        
+        programadorOptimo.sort(Comparator.comparing(Persona::getMatch).reversed());
+        
+        return programadorOptimo;
+    }
+    
+    private int sumaMatch(int persona, List<Persona> programador){
+        for(Persona p : programador){
+            if(persona == p.codigoPersona){
+                return p.match;
+            }
+        }
+        return 0;
     }
     
 }
