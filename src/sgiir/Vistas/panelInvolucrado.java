@@ -117,6 +117,7 @@ public class panelInvolucrado extends JPanel {
         newButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         cbxPersona = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         FormListener formListener = new FormListener();
 
@@ -169,6 +170,9 @@ public class panelInvolucrado extends JPanel {
 
         deleteButton.addActionListener(formListener);
 
+        jButton1.setText("Sugerencia");
+        jButton1.addActionListener(formListener);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,11 +190,13 @@ public class panelInvolucrado extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                            .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(personaLabel)
-                                .addGap(17, 17, 17)
-                                .addComponent(cbxPersona, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jButton1)))))
                 .addContainerGap())
         );
 
@@ -204,8 +210,9 @@ public class panelInvolucrado extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(personaLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(personaLabel)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
@@ -233,6 +240,9 @@ public class panelInvolucrado extends JPanel {
             }
             else if (evt.getSource() == deleteButton) {
                 panelInvolucrado.this.deleteButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButton1) {
+                panelInvolucrado.this.jButton1ActionPerformed(evt);
             }
         }
 
@@ -330,6 +340,13 @@ public class panelInvolucrado extends JPanel {
             }
         }
     }//GEN-LAST:event_masterTableMouseReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        framePopup vistaSugerencia = new framePopup();
+        vistaSugerencia.pnlSugerencia.setParametros(CodigoNaturaleza, CodigoTarea);
+        vistaSugerencia.showPanel("SUGERENCIA");
+        vistaSugerencia.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void defaultComboPersona(){
         cbxPersona.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
@@ -374,6 +391,7 @@ public class panelInvolucrado extends JPanel {
     private javax.swing.JComboBox<comboBox> cbxPersona;
     private javax.swing.JButton deleteButton;
     private javax.persistence.EntityManager entityManager;
+    private javax.swing.JButton jButton1;
     private java.util.List<sgiir.Entidades.Involucrado> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;

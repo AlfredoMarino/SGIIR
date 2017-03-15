@@ -21,8 +21,9 @@ import static sgiir.manejadorDB.Conexion;
  */
 public class programadorSugerido {
     public List<Persona> programadorDesocupado = new ArrayList<Persona>();
+    public List<Persona> programadorIndicado = new ArrayList<Persona>();
     
-    static class Persona implements Comparable<Persona> {
+    public static class Persona implements Comparable<Persona> {
 
         public String nombrePersona;
         public int codigoPersona, match;
@@ -32,7 +33,10 @@ public class programadorSugerido {
             this.match = matchCounter;
             this.nombrePersona = nombre;
         }
-
+        public int getMatch(){
+            return match;
+        }        
+        
         @Override
         public int compareTo(Persona o) {
             if (match < o.match) {
@@ -46,6 +50,7 @@ public class programadorSugerido {
     }
     
     public List<Persona> programadorDisponible(){
+        programadorDesocupado.clear();
         try {
             //busca los programadores involucrados en tareas
             String qryProgramadoresInvolucrados = "SELECT `involucrado`.`CodigoNaturaleza`, `involucrado`.`CodigoTarea`, "
@@ -139,5 +144,98 @@ public class programadorSugerido {
         
     }
     
+    public List<Persona> programadorEspecialista(List<Integer> Areas){
+        programadorIndicado.clear();
+        try {
+            String qryProgramadoresInvolucrados = "SELECT `involucrado`.`CodigoNaturaleza`, "
+                    + "`involucrado`.`CodigoTarea`, `persona`.`NombrePersona`, "
+                    + "`persona`.`CodigoPersona` "
+                    + "FROM `involucrado` "
+                    + "INNER JOIN `persona` ON `involucrado`.`CodigoPersona` = `persona`.`CodigoPersona` "
+                    + "INNER JOIN `autenticacion` ON `persona`.`CodigoPersona` = `autenticacion`.`CodigoPersona` "
+                    + "WHERE (( `NivelAutenticacion` = 4))  "
+                    + "GROUP BY CodigoNaturaleza, CodigoTarea, involucrado.CodigoPersona  "
+                    + "ORDER BY `persona`.`CodigoPersona` ASC, `involucrado`.`CodigoNaturaleza` ASC, "
+                    + "`involucrado`.`CodigoTarea` ASC";
+            
+            Statement stPI = Conexion.prepareCall(qryProgramadoresInvolucrados);
+            
+            ResultSet rsPI = stPI.executeQuery(qryProgramadoresInvolucrados);
+            
+            int ultimaPersonaAgregada = 0;
+            String ultimoNombreAgregado = "";
+            int count = 0;
+            
+            while(rsPI.next()){
+                
+                //si es una persona distinta reinicia el contador
+                if(ultimaPersonaAgregada != rsPI.getInt("CodigoPersona")){
+                    if(ultimaPersonaAgregada != 0){
+                        programadorIndicado.add(new Persona(ultimaPersonaAgregada, count, ultimoNombreAgregado));
+                        
+                    }
+                    ultimaPersonaAgregada = rsPI.getInt("CodigoPersona");
+                    ultimoNombreAgregado = rsPI.getString("NombrePersona");
+                    count = 0;
+                }  
+                
+                String qryCaracteristica = "SELECT * FROM `caracteristica` "
+                        + "where CodigoNaturaleza = ? and CodigoTarea = ?"; 
+                    PreparedStatement psC = Conexion.prepareCall(qryCaracteristica);
+                    psC.setInt(1, rsPI.getInt("CodigoNaturaleza"));
+                    psC.setInt(2, rsPI.getInt("CodigoTarea"));
+
+                    ResultSet rsC = psC.executeQuery();
+                    while(rsC.next()){
+                        if(comparaAreas(rsC.getInt("CodigoArea"), Areas)){
+                            count ++;
+                        }
+                    }
+            }
+            
+            programadorIndicado.add(new Persona(ultimaPersonaAgregada, count, ultimoNombreAgregado));
+        } catch (SQLException ex) {
+            Logger.getLogger(programadorSugerido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return programadorIndicado;
+    }
+    
+    public boolean comparaAreas(int area, List<Integer> Caracteristica){
+        for(int c : Caracteristica){
+            if(area == c){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public List<Persona> programadorEspecialistaSugerido(int Naturaleza, int Tarea){
+        programadorIndicado.clear();
+        List<Integer> listaAreas = new ArrayList<>();
+        
+        try {    
+            String qryCaracteristica = "SELECT * FROM `caracteristica` "
+                    + "where CodigoNaturaleza = ? and CodigoTarea = ?";
+            PreparedStatement psC = Conexion.prepareCall(qryCaracteristica);
+            psC.setInt(1, Naturaleza);
+            psC.setInt(2, Tarea);
+            
+            ResultSet rsC = psC.executeQuery();
+            while(rsC.next()){
+                listaAreas.add(rsC.getInt("CodigoArea"));
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(programadorSugerido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(listaAreas.size() > 0){
+            return programadorEspecialista(listaAreas);
+        }else{
+            return programadorIndicado;
+        }
+        
+    }
     
 }

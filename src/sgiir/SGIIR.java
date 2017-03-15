@@ -6,6 +6,9 @@
 package sgiir;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -37,10 +40,32 @@ public class SGIIR {
         programadorSugerido sugerencia = new programadorSugerido();
         
         List<Persona> listaSugerencia = sugerencia.programadorDisponible();
+        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
         for(Persona  p : listaSugerencia){
             System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
         }
+        
+        System.out.println("");
 
+        
+        listaSugerencia = sugerencia.programadorEspecialistaSugerido(2, 4);
+        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
+        for(Persona  p : listaSugerencia){
+            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
+        }
+        
+        System.out.println("");
+        
+        List<Integer> listaAreas = new ArrayList<Integer>();
+        listaAreas.add(2);
+        listaAreas.add(4);
+        
+        listaSugerencia = sugerencia.programadorEspecialista(listaAreas);
+        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
+        for(Persona  p : listaSugerencia){
+            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
+        }
+        
 //        FrameTest VistaCargo = new FrameTest();
 //        VistaCargo.setVisible(true);
 

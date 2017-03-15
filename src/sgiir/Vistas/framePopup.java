@@ -16,6 +16,7 @@ public class framePopup extends javax.swing.JFrame {
     public panelCaracteristica pnlCaracteristica = new panelCaracteristica();
     public panelInvolucrado pnlInvolucrado = new panelInvolucrado();
     public panelReporte pnlReporte = new panelReporte();
+    public panelSugerencia pnlSugerencia = new panelSugerencia();
     CardLayout controladorPaneles;
     
     /**
@@ -33,6 +34,7 @@ public class framePopup extends javax.swing.JFrame {
         pnlDetails.add(pnlCaracteristica, "CARACTERISTICA");
         pnlDetails.add(pnlInvolucrado, "INVOLUCRADO");
         pnlDetails.add(pnlReporte, "REPORTE");
+        pnlDetails.add(pnlSugerencia, "SUGERENCIA");
 
         controladorPaneles = (CardLayout)(pnlDetails.getLayout());
     }
