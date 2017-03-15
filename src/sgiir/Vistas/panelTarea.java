@@ -17,6 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.swing.DefaultListCellRenderer.UIResource;
 import javax.swing.DefaultListModel;
@@ -26,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import sgiir.Entidades.Institucion;
+import sgiir.Entidades.Involucrado;
 import sgiir.Entidades.Naturaleza;
 import sgiir.Entidades.Seguimiento;
 import sgiir.Entidades.Tarea;
@@ -496,10 +498,6 @@ public class panelTarea extends JPanel {
 
         lstInvolucrado.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedElement.involucradoCollection}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, eLProperty, lstInvolucrado);
-        jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${persona.nombrePersona}"));
-        bindingGroup.addBinding(jListBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), lstInvolucrado, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
@@ -1019,6 +1017,8 @@ public class panelTarea extends JPanel {
             }
             
             seteaCampos();
+            
+            cargaInvolucrados(codigoNaturaleza, codigoTarea, 0);
         }
     }//GEN-LAST:event_masterTableMouseReleased
 
@@ -1090,6 +1090,8 @@ public class panelTarea extends JPanel {
         
     }
     private void refresh(){
+        cargaInvolucrados(codigoNaturaleza, codigoTarea, 0);
+        
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
         java.util.Collection data = query.getResultList();
@@ -1133,7 +1135,7 @@ public class panelTarea extends JPanel {
         horaFinalizacionTarea = (Date) spnHoraFinalizacion.getValue();
     }
     private void defaultField(){
-        
+        lstInvolucrado.setModel(new DefaultListModel<>());
         fldDescripcion.setText("");
         spnHoraRecepcion.setValue(dateDefault);
         spnHoraFinalizacion.setValue(dateDefault);
@@ -1204,6 +1206,34 @@ public class panelTarea extends JPanel {
         
         if(!folder.exists()){
             folder.mkdirs();
+        }
+    }
+    
+    private void cargaInvolucrados(int naturaleza, int tarea, int involucrado){
+        DefaultListModel<String> listPersona = new DefaultListModel<>();
+        
+        try{
+            Query queryInvolucrado = entityManager.createNativeQuery("SELECT * FROM Involucrado where CodigoNaturaleza = ? and CodigoTarea = ? and CodigoInvolucrado = ?", Involucrado.class);
+
+            queryInvolucrado.setParameter(1, naturaleza);
+            queryInvolucrado.setParameter(2, tarea);
+            queryInvolucrado.setParameter(3, involucrado);
+            
+            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().begin();
+            List<Involucrado> data = queryInvolucrado.getResultList();
+            for (Involucrado i : data) {
+                listPersona.addElement(i.getPersona().getNombrePersona());
+            }
+            
+        }catch(javax.persistence.NoResultException nre){
+            statusBar.getInstance().setMsg("No se encontraron involucrados");
+            listPersona.clear();
+        }
+        
+        lstInvolucrado.setModel(listPersona);
+        if((listPersona.isEmpty()) && (involucrado > 0)){
+            cargaInvolucrados(naturaleza, tarea, (involucrado -1 ));
         }
     }
     

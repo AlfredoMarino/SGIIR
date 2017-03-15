@@ -34,37 +34,37 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-//        frameLogin VistaLogin = new frameLogin();
-//        VistaLogin.setVisible(true);
+        frameLogin VistaLogin = new frameLogin();
+        VistaLogin.setVisible(true);
         
-        programadorSugerido sugerencia = new programadorSugerido();
-        
-        List<Persona> listaSugerencia = sugerencia.programadorDisponible();
-        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
-        for(Persona  p : listaSugerencia){
-            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
-        }
-        
-        System.out.println("");
-
-        
-        listaSugerencia = sugerencia.programadorEspecialistaSugerido(2, 4);
-        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
-        for(Persona  p : listaSugerencia){
-            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
-        }
-        
-        System.out.println("");
-        
-        List<Integer> listaAreas = new ArrayList<Integer>();
-        listaAreas.add(2);
-        listaAreas.add(4);
-        
-        listaSugerencia = sugerencia.programadorEspecialista(listaAreas);
-        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
-        for(Persona  p : listaSugerencia){
-            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
-        }
+//        programadorSugerido sugerencia = new programadorSugerido();
+//        
+//        List<Persona> listaSugerencia = sugerencia.programadorDisponible();
+//        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
+//        for(Persona  p : listaSugerencia){
+//            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
+//        }
+//        
+//        System.out.println("");
+//
+//        
+//        listaSugerencia = sugerencia.programadorEspecialistaSugerido(2, 4);
+//        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
+//        for(Persona  p : listaSugerencia){
+//            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
+//        }
+//        
+//        System.out.println("");
+//        
+//        List<Integer> listaAreas = new ArrayList<Integer>();
+//        listaAreas.add(2);
+//        listaAreas.add(4);
+//        
+//        listaSugerencia = sugerencia.programadorEspecialista(listaAreas);
+//        listaSugerencia.sort(Comparator.comparing(Persona::getMatch).reversed());
+//        for(Persona  p : listaSugerencia){
+//            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
+//        }
         
 //        FrameTest VistaCargo = new FrameTest();
 //        VistaCargo.setVisible(true);

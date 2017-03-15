@@ -936,9 +936,6 @@
             <Property name="selectionMode" type="int" value="0"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="masterTable" sourcePath="${selectedElement.involucradoCollection}" target="lstInvolucrado" targetPath="elements" updateStrategy="0" immediately="false">
-              <BindingParameter name="DISPLAY" value="${persona.nombrePersona}"/>
-            </BindingProperty>
             <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="lstInvolucrado" targetPath="enabled" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>

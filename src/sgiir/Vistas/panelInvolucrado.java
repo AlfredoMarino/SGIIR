@@ -170,6 +170,11 @@ public class panelInvolucrado extends JPanel {
 
         deleteButton.addActionListener(formListener);
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), cbxPersona, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        cbxPersona.addActionListener(formListener);
+
         jButton1.setText("Sugerencia");
         jButton1.addActionListener(formListener);
 
@@ -193,9 +198,9 @@ public class panelInvolucrado extends JPanel {
                             .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(personaLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxPersona, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton1)))))
                 .addContainerGap())
         );
@@ -206,13 +211,13 @@ public class panelInvolucrado extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
                     .addComponent(cbxPersona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(personaLabel)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(personaLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(refreshButton)
@@ -240,6 +245,9 @@ public class panelInvolucrado extends JPanel {
             }
             else if (evt.getSource() == deleteButton) {
                 panelInvolucrado.this.deleteButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == cbxPersona) {
+                panelInvolucrado.this.cbxPersonaActionPerformed(evt);
             }
             else if (evt.getSource() == jButton1) {
                 panelInvolucrado.this.jButton1ActionPerformed(evt);
@@ -347,6 +355,10 @@ public class panelInvolucrado extends JPanel {
         vistaSugerencia.showPanel("SUGERENCIA");
         vistaSugerencia.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbxPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPersonaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxPersonaActionPerformed
     private void defaultComboPersona(){
         cbxPersona.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
