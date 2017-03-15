@@ -437,6 +437,7 @@ public class panelAutenticacion extends JPanel {
     }//GEN-LAST:event_cbxPersonaActionPerformed
 
     private void refreshMasterTable(){
+        comboPersona();
         
         SavePass = "";
         userAutenticacionField.enable(false);
@@ -480,6 +481,8 @@ public class panelAutenticacion extends JPanel {
         cbxPersona.addItem(ItemCombo);   
 
         TypedQuery<Persona> queryPersona = entityManager.createNamedQuery("Persona.findAll", Persona.class);
+        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().begin();
         List<Persona> resultQueryPersona = queryPersona.getResultList();
         
         for(Persona entidad : resultQueryPersona){
