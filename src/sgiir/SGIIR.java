@@ -6,10 +6,12 @@
 package sgiir;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sgiir.Vistas.framePopup;
 import sgiir.Vistas.frameLogin;
+import sgiir.programadorSugerido.Persona;
 
 
 /**
@@ -29,9 +31,16 @@ public class SGIIR {
         //Estilo de ventanas
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        frameLogin VistaLogin = new frameLogin();
-        VistaLogin.setVisible(true);
+//        frameLogin VistaLogin = new frameLogin();
+//        VistaLogin.setVisible(true);
         
+        programadorSugerido sugerencia = new programadorSugerido();
+        
+        List<Persona> listaSugerencia = sugerencia.programadorDisponible();
+        for(Persona  p : listaSugerencia){
+            System.out.println(p.codigoPersona + " " + p.nombrePersona + " " + p.match);
+        }
+
 //        FrameTest VistaCargo = new FrameTest();
 //        VistaCargo.setVisible(true);
 
