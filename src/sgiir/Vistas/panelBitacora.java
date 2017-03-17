@@ -204,9 +204,17 @@ public class panelBitacora extends JPanel {
         bindingGroup.addBinding(binding);
 
         saveButton.setText("Guardar");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         saveButton.addActionListener(formListener);
 
         refreshButton.setText("Refrescar");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tareaTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), refreshButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         refreshButton.addActionListener(formListener);
 
         newButton.setText("Nuevo");

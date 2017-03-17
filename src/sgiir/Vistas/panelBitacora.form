@@ -386,6 +386,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="tareaTable" sourcePath="${selectedElement != null}" target="saveButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
       </Events>
@@ -398,6 +401,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Refrescar"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="enabled" source="tareaTable" sourcePath="${selectedElement != null}" target="refreshButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshButtonActionPerformed"/>
       </Events>
