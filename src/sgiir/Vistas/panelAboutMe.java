@@ -51,7 +51,7 @@ public class panelAboutMe extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Sistema de Gestion Integral de Incidencias y Requerimientos");
+        jLabel3.setText("Sistema de Gestión Integral de Incidencias y Requerimientos");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Lugar");

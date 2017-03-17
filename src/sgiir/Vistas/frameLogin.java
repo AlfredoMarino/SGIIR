@@ -134,7 +134,7 @@ public class frameLogin extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("Sistema de Gestion Integral de Incidencias y Requerimientos");
+        jLabel1.setText("Sistema de Gestión Integral de Incidencias y Requerimientos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
