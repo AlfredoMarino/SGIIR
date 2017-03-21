@@ -214,6 +214,7 @@ public class panelTarea extends JPanel {
         jTableBinding.bind();
         masterTable.addMouseListener(formListener);
         masterTable.addInputMethodListener(formListener);
+        masterTable.addKeyListener(formListener);
         masterTable.addVetoableChangeListener(formListener);
         masterScrollPane.setViewportView(masterTable);
         if (masterTable.getColumnModel().getColumnCount() > 0) {
@@ -653,7 +654,7 @@ public class panelTarea extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.InputMethodListener, java.awt.event.ItemListener, java.awt.event.MouseListener, java.beans.VetoableChangeListener, javax.swing.event.ChangeListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.InputMethodListener, java.awt.event.ItemListener, java.awt.event.KeyListener, java.awt.event.MouseListener, java.beans.VetoableChangeListener, javax.swing.event.ChangeListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -713,6 +714,18 @@ public class panelTarea extends JPanel {
             else if (evt.getSource() == cbxSeguimiento) {
                 panelTarea.this.cbxSeguimientoItemStateChanged(evt);
             }
+        }
+
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+        }
+
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            if (evt.getSource() == masterTable) {
+                panelTarea.this.masterTableKeyReleased(evt);
+            }
+        }
+
+        public void keyTyped(java.awt.event.KeyEvent evt) {
         }
 
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1065,6 +1078,29 @@ public class panelTarea extends JPanel {
             carpetaTareaField.setText(temp.getSelectedFile().getAbsolutePath());
         }
     }//GEN-LAST:event_fchCarpetaTareaActionPerformed
+
+    private void masterTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_masterTableKeyReleased
+        if(masterTable.getSelectedRow() != -1){
+            statusBar.getInstance().clrMsg();
+            
+            if(this.isNumeric(codigoNaturalezaField.getText())){
+                codigoNaturaleza = Integer.parseInt(codigoNaturalezaField.getText());
+                comboSeguimiento(codigoNaturaleza);
+            }            
+            
+            if(isNumeric(codigoSeguimientoField.getText())){
+                for (int index = 0; index < cbxSeguimiento.getItemCount(); index++) {
+                    if(Integer.valueOf(codigoSeguimientoField.getText()) == cbxSeguimiento.getItemAt(index).getId()){
+                        cbxSeguimiento.setSelectedIndex(index);
+                    }
+                }
+            }
+            
+            seteaCampos();
+            
+            cargaInvolucrados(codigoNaturaleza, codigoTarea, 0);
+        }
+    }//GEN-LAST:event_masterTableKeyReleased
     private void comboInstitucion(){
         cbxInstitucion.removeAllItems();
         comboBox ItemCombo = new comboBox(0, "");
@@ -1207,6 +1243,10 @@ public class panelTarea extends JPanel {
         if(!folder.exists()){
             folder.mkdirs();
         }
+    }
+    
+    private int buscaNaturaleza(){
+        
     }
     
     private void cargaInvolucrados(int naturaleza, int tarea, int involucrado){

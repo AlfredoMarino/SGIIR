@@ -293,10 +293,12 @@ public class panelCargo extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        Query = "DELETE FROM cargo WHERE cargo.CodigoCargo = " + MasterTable.getValueAt(MasterTable.getSelectedRow(), 0).toString();
-        if(DataBase.executeUpdate(Query)){
-            refreshMasterTable();
-            limpiarCampos();
+        if(MasterTable.getSelectedRow() != -1){      
+            Query = "DELETE FROM cargo WHERE cargo.CodigoCargo = " + MasterTable.getValueAt(MasterTable.getSelectedRow(), 0).toString();
+            if(DataBase.executeUpdate(Query)){
+                refreshMasterTable();
+                limpiarCampos();
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
