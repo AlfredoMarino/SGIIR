@@ -469,7 +469,7 @@ public class panelTarea extends JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.horaFinalizacionTarea}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(dateDefault);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFinalizacion, org.jdesktop.beansbinding.ELProperty.create("${date != null && enable == true}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dchFinalizacion, org.jdesktop.beansbinding.ELProperty.create("${JCalendar.calendar != null}"), spnHoraFinalizacion, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         lstArea.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -1202,13 +1202,15 @@ public class panelTarea extends JPanel {
         spnHoraFinalizacion.setValue(dateDefault);
         spnHoraEstimada.setValue(dateDefault);
         dchRecepcion.setDate(dateDefault);
-        dchFinalizacion.setDate(dateDefault);
+//        dchFinalizacion.setDate(dateDefault);
         dchEstimada.setDate(dateDefault);
         fldObservacion.setText("");
         if(cbxSeguimiento.getItemCount() > 0){
             cbxSeguimiento.setSelectedIndex(0);
         }
-
+        dchFinalizacion.setCalendar(null);
+        
+        
     }
     
     private boolean validaciones(){

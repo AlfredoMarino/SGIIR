@@ -868,7 +868,7 @@
             <Connection code="dateDefault" type="code"/>
           </Property>
         </BindingProperty>
-        <BindingProperty name="enabled" source="dchFinalizacion" sourcePath="${date != null &amp;&amp; enable == true}" target="spnHoraFinalizacion" targetPath="enabled" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="enabled" source="dchFinalizacion" sourcePath="${JCalendar.calendar != null}" target="spnHoraFinalizacion" targetPath="enabled" updateStrategy="0" immediately="false"/>
       </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>

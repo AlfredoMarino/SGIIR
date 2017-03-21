@@ -55,7 +55,7 @@ public class scheduler {
         //ejecuta cada 40 segundos
         Trigger trigger = newTrigger()
                 .withIdentity("trigger1", "group1")
-                .withSchedule(cronSchedule("0/40 * * * * ?")).build();
+                .withSchedule(cronSchedule("0/59 * * * * ?")).build();
         
         
         
