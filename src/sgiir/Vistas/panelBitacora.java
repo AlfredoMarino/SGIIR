@@ -603,8 +603,18 @@ public class panelBitacora extends JPanel {
         List<sgiir.Entidades.Bitacora> toRemove = new ArrayList<sgiir.Entidades.Bitacora>(selected.length);
         for (int idx = 0; idx < selected.length; idx++) {
             sgiir.Entidades.Bitacora b = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-            toRemove.add(b);
-            entityManager.remove(b);
+            
+            if (!entityManager.contains(b)) {
+                Bitacora current = entityManager.merge(b);
+                toRemove.add(current);
+                entityManager.remove(current);
+                
+                entityManager.getTransaction().commit();
+                entityManager.getTransaction().begin();
+            }else{
+                toRemove.add(b);
+                entityManager.remove(b);
+            }
         }
         list.removeAll(toRemove);
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -644,7 +654,8 @@ public class panelBitacora extends JPanel {
                 for (int idx = 0; idx < selected.length; idx++) {
                     Bitacora b = list.get(masterTable.convertRowIndexToModel(selected[idx]));
 
-                    b.setBitacoraPK(new BitacoraPK(codigoNaturaleza, codigoTarea, correlativoBitacora));
+                    //b.setBitacoraPK(new BitacoraPK(codigoNaturaleza, codigoTarea, correlativoBitacora));
+                    b.setBitacoraPK(new BitacoraPK(codigoNaturaleza, codigoTarea, codigoInvolucrado));
                     b.setCodigoEstado(e);
                     b.setCodigoInvolucrado(codigoInvolucrado);
                     b.setTarea(t);

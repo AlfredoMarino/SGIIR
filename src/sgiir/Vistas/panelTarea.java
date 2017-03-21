@@ -768,12 +768,22 @@ public class panelTarea extends JPanel {
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        
         int[] selected = masterTable.getSelectedRows();
         List<sgiir.Entidades.Tarea> toRemove = new ArrayList<sgiir.Entidades.Tarea>(selected.length);
         for (int idx = 0; idx < selected.length; idx++) {
             sgiir.Entidades.Tarea t = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-            toRemove.add(t);
-            entityManager.remove(t);
+            if (!entityManager.contains(t)) {
+                Tarea current = entityManager.merge(t);
+                toRemove.add(current);
+                entityManager.remove(current);
+                
+                entityManager.getTransaction().commit();
+                entityManager.getTransaction().begin();
+            }else{
+                toRemove.add(t);
+                entityManager.remove(t);
+            }
         }
         list.removeAll(toRemove);
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -850,8 +860,6 @@ public class panelTarea extends JPanel {
 
                 entityManager.getTransaction().commit();
                 entityManager.getTransaction().begin();
-
-
 
                 defaultField();
 
