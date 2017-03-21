@@ -793,8 +793,24 @@ public class panelTarea extends JPanel {
 
                 cbxSeguimiento.setSelectedIndex(0);
             }else{
-                statusBar.getInstance().setMsg("Debe seleccionar una naturaleza");
+                //si no encuentra la naturaleza
+                if(buscaNaturaleza()){
+                    //if(!codigoNaturalezaField.getText().isEmpty()){
+                        sgiir.Entidades.Tarea t = new sgiir.Entidades.Tarea();
+                        t.setCodigoNaturaleza(n);
+                        entityManager.persist(t);
+                        list.add(t);
+                        int row = list.size() - 1;
+                        masterTable.setRowSelectionInterval(row, row);
+                        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+
+                        cbxSeguimiento.setSelectedIndex(0);
+                    //}
+                }else{
+                    statusBar.getInstance().setMsg("Debe seleccionar una naturaleza");
+                }
             }
+            defaultField();
         }
     }//GEN-LAST:event_newButtonActionPerformed
     
@@ -1127,6 +1143,7 @@ public class panelTarea extends JPanel {
     }
     private void refresh(){
         cargaInvolucrados(codigoNaturaleza, codigoTarea, 0);
+        comboSeguimiento(codigoNaturaleza);
         
         entityManager.getTransaction().rollback();
         entityManager.getTransaction().begin();
@@ -1245,8 +1262,45 @@ public class panelTarea extends JPanel {
         }
     }
     
-    private int buscaNaturaleza(){
-        
+    private boolean buscaNaturaleza(){
+        try{
+            comboBox combo = (comboBox) cbxInstitucion.getSelectedItem();
+            if(combo.getId() != 0){
+                this.codigoInstitucion = combo.getId();
+                if(rdbTipo1.isSelected()){
+                    this.tipoNaturaleza = 1; //INCIDENCIA
+                }else{
+                    this.tipoNaturaleza = 0; //REQUERIMIENTO
+                }
+
+                if(rdbPrioridad1.isSelected()){
+                    this.prioridadNaturaleza = 1; //Baja
+                }else{
+                    if(rdbPrioridad2.isSelected()){
+                        this.prioridadNaturaleza = 2; //Media
+                    }else{
+                        this.prioridadNaturaleza = 3; //Alta
+                    }
+                }
+
+
+                javax.persistence.Query queryNaturaleza = entityManager.createNativeQuery("SELECT * FROM Naturaleza where CodigoInstitucion = ? and TipoNaturaleza = ? and PrioridadNaturaleza = ?", Naturaleza.class);
+
+                queryNaturaleza.setParameter(1, codigoInstitucion);
+                queryNaturaleza.setParameter(2, tipoNaturaleza);
+                queryNaturaleza.setParameter(3, prioridadNaturaleza);
+
+                entityManager.getTransaction().rollback();
+                entityManager.getTransaction().begin();
+
+                this.n = (Naturaleza) queryNaturaleza.getSingleResult();
+                this.codigoNaturaleza = n.getCodigoNaturaleza();
+                codigoNaturalezaField.setText(String.valueOf(codigoNaturaleza));
+            }
+        }catch(javax.persistence.NoResultException nre){
+            return false;
+        }
+        return true;
     }
     
     private void cargaInvolucrados(int naturaleza, int tarea, int involucrado){
